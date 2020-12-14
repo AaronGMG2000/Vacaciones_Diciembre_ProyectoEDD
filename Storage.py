@@ -4,6 +4,7 @@ import pickle
 import re
 
 
+# Check if the data files exist
 def checkData():
     if not os.path.isdir("./Data"):
         os.mkdir("./Data")
@@ -13,9 +14,15 @@ def checkData():
             pickle.dump(dataBaseTree, f)
 
 
+# Checks if the name is a valid SQL Identifier
+def validateIdentifier(identifier):
+    # Returns true if is valid
+    return not re.search(r"[^a-zA-Z0-9 ]+|^[\s]", identifier)
+
+
 def createDatabase(database):
     checkData()
-    if database and not re.match(r"[^a-zA-Z0-9 ]|^[\s]", database):
+    if database and validateIdentifier(database):
         with open("./Data/Databases.bin", "rb") as f:
             dataBaseTree = pickle.load(f)
             root = dataBaseTree.getRoot()
@@ -39,15 +46,33 @@ def showDatabases():
         return dbKeys[:-1].split("-")
 
 
+def alterDatabase(dataBaseOld, dataBaseNew) -> int:
+    checkData()
+    if validateIdentifier(dataBaseOld) and validateIdentifier(dataBaseNew):
+        with open("./Data/Databases.bin", "rb") as f:
+            dataBaseTree = pickle.load(f)
+            root = dataBaseTree.getRoot()
+            if not dataBaseTree.search(root, dataBaseOld):
+                return 2
+            if dataBaseTree.search(root, dataBaseNew):
+                return 3
+            dataBaseTree.delete(root, dataBaseOld)
+            dataBaseTree.add(root, dataBaseNew)
+        with open("./Data/Databases.bin", "wb") as f:
+            pickle.dump(dataBaseTree, f)
+            return 0
+    else:
+        return 1
 
 
-print(createDatabase("   Queso"))
-print(createDatabase("_#B"))
-print(createDatabase("@Casa"))
-print(createDatabase("_Zanahoria"))
-print(createDatabase("$Z"))
-print(createDatabase("Base1"))
-print(createDatabase("Base datos 2"))
-print(createDatabase("Base1"))
+# print(createDatabase("   Queso"))
+# print(createDatabase("_#B"))
+# print(createDatabase("Ca&&&&sa"))
+# print(createDatabase("_Zanahoria"))
+# print(createDatabase("Base1"))
+# print(createDatabase("Base datos 2"))
+# print(createDatabase("Base1"))
 
+print(showDatabases())
+print(alterDatabase("Base1", "Base3"))
 print(showDatabases())
