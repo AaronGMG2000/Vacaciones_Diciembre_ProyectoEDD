@@ -61,11 +61,13 @@ class AVLTree:
             if root.left is None:
                 temp = root.right
                 root = None
+                self.AVLroot = temp
                 return temp
 
             elif root.right is None:
                 temp = root.left
                 root = None
+                self.AVLroot = temp
                 return temp
 
             temp = self.getMinValueNode(root.right)
@@ -74,6 +76,7 @@ class AVLTree:
                                      temp.val)
 
         if root is None:
+            self.AVLroot = root
             return root
 
         root.height = 1 + max(self.getHeight(root.left),
@@ -99,6 +102,7 @@ class AVLTree:
             root.right = self.rightRotate(root.right)
             return self.leftRotate(root)
 
+        self.AVLroot = root
         return root
 
     def leftRotate(self, z):
@@ -156,7 +160,7 @@ class AVLTree:
         self.preOrder(root.left)
         self.preOrder(root.right)
 
-        # List all the keys in order
+        # List all the keys in postorder
     def postOrder(self, root):
         if root:
             return self.postOrder(root.left).strip() + self.postOrder(root.right).strip() + root.val + "-"
