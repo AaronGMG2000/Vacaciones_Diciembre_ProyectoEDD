@@ -1,5 +1,6 @@
 import pickle
 import os
+import shutil
 
 def Read(direction, name):
     with open(direction+name+".bin","rb") as f:
@@ -7,26 +8,14 @@ def Read(direction, name):
         f.close()
     return fil
 def delete(direction):
-    for f in os.listdir(direction):
-        if not f.endswith(".bin"):
-            _dropAll(direction+"/"+f)
-            os.rmdir(direction+"/"+f)
-        else:
-            os.remove(os.path.join(direction, f))
-    os.rmdir(direction)
+    if os.path.isdir(direction):
+        shutil.rmtree(direction)
     
-def _dropAll(nombre):
-    for f in os.listdir(nombre):
-        if not f.endswith(".bin"):
-            _dropAll(nombre+"/"+f)
-            os.rmdir(nombre+"/"+f)
-        else:
-            os.remove(os.path.join(nombre, f))
 
 def write(direction, name, data):
     dire = direction+name
     os.mkdir(dire)
-    with open(dire+"/"+name+".bin","wb") as ff:
+    with open(dire+"\\"+name+".bin","wb") as ff:
         pickle.dump(data, ff)
         ff.close()
 
