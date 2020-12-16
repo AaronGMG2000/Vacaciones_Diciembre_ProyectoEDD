@@ -60,9 +60,8 @@ def alterDatabase(dataBaseOld, dataBaseNew) -> int:
         if dataBaseTree.search(root, dataBaseNew):
             return 3
         dataBaseTree.delete(root, dataBaseOld)
-        serializable.delete('./Data/'+dataBaseOld)
+        serializable.Rename('./Data/',dataBaseOld,dataBaseNew)
         dataBaseTree.add(root, dataBaseNew)
-        serializable.write('./Data/',dataBaseNew,AVLTree.AVLTree())
         serializable.update('./Data/','Databases', dataBaseTree)
         return 0
     else:
