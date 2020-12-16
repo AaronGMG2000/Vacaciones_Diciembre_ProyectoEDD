@@ -5,58 +5,55 @@ class Node:
     def __init__(self, parent):
         self.parent = parent
         self.keys = []
+        self.values = {}
         self.child = []
         self.next = None
         self.leaf = True
     
-    def insert(self, key):
+    def insert(self, key, value):
         self.keys.append(key)
+        if value:
+            self.values[key] = value
         if len(self.keys) > 1:
             self.keys.sort()
-    
-    def compare(self, value):
-        length = len(self.keys)
-        if self.child == [] or value in self.keys:
-            return None
-        
-        for i in range(length):
-            if value < self.keys[i]:
-                return i
-        return i + 1    
- 
-    def getPos(self):
-        if self.parent:
-            return self.parent.child.index(self)
-
 class BPlusTree:
 
-    def __init__(self, degree):
+    def __init__(self, degree = 5):
         self.root = Node(None)
         self.degree = degree
         self.valuar = False
-    
-    def insert(self, key):
-        self.root = self._insert(self.root, key)
+        self.PKey = []
+        self.Fkey = []
+        self.Incremet = 1
+        self.columns = 0
+
+    def insert(self, key, value):
+        if key == 0:
+            print("")
+        self.root = self._insert(self.root, str(key), value)
         self.valuar = False
     
-    def _insert(self, temp, key):
+    def _insert(self, temp, key, value):
         if temp.leaf:
-            temp.insert(key)
+            if key not in temp.keys:
+                temp.insert(key, value)
+            else:
+                return temp
         else:
             found = False
             for i in range(0, len(temp.keys)):
                 if key < temp.keys[i]:
                     found = True
-                    self._insert(temp.child[i], key)
+                    self._insert(temp.child[i], key, value)
                     break
             if not found:
-                self._insert(temp.child[len(temp.keys)], key)
+                self._insert(temp.child[len(temp.keys)], key, value)
 
         if len(temp.keys) == self.degree:
             if temp.parent == None:
                 c = temp
                 temp = Node(None)
-                temp.insert(c.keys[int((self.degree)/2)])
+                temp.insert(c.keys[int((self.degree)/2)], None)
                 temp.child.append(Node(temp))
                 temp.child.append(Node(temp))
                 if self.valuar:
@@ -82,16 +79,22 @@ class BPlusTree:
                     if temp.leaf:
                         temp.child[0].next = temp.child[1]
                         temp.child[1].next = c.next
+                if len(c.values):
+                    for x in temp.child[1].keys:
+                        temp.child[1].values[x] = c.values.get(x)
+                    for x in temp.child[0].keys:
+                        temp.child[0].values[x] = c.values.get(x)
                 temp.leaf = False
             else:
                 n = 0
                 ev = False
+                v = temp.values
                 if self.valuar:
                         n = 1
                         ev = True
                         self.valuar = False
                 mkey = temp.keys[int((self.degree)/2)]
-                temp.parent.insert(mkey)
+                temp.parent.insert(str(mkey), None)
                 index = 0
                 for index in range(0, len(temp.parent.keys)):
                     if temp.parent.keys[index] == mkey:
@@ -113,6 +116,7 @@ class BPlusTree:
                 else:
                     temp.parent.child[index] = Node(temp.parent)
                 temp.parent.child[index].keys = keys[0:int((self.degree)/2)]
+                
                 if ev:
                     if len(child)>0:
                         if self.degree%2 == 0:
@@ -127,6 +131,14 @@ class BPlusTree:
                         for i in range(ii, len(child)):
                             child[i].parent = temp.parent.child[index+1]
                             temp.parent.child[index+1].child.append(child[i])
+                else:
+                    if len(temp.values):
+                        temp.parent.child[index+1].values = {}
+                        temp.parent.child[index].values = {}
+                        for x in temp.parent.child[index+1].keys:
+                            temp.parent.child[index+1].values[x] = v.get(x)
+                        for x in temp.parent.child[index].keys:
+                            temp.parent.child[index].values[x] = v.get(x)
                 if  self.valuar and not ev:
                     temp.parent.child[index+1].next =temp.parent.child[index].next 
                     for i in range(0,len(temp.parent.child)-1):
@@ -135,11 +147,16 @@ class BPlusTree:
 
 
     def delete(self, val):
-        self.root = self._delete(self.root, val, None)
+        self.root = self._delete(self.root, str(val), None)
+    
     def _delete(self, temp, key, copy):
         found = False
         if temp == self.root and not temp.child:
-            temp = Node(None)
+            if len(temp.keys)==1:
+                temp = Node(None)
+            else:
+                temp.keys.remove(key)
+                del temp.values[key]
             return temp
         if temp.child:
             for i in range(0, len(temp.keys)):
@@ -157,348 +174,223 @@ class BPlusTree:
             else:
                 if key not in temp.keys:
                     return False
+                temp.keys.remove(key)
+                del temp.values[key]
                 if copy:
                     copy.keys.remove(key)
-                index = temp.parent.child.index(temp)
-                if key in temp.keys and len(temp.keys) == 1:
-                    if len(temp.parent.child) == self.degree:
-                        temp.keys.remove(key)
-                        if len(temp.parent.keys) != self.degree-1:
-                            if index == int((self.degree-1)/2):
-                                if len(temp.parent.child[index-1].keys)> len(temp.parent.child[index+1].keys):
-                                    temp.parent.insert(temp.parent.child[index-1].keys[len(temp.parent.child[index-1].keys)-1])
-                                    j = len(temp.parent.child[index-1].keys)-1
-                                    temp.insert(temp.parent.child[index-1].keys[j])
-                                    temp.parent.child[index-1].keys.remove(temp.parent.child[index-1].keys[j])
-                                    if not len(temp.parent.child[index-1].keys):
-                                        temp.parent.child[index-1].next = temp.next
-                                        temp.parent.child[index-1].keys = temp.keys
-                                        if copy!=temp.parent:
-                                            temp.parent.keys.remove(temp.keys[0])
-                                        temp.parent.child.remove(temp.parent.child[index])
-                                elif len(temp.parent.child[index-1].keys)< len(temp.parent.child[index+1].keys):
-                                    temp.parent.insert(temp.parent.child[index+1].keys[1])
-                                    temp.insert(temp.parent.child[index+1].keys[0])
-                                    temp.parent.child[index+1].keys.remove(temp.parent.child[index+1].keys[0])
-                                    if not len(temp.parent.child[index+1].keys):
-                                        temp.parent.child[index+1].next = temp.next
-                                        temp.parent.child[index+1].keys = temp.keys
-                                        if copy!=temp.parent:
-                                            temp.parent.keys.remove(temp.keys[0])
-                                else:
-                                    if copy!=temp.parent:
-                                        temp.parent.keys.remove(temp.keys[0])
-                                    if temp.next:
-                                        temp.parent.child[index-1].next = temp.next
-                                    temp.parent.child.remove(temp)
-                            elif index == self.degree-1:
-                                if len(temp.parent.child[index-1].keys)==1:
-                                    if copy != temp.parent:
-                                        temp.parent.keys.remove(key)
-                                    temp.parent.child.remove(temp)
-                                    temp.parent.child[index-1].next = temp.next
-                                else:
-                                    val = temp.parent.child[index-1].keys[len(temp.parent.child[index-1].keys)-1]
-                                    temp.insert(val)
-                                    temp.parent.child[index-1].keys.remove(val)
-                                    if copy!=temp.parent:
-                                        copy.keys.remove(key)
-                                    temp.parent.insert(val)
-                            else:
-                                if temp.next:
-                                    temp.parent.insert(temp.next.keys[len(temp.next.keys)-1])
+                    if len(temp.keys)!=0:
+                        copy.insert(temp.keys[0], None)
+                    elif temp.next:
+                        if self.degree>4:
+                            copy.insert(temp.next.keys[0], None)
                         else:
-                            if temp.next and copy:
-                                copy.insert(temp.next.keys[0])
-                            if index+1 != len(temp.parent.child):
-                                temp.insert(temp.parent.child[index+1].keys[0])
-                                temp.next.keys.remove(temp.keys[0])
-                                k = temp.parent.child.index(temp)
-                                temp.parent.keys.remove(temp.keys[0])
-                                if len(temp.next.keys):
-                                    temp.parent.keys.insert(k,temp.next.keys[0])
-                            else:
-                                temp.parent.child.remove(temp)
-                                temp.parent.child[index-1].next = None
-                        if temp.next:
-                            if not len(temp.next.keys):
-                                # temp.parent.keys.remove(temp.keys[len(temp.keys)-1])
-                                temp.parent.child.remove(temp.next)
-                                temp.next = temp.parent.child[index+1]
-                    else: 
-                        if index:
-                            temp.parent.child[index-1].next = temp.parent.child[index].next
-                        if index+1 != len(temp.parent.child):
-                            if temp.next and copy:
-                                copy.insert(temp.next.keys[0]) 
-                            temp.keys.remove(key)
-                            temp.insert(temp.parent.child[index+1].keys[0])
-                            temp.parent.child[index+1].keys.remove(temp.keys[len(temp.keys)-1])
-                            temp.parent.keys.remove(temp.keys[0])
-                            if len(temp.parent.child[index+1].keys):
-                                temp.parent.insert(temp.parent.child[index+1].keys[0])
-                            else:
-                                if temp.next:
-                                    temp.next = temp.next.next
-                            if not len(temp.parent.child[index+1].keys):
-                                temp.parent.child.remove(temp.parent.child[index+1])
-                        else:
-                            temp.parent.child.remove(temp)
-                else:
-                    num = temp.keys.index(key)
-                    t = len(temp.keys)
-                    temp.keys.remove(key)
-                    if num+1 != t:
-                        if len(temp.child) == self.degree:
-                            temp.parent.insert(temp.next.keys[num])
-                        else:
-                            if copy:
-                                copy.insert(temp.keys[num])
-                            if index!= len(temp.parent.child)-1:
-                                izquierda = len(temp.parent.child[index-1].keys)
-                                derecha = len(temp.parent.child[index+1].keys)
-                                actual = len(temp.keys)
-                                if izquierda<=derecha and izquierda+actual< self.degree and izquierda!=actual:
-                                    for x in temp.keys:
-                                        temp.parent.child[index-1].insert(x)
-                                    temp.parent.child[index-1].next = temp.next
-                                    temp.parent.keys.remove(temp.keys[0])
-                                    temp.parent.child.remove(temp)
-                                elif actual+derecha< self.degree and derecha> izquierda and derecha!=actual:
-                                    for x in temp.keys:
-                                        temp.parent.child[index+1].isnsert(x)
-                                    temp.parent.child[index+1].next = temp.next
-                                    temp.parent.keys.remove(temp.keys[0])
-                                    temp.parent.child.remove(temp)
-                    else:
-                        if index!= len(temp.parent.child)-1:
-                            izquierda=0
-                            if index:
-                                izquierda = len(temp.parent.child[index-1].keys)
-                            derecha = len(temp.parent.child[index+1].keys)
-                            actual = len(temp.keys)
-                            if len(temp.parent.child) == self.degree:
-                                if len(temp.parent.keys)!= self.degree-1:
-                                    temp.parent.insert(temp.next.keys[0])
-                                if (actual+izquierda)== self.degree-1:
-                                    val = temp.parent.child[index-1].keys[izquierda-1]
-                                    temp.parent.keys.remove(temp.keys[0])
-                                    temp.parent.insert(val)
-                                    temp.insert(val)
-                                    temp.parent.child[index-1].keys.remove(val)
-                                elif (actual+derecha) == self.degree-1:
-                                    val = temp.parent.child[index+1].keys[0]
-                                    temp.parent.keys.remove(val)
-                                    temp.parent.child[index+1].keys.remove(val)
-                                    temp.parent.insert(temp.parent.child[index+1].keys[0])
-                                    temp.insert(val)
-                            else:
-                                if len(temp.parent.keys)+1!= len(temp.parent.child):
-                                    temp.parent.insert(temp.next.keys[0])
-                                if izquierda!=derecha and (actual+izquierda) == self.degree-1 and actual!=izquierda:
-                                    val = temp.parent.child[index-1].keys[izquierda-1]
-                                    temp.parent.keys.remove(temp.keys[0])
-                                    temp.parent.insert(val)
-                                    temp.insert(val)
-                                    temp.parent.child[index-1].keys.remove(val)
-                                elif izquierda!=derecha and (actual+derecha) == self.degree-1 and actual!=derecha:
-                                    val = temp.parent.child[index+1].keys[0]
-                                    temp.parent.keys.remove(val)
-                                    temp.parent.child[index+1].keys.remove(val)
-                                    temp.parent.insert(temp.parent.child[index+1].keys[0])
-                                    temp.insert(val)
-                        else:
-                            izquierda = len(temp.parent.child[index-1].keys)
-                            actual = len(temp.keys) 
-                            if len(temp.parent.keys)+1!= len(temp.parent.child):
-                                    temp.parent.insert(temp.next.keys[0])
-                            if (actual+izquierda) == self.degree-1 and actual!=izquierda:
-                                val = temp.parent.child[index-1].keys[izquierda-1]
-                                temp.parent.keys.remove(temp.keys[0])
-                                temp.parent.insert(val)
-                                temp.insert(val)
-                                temp.parent.child[index-1].keys.remove(val)
-                            elif actual!=izquierda:
-                                for x in temp.keys:
-                                        temp.parent.child[index-1].insert(x)
-                                temp.parent.child[index-1].next = temp.next
-                                temp.parent.keys.remove(temp.keys[0])
-                                temp.parent.child.remove(temp)
-                            
-
-                    
+                            if copy!=temp.parent:
+                                copy.insert(temp.next.keys[0], None)
+                temp = self.rotation(temp)
         return temp
+    
     #---------Rotaciones---------------#
+    
     def rotation(self, temp):   
-        if not len(temp.keys):
-            if temp.parent:
-                if len(temp.parent.keys) == 1:
-                    der = len(temp.parent.child[1].keys)
-                    iz = len(temp.parent.child[0].keys)
-                    index = temp.parent.child.index(temp)
-                    if index+1 != len(temp.parent.child):
-                        temp.insert(temp.parent.keys.pop())
-                        if der==1 and iz==0:
-                            temp.insert(temp.parent.child[index+1].keys.pop())
-                            for c in temp.parent.child[index+1].child:
-                                c.parent = temp
-                                temp.child.append(c)
-                            temp.parent.child = []
-                            temp.parent.child.append(temp)
-                        else:
-                            val = temp.parent.child[index+1].keys[0]
-                            temp.parent.insert(val)
-                            temp.parent.child[index+1].keys.remove(val)
-                            hijo = temp.parent.child[index+1].child[0]
-                            temp.child.append(hijo)
-                            temp.parent.child[index+1].child.remove(hijo)
-                            hijo.parent = temp
+        if not len(temp.keys) and temp.parent:
+            index = temp.parent.child.index(temp)
+            if index== len(temp.parent.child)-1:
+                if len(temp.keys)==0 and len(temp.parent.keys)==0:
+                    if len(temp.parent.child[index-1].keys)>1:
+                        temp = self.MoverIzquierda(temp,index)
                     else:
-                        if temp.parent == self.root:
-                            temp.insert(temp.parent.keys[0])
-                            temp.parent.keys = []
-                        else:
-                            index = temp.parent.child.index(temp)
-                            if index:
-                                temp.parent.keys.remove(temp.child[0].keys[0])
-                                temp.insert(temp.child[0].keys[0])
-                                val = temp.parent.child[index-1].keys[len(temp.parent.child[index-1].keys)-1]
-                                temp.parent.insert(val)
-                                temp.parent.child[index-1].keys.remove(val)
-                                hijo = temp.parent.child[index-1].child[len(temp.parent.child[index-1].child)-1]
-                                temp.parent.child[index-1].child.remove(hijo)
-                                hijo.parent = temp
-                                temp.child.insert(0,hijo)
-                            else:
-                                temp.insert(temp.child[0].keys[len(temp.child[0].keys)-1])
-                                hijo = Node(temp)
-                                hijo.insert(temp.keys[0])
-                                temp.child[0].keys.remove(temp.keys[0])
-                                temp.child.append(hijo)
-                                temp.child[0].next = hijo
+                        temp = self.UnirIzquierda(temp,index)
                 else:
-                    index = temp.parent.child.index(temp)
-                    if index+1 == len(temp.parent.child):
-                        temp.parent.child[index-1].insert(temp.child[0].keys[0])
-                        temp.parent.child[index-1].child.append(temp.child[0])
-                        temp.child[0].parent = temp.parent.child[index-1]
-                        temp.parent.keys.remove(temp.child[0].keys[0])
-                        temp.parent.child.remove(temp)
-                        temp = None
+                    if len(temp.parent.child[index-1].keys) >1 and len(temp.parent.keys) >= 1 and len(temp.parent.child) == self.degree:
+                        temp = self.MoverIzquierda(temp,index)
                     else:
-                        if index:
-                            if len(temp.child[0].keys)!=1 and len(temp.child) == 1:
-                                val = temp.child[0].keys[len(temp.child[0].keys)-1]
-                                temp.insert(val)
-                                temp.child[0].keys.remove(val)
-                                temp.child.append(Node(temp))
-                                if temp.child[0].next:
-                                    temp.child[1].insert(val)
-                                    temp.child[1].next = temp.child[0].next
-                                    temp.child[0].next = temp.child[1]
-                            elif len(temp.parent.child[index-1].keys):
-                                index = temp.parent.child.index(temp)
-                                izquierda = 0
-                                derecha = 0
-                                con = False
-                                if index+1 == len(temp.parent.child):
-                                    izquierda = len(temp.parent.child[index-1].keys)
-                                else:
-                                    izquierda = len(temp.parent.child[index-1].keys)
-                                    derecha = len(temp.parent.child[index+1].keys)
-                                if izquierda==derecha==1:
-                                    con = True
-                                if len(temp.child) ==1 and not con:
-                                        if izquierda>derecha or izquierda!=1:
-                                            temp.parent.keys.remove(temp.child[0].keys[0])
-                                            val = temp.parent.child[index-1].keys[len(temp.parent.child[index-1].keys)-1]
-                                            temp.parent.insert(val)
-                                            temp.parent.child[index-1].keys.remove(val)
-                                            temp.insert(temp.child[0].keys[0])
-                                            hijo = temp.parent.child[index-1].child[len(temp.parent.child[index-1].child)-1]
-                                            temp.child.insert(0,hijo)
-                                            hijo.parent = temp
-                                            temp.parent.child[index-1].child.remove(hijo)
-                                        else:
-                                            temp.parent.keys.remove(temp.child[0].next.keys[0])
-                                            val = temp.parent.child[index+1].keys[0]
-                                            temp.parent.insert(val)
-                                            temp.parent.child[index+1].keys.remove(val)
-                                            temp.insert(temp.child[0].next.keys[0])
-                                            hijo = temp.parent.child[index+1].child[0]
-                                            temp.child.append(hijo)
-                                            hijo.parent = temp
-                                            temp.parent.child[index+1].child.remove(hijo)
-                                else:
-                                    temp.parent.child[index-1].insert(temp.child[0].keys[0])
-                                    temp.parent.child[index-1].child.append(temp.child[0])
-                                    temp.child[0].parent = temp.parent.child[index-1]
-                                    temp.parent.keys.remove(temp.child[0].keys[0])
-                                    temp.parent.child.remove(temp)
-                                    temp = None
-                        
+                        if len(temp.parent.child[index-1].child) == self.degree:
+                            temp = self.CambioRaizI(temp, index)
                         else:
-                            temp.parent.child[index+1].insert(temp.parent.keys[0])
-                            temp.parent.child[index+1].child.insert(0, temp.child[0])
-                            temp.child[0].parent = temp.parent.child[index+1]
-                            temp.parent.keys.remove(temp.parent.keys[0])
-                            temp.parent.child.remove(temp)
-                            temp = None
+                            temp = self.UnirIzquierdaRaiz(temp,index)
+            elif not index:
+                if len(temp.keys)==0 and len(temp.parent.keys)==0:
+                    temp = self.UnirDerecha(temp,index)
+                else:
+                    if len(temp.parent.child[index+1].keys) >1 and len(temp.parent.keys) >= 1 and len(temp.parent.child) == len(temp.parent.keys)+1:
+                        temp = self.MoverDerecha(temp,index)
+                    else:
+                        if len(temp.parent.child[index-1].child) == self.degree:
+                            temp = self.CambioRaizI(temp, index)
+                        else:
+                            temp = self.UnirDerechaRaiz(temp, index)
+                
             else:
-                if len(temp.child) == 1:
-                    if len(temp.child[0].keys)==1:
-                        temp = temp.child[0]
-                        temp.parent = None
-                        temp.next = None
+                izquierda = len(temp.parent.child[index-1].keys)
+                derecha = len(temp.parent.child[index+1].keys)
+                if izquierda ==1 and len(temp.parent.keys)>0 and izquierda>=derecha:
+                    temp = self.UnirIzquierda(temp,index)
+                elif derecha ==1 and len(temp.parent.keys)>0 and derecha>izquierda:
+                    temp = self.UnirDerecha(temp, index)
+                elif izquierda>=derecha:
+                    if len(temp.parent.child[index-1].child) == self.degree:
+                        temp = self.CambioRaizI(temp, index)
                     else:
-                        val = temp.child[0].keys[len(temp.child[0].keys)-1]
-                        temp.insert(val)
-                        temp.child[0].keys.remove(val)
-                        hijo = Node(temp)
-                        temp.child[0].next = hijo
-                        hijo.insert(val)
-                        temp.child.append(hijo)
-                else:
-                    hijoI = temp.child[0]
-                    hijoD = temp.child[1]
-                    if len(hijoI.keys) == len(hijoD.keys):
-                        hijoI.insert(hijoD.keys[0])
-                        for c in hijoD.child:
-                            c.parent = hijoI
-                            hijoI.child.append(c)
-                        hijoD = None
-                        temp = hijoI
-                        temp.parent = None
+                        temp = self.MoverIzquierda(temp, index)
+                elif derecha> izquierda:
+                    if len(temp.parent.child[index+1].child) == self.degree:
+                        print("Caso especial")
                     else:
-                        if len(hijoI.keys) > len(hijoD.keys):
-                            val = hijoI.keys[len(hijoI.keys)-1]
-                            temp.insert(val)
-                            hijoI.keys.remove(val)
-                            hijoD.child.insert(0,hijoI.child[len(hijoI.child)-1])
-                            hijoD.child[0].parent = hijoD
-                            hijoI.child.remove(hijoD.child[0])
-                        else:
-                            val = hijoI.keys[len(hijoD.keys)-1]
-                            temp.insert(val)
-                            hijoD.keys.remove(val)
-                            hijoI.append(hijoI.child[0])
-                            hijoI.child[len(hijoI.child)-1].parent = hijoI
-                            hijoD.child.remove(hijoD.child[0])
+                        temp = self.MoverDerecha(temp,index)
+        elif temp.parent:
+            index = temp.parent.child.index(temp)
+            derecha = 0
+            actual = len(temp.keys)
+            izquierda = 0
+            if index == len(temp.parent.child)-1:
+                izquierda = len(temp.parent.child[index-1].keys)
+                if izquierda+actual == self.degree-1 and actual+1 != izquierda and actual<izquierda:
+                    temp = self.MoverIzquierda(temp,index)
+                elif izquierda+actual < self.degree-1 and actual<izquierda:
+                    temp = self.UnirIzquierda(temp,index)
+            elif not index:
+                derecha = len(temp.parent.child[index+1].keys)
+                if derecha+actual == self.degree-1 and actual+1 != derecha and derecha>actual:
+                    temp = self.MoverDerecha(temp,index)
+                elif derecha+actual < self.degree-1 and actual<derecha:
+                    temp = self.UnirDerecha(temp,index)
+            else:
+                izquierda = len(temp.parent.child[index-1].keys)
+                derecha = len(temp.parent.child[index+1].keys)
+                if izquierda+actual == self.degree-1 and actual+1 != izquierda and izquierda>actual:
+                    temp = self.MoverIzquierda(temp,index)
+                elif derecha+actual == self.degree-1 and actual+1 != derecha and actual<derecha:
+                    temp = self.MoverDerecha(temp,index)
+                elif izquierda+actual < self.degree-1 and actual< izquierda:
+                    if len(temp.parent.child[index-1].child) == self.degree:
+                        temp = self.CambioRaizI(temp, index)
+                    else:
+                        temp = self.UnirIzquierda(temp,index)
+                elif derecha+actual < self.degree-1 and actual<derecha:
+                    if len(temp.parent.child[index+1].child) == self.degree:
+                        print("Caso especial")
+                    else:
+                        temp = self.UnirDerecha(temp,index)
         else:
-            if temp.parent:
-                if len(temp.parent.child) == self.degree:
-                    if len(temp.parent.keys) != self.degree-1:
-                        index = temp.parent.child.index(temp)
-                        if len(temp.keys) == 1:
-                            if index == self.degree-1:
-                                temp.parent.child[index-1].insert(temp.keys[0])
-                                temp.parent.child[index-1].child.append(temp.child[0])
-                                temp.child[0].parent = temp.parent.child[index-1]
-                                temp.parent.child.remove(temp)
-                                temp = None
-            
+            if len(temp.child)==1:
+                if len(temp.keys)==1:
+                    temp.child[0].insert(temp.keys[0])
+                temp = temp.child[0]
+                temp.parent = None
+    
+        return temp
+
+    def CambioRaizI(self, temp, index):
+        temp.parent.keys.remove(temp.parent.keys[index-1])
+        temp.insert(temp.child[0].keys[0], None)
+        val = temp.parent.child[index-1].keys[len(temp.parent.child[index-1].keys)-1]
+        temp.parent.insert(val, None)
+        temp.parent.child[index-1].keys.remove(val)
+        hijo = temp.parent.child[index-1].child[len(temp.parent.child[index-1].child)-1]
+        temp.parent.child[index-1].child.remove(hijo)
+        hijo.parent = temp
+        temp.child.insert(0,hijo)
+        return temp
+
+    def UnirDerechaRaiz(self, temp, index):
+        temp.keys = temp.parent.child[index+1].keys
+        val = temp.parent.keys[0]
+        if val not in temp.keys:
+            temp.insert(val, temp.parent.values.get(val))
+            if temp.parent.values.get(val):
+                del temp.parent.values[val]
+        temp.parent.keys.remove(val)
+        for x in temp.parent.child[index+1].child:
+            x.parent = temp
+            temp.child.append(x)
+        temp.next = temp.parent.child[index+1].next
+        temp.values.update(temp.parent.child[index+1].values)
+        temp.parent.child.remove(temp.parent.child[index+1])
+        return temp
+
+    def UnirIzquierdaRaiz(self, temp, index):
+        val = temp.parent.keys[len(temp.parent.keys)-1]
+        if val not in temp.parent.child[index-1].keys:
+            temp.parent.child[index-1].insert(val, temp.parent.values.get(val))
+            if temp.parent.values.get(val):
+                del temp.parent.values[val]
+            temp.parent.keys.remove(val)
+        elif len(temp.parent.keys)>1:
+            temp.parent.keys.remove(val)
+        for x in temp.child:
+            x.parent = temp.parent.child[index-1]
+            temp.parent.child[index-1].child.append(x)
+        temp.parent.child[index-1].next = temp.next
+        temp.parent.child[index-1].values.update(temp.values)
+        temp.parent.child.remove(temp)
+        return temp
+
+    def UnirIzquierda(self, temp, index):
+        for x in temp.keys:
+            temp.parent.child[index-1].insert(x, temp.values.get(x))
+            if temp.values.get(x):
+               del temp.values[x]
+        for x in temp.child:
+            x.parent = temp.parent.child[index-1]
+            temp.parent.child[index-1].child.append(x)
+        temp.parent.child[index-1].next = temp.next
+        temp.parent.child.remove(temp)
+        if len(temp.child)==1:
+            if temp.child[0].keys[0] in temp.parent.keys:
+                temp.parent.keys.remove(temp.child[0].keys[0])
+                temp.parent.child[index-1].insert(temp.child[0].keys[0], None)
+        else:
+            temp = self.ReorganizarKeys(temp)
+        return temp
+    
+    def UnirDerecha(self, temp, index):
+        for x in temp.parent.child[index+1].keys:
+            temp.insert(x, temp.parent.child[index+1].values.get(x))
+            if temp.parent.child[index+1].values.get(x):
+                del temp.parent.child[index+1].values[x]
+        for x in temp.parent.child[index+1].child:
+            x.parent = temp
+            temp.child.append(x)
+        temp.next = temp.parent.child[index+1].next
+        temp.parent.child.remove(temp.parent.child[index+1])
+        temp = self.ReorganizarKeys(temp)
+        return temp
+    
+    def MoverDerecha(self, temp, index):
+        val = temp.parent.child[index+1].keys[0]
+        temp.insert(val, temp.parent.child[index+1].values.get(val))
+        if temp.parent.child[index+1].values.get(val):
+            del temp.parent.child[index+1].values[val]
+        temp.parent.child[index+1].keys.remove(val)
+        if temp.child and self.degree<5:
+            hijo = temp.parent.child[index+1].child[0]
+            temp.child.append(hijo)
+            temp.parent.child[index+1].child.remove(hijo)
+            hijo.parent = temp
+        temp = self.ReorganizarKeys(temp)
+        return temp
+
+    def MoverIzquierda(self, temp, index):
+        val = temp.parent.child[index-1].keys[len(temp.parent.child[index-1].keys)-1]
+        temp.insert(val, temp.parent.child[index-1].values.get(val))
+        if temp.parent.child[index-1].values.get(val):
+            del temp.parent.child[index-1].values[val]
+        temp.parent.child[index-1].keys.remove(val)
+        if temp.child and self.degree<5:
+            hijo = temp.parent.child[index-1].child[len(temp.parent.child[index-1].child)-1]
+            temp.child.insert(0,hijo)
+            temp.parent.child[index-1].child.remove(hijo)
+            hijo.parent = temp
+        temp = self.ReorganizarKeys(temp)
+        return temp
+
+    def ReorganizarKeys(self, temp):
+        temp.parent.keys = []
+        for g in range(1,len(temp.parent.child)):
+            temp.parent.insert(temp.parent.child[g].keys[0], None)
         return temp
     #---------Graficar-----------------#
+    
     def graficar(self):
         f= open('archivo.dot', 'w',encoding='utf-8')
         f.write("digraph dibujo{\n")
@@ -521,7 +413,11 @@ class BPlusTree:
         if temp:
             if nombre == '':
                 nombre = "Nodo"+"D".join(str(x) for x in temp.keys)
-            f.write(nombre+' [ label = "'+",".join(str(x) for x in temp.keys)+'"];\n')
+            if len(temp.values):
+                valor = ",".join(str(x) for x in temp.keys)+"\n"+",".join(str(x[1]) for x in temp.values.items())
+            else:
+                valor = ",".join(str(x) for x in temp.keys)
+            f.write(nombre+' [ label = "'+valor+'"];\n')
             for c in temp.child:
                 if c:
                     if len(c.child)==0:
@@ -560,69 +456,38 @@ class BPlusTree:
                     f = self._rank(f,temp.child[0])
         return f
 
+    def register(self, register):
+        key = self.GenKey(register)
+        self.insert(key, register)
     
+    def GenKey(self, register):
+        key = ''
+        if len(self.PKey):
+            if len(self.PKey)==1:
+                key = register[self.PKey[0]]
+            else:
+                for x in self.PKey:
+                    if self.PKey.index(x)==len(self.PKey)-1:
+                        key+=str(register[x])
+                    else:
+                        key+= str(register[x])+'_'   
+        else:
+            key = self.Incremet
+            self.Incremet+=1
+        return key
+    
+    def buscar(self, register):
+        key = self.GenKey(register)
+        return self._buscar(self.root ,key)
 
-t = BPlusTree(3)
-# lista = []
-lista = [98, 295, 77, 105, 238, 75, 171, 101,129, 109, 199, 178, 53, 279, 192, 257, 34, 63, 158, 0, 121, 31]
-for l in lista:
-    t.insert(l)
-t.delete(129)
-t.delete(98)
-t.delete(101)
-t.delete(75)
-t.delete(192)
-t.delete(238)
-t.delete(158)
-# t.delete(105)
-# t.delete(171)
-# t.delete(109)
-# t.delete(178)
-# t.delete(75)
-# t.delete(192)
-# t.delete(77)
-# t.delete(121)
-# t.delete(238)
-# t.delete(257)
-# t.delete(279)
-# t.delete(199)
-# t.delete(53)
-# t.delete(295)
-# t.delete(63)
-# t.delete(34)
-# t.delete(0)
-# t.delete(31)
-# for i in range(1,25):
-#     d = random.randrange(300)
-#     if d not in lista:
-#         t.insert(d)
-#         lista.append(d)
-#     else:
-#         i-=1
-print(lista)
-# t.delete(171)
-# t.delete(178)
-# t.delete(192)
-# t.delete(105)
-# t.delete(109)
-# t.delete(121)
-# t.delete(129)
-# t.delete(158)
-# t.delete(75)
-# t.delete(199)
-# t.delete(77)
-# t.delete(238)
-# t.delete(98)
-# t.delete(257)
-# t.delete(53)
-# t.delete(279)
-# t.delete(63)
-# t.delete(101)
-# t.delete(31)
-# t.delete(295)
-# t.delete(34)
-# t.delete(0)
-
-# for i in range(5,11):
-#     t.insert(i)
-t.graficar()
+    def _buscar(self, temp, key):
+        if temp.child:
+            for i in range(0, len(temp.keys)):
+                if key < temp.keys[i]:
+                    self._buscar(temp.child[i], key)
+                    break
+        else:
+            if key in temp.keys:
+                return temp
+            else:
+                return False
