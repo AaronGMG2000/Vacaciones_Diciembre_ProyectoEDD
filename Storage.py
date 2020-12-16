@@ -5,17 +5,16 @@ import Serializable as serializable
 import re
 import shutil
 
-path = os.getcwd()+"\\Data"
 
 def dropAll():
-    if os.path.isdir(path):
-        shutil.rmtree(path)
+    if os.path.isdir('./Data'):
+        shutil.rmtree('./Data')
 
 def checkData():
-    if not os.path.isdir(path):
-        os.mkdir(path)
-    if not os.path.isfile(path+"\\Databases.bin"):
-        with open(path+'\\Databases.bin', 'wb') as f:
+    if not os.path.isdir("./Data"):
+        os.mkdir("./Data")
+    if not os.path.isfile("./Data/Databases.bin"):
+        with open("./Data/Databases.bin", 'wb') as f:
             dataBaseTree = AVLTree.AVLTree()
             pickle.dump(dataBaseTree, f)
 
@@ -29,14 +28,14 @@ def validateIdentifier(identifier):
 def createDatabase(database):
     checkData()
     if database and validateIdentifier(database):
-        dataBaseTree = serializable.Read(path+'\\', 'Databases')
+        dataBaseTree = serializable.Read('./Data/', 'Databases')
         root = dataBaseTree.getRoot()
         if dataBaseTree.search(root, database):
             return 2
         else:
             dataBaseTree.add(root, database)
-            serializable.write(path+'\\',database,AVLTree.AVLTree())
-            serializable.update(path+'\\','Databases', dataBaseTree)
+            serializable.write('./Data/',database,AVLTree.AVLTree())
+            serializable.update('./Data/','Databases', dataBaseTree)
         return 0
     else:
         return 1
@@ -44,7 +43,7 @@ def createDatabase(database):
 
 def showDatabases():
     checkData()
-    dataBaseTree = serializable.Read(path+"\\","Databases")
+    dataBaseTree = serializable.Read('./Data/',"Databases")
     root = dataBaseTree.getRoot()
     dbKeys = dataBaseTree.postOrder(root)
     dataBaseTree.graph()
@@ -54,17 +53,17 @@ def showDatabases():
 def alterDatabase(dataBaseOld, dataBaseNew) -> int:
     checkData()
     if validateIdentifier(dataBaseOld) and validateIdentifier(dataBaseNew):
-        dataBaseTree = serializable.Read(path+'\\',"Databases")
+        dataBaseTree = serializable.Read('./Data/',"Databases")
         root = dataBaseTree.getRoot()
         if not dataBaseTree.search(root, dataBaseOld):
             return 2
         if dataBaseTree.search(root, dataBaseNew):
             return 3
         dataBaseTree.delete(root, dataBaseOld)
-        serializable.delete(path+'\\'+dataBaseOld)
+        serializable.delete('./Data/'+dataBaseOld)
         dataBaseTree.add(root, dataBaseNew)
-        serializable.write(path+'\\',dataBaseNew,AVLTree.AVLTree())
-        serializable.update(path+'\\','Databases', dataBaseTree)
+        serializable.write('./Data/',dataBaseNew,AVLTree.AVLTree())
+        serializable.update('./Data/','Databases', dataBaseTree)
         return 0
     else:
         return 1
@@ -72,13 +71,13 @@ def alterDatabase(dataBaseOld, dataBaseNew) -> int:
 def dropDatabase(database):
     checkData()
     if validateIdentifier(database):
-        dataBaseTree = serializable.Read(path+"\\","Databases")
+        dataBaseTree = serializable.Read('./Data/',"Databases")
         root = dataBaseTree.getRoot()
         if not dataBaseTree.search(root, database):
             return 2
         dataBaseTree.delete(root, database)
-        serializable.delete(path+'\\'+database)
-        serializable.update(path+'\\','Databases', dataBaseTree)
+        serializable.delete('./Data/'+database)
+        serializable.update('./Data/','Databases', dataBaseTree)
         return 0
     else:
         return 1

@@ -15,7 +15,7 @@ def delete(direction):
 def write(direction, name, data):
     dire = direction+name
     os.mkdir(dire)
-    with open(dire+"\\"+name+".bin","wb") as ff:
+    with open(dire+"/"+name+".bin","wb") as ff:
         pickle.dump(data, ff)
         ff.close()
 
