@@ -24,7 +24,7 @@ def show_data_bases():
     canvas_tree.bind('<Configure>', lambda e: canvas_tree.configure(scrollregion=canvas_tree.bbox('all')))
     frame_tree = Frame(canvas_tree)
     canvas_tree.create_window((100, 0), width=1000, height=1000, window=frame_tree, anchor='nw')
-    canvas_tree.image = PhotoImage(file='C:/Users/Marcos/Desktop/Data/DataBases.png')
+    canvas_tree.image = PhotoImage(file='./Data/DataBases.png')
     Button(frame_tree, image=canvas_tree.image).pack()
     Label(frame_tree, bg='#C4D3CB', width=200, height=200).place(x=0, y=0)
     Label(frame_tree, image=canvas_tree.image).place(x=150, y=20)
@@ -94,8 +94,6 @@ def alter_database(info, alter_data_base):
 def close_table_window(window, parent):
         window.destroy()
         parent.deiconify()
-
-
 
 
 main_window = tkinter.Tk()

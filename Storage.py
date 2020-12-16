@@ -1,10 +1,28 @@
 import AVLTree
 import os
 import pickle
+import Serializable as serializable
 import re
+import time
+import glob
 
+def dropAll():
+    checkData()
+    for f in os.listdir("./Data"):
+        if not f.endswith(".bin") and not f.endswith(".png"):
+            _dropAll("./Data/"+f)
+            os.rmdir("./Data/"+f)
+        else:
+            os.remove(os.path.join("./Data", f))
 
-# Check if the data files exist
+def _dropAll(nombre):
+    for f in os.listdir(nombre):
+        if not f.endswith(".bin"):
+            _dropAll(nombre+"/"+f)
+            os.rmdir(nombre+"/"+f)
+        else:
+            os.remove(os.path.join(nombre, f))
+
 def checkData():
     if not os.path.isdir("./Data"):
         os.mkdir("./Data")
@@ -23,15 +41,14 @@ def validateIdentifier(identifier):
 def createDatabase(database):
     checkData()
     if database and validateIdentifier(database):
-        with open("./Data/Databases.bin", "rb") as f:
-            dataBaseTree = pickle.load(f)
-            root = dataBaseTree.getRoot()
-            if dataBaseTree.search(root, database):
-                return 2
-            else:
-                dataBaseTree.add(root, database)
-        with open("./Data/Databases.bin", "wb") as f:
-            pickle.dump(dataBaseTree, f)
+        dataBaseTree = serializable.Read('./Data/', 'Databases')
+        root = dataBaseTree.getRoot()
+        if dataBaseTree.search(root, database):
+            return 2
+        else:
+            dataBaseTree.add(root, database)
+            serializable.write('./Data/',database,AVLTree.AVLTree())
+            serializable.update('./Data/','Databases', dataBaseTree)
         return 0
     else:
         return 1
@@ -39,44 +56,42 @@ def createDatabase(database):
 
 def showDatabases():
     checkData()
-    with open("./Data/Databases.bin", "rb") as f:
-        dataBaseTree = pickle.load(f)
-        root = dataBaseTree.getRoot()
-        dbKeys = dataBaseTree.postOrder(root)
-        dataBaseTree.graph()
-        return dbKeys[:-1].split("-")
+    dataBaseTree = serializable.Read("./Data/","Databases")
+    root = dataBaseTree.getRoot()
+    dbKeys = dataBaseTree.postOrder(root)
+    dataBaseTree.graph()
+    return dbKeys[:-1].split("-")
 
 
 def alterDatabase(dataBaseOld, dataBaseNew) -> int:
     checkData()
     if validateIdentifier(dataBaseOld) and validateIdentifier(dataBaseNew):
-        with open("./Data/Databases.bin", "rb") as f:
-            dataBaseTree = pickle.load(f)
-            root = dataBaseTree.getRoot()
-            if not dataBaseTree.search(root, dataBaseOld):
-                return 2
-            if dataBaseTree.search(root, dataBaseNew):
-                return 3
-            dataBaseTree.delete(root, dataBaseOld)
-            dataBaseTree.add(root, dataBaseNew)
-        with open("./Data/Databases.bin", "wb") as f:
-            pickle.dump(dataBaseTree, f)
-            return 0
+        dataBaseTree = serializable.Read("./Data/","Databases")
+        root = dataBaseTree.getRoot()
+        if not dataBaseTree.search(root, dataBaseOld):
+            return 2
+        if dataBaseTree.search(root, dataBaseNew):
+            return 3
+        dataBaseTree.delete(root, dataBaseOld)
+        serializable.delete('./Data/'+dataBaseOld)
+        dataBaseTree.add(root, dataBaseNew)
+        serializable.write('./Data/',dataBaseNew,AVLTree.AVLTree())
+        serializable.update('./Data/','Databases', dataBaseTree)
+        return 0
     else:
         return 1
 
 def dropDatabase(database):
     checkData()
     if validateIdentifier(database):
-        with open("./Data/Databases.bin", "rb") as f:
-            dataBaseTree = pickle.load(f)
-            root = dataBaseTree.getRoot()
-            if not dataBaseTree.search(root, database):
-                return 2
-            dataBaseTree.delete(root, database)
-        with open("./Data/Databases.bin", "wb") as f:
-            pickle.dump(dataBaseTree, f)
-            return 0
+        dataBaseTree = serializable.Read("./Data/","Databases")
+        root = dataBaseTree.getRoot()
+        if not dataBaseTree.search(root, database):
+            return 2
+        dataBaseTree.delete(root, database)
+        serializable.delete('./Data/'+database)
+        serializable.update('./Data/','Databases', dataBaseTree)
+        return 0
     else:
         return 1
 #---------------CRUD TABLE----------------#
