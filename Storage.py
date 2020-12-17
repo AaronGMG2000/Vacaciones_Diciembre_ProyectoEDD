@@ -105,7 +105,7 @@ def createTable(database, table, numberColumns):
                 tablesTree.add(tablesTree.getRoot(), table)
                 serializable.update(f"./Data/{database}/", database, tablesTree)
                 # Creates bin file for the new table
-                serializable.update(f"./Data/{database}/", table, BplusTree.BPlusTree())
+                serializable.write(f"./Data/{database}/", table, BplusTree.BPlusTree(5,numberColumns))
                 return 0
         else:
             return 2
@@ -122,7 +122,63 @@ def showTables(database):
         return [] if len(dbKeys) == 0 else dbKeys[:-1].split("-")
     else:
         return None
+    
+    
 # ---------------Dyllan--------------------#
+
+def alterAddPK(database: str, table: str, columns: list) -> int:
+    try:
+        checkData()
+        # Get the databases tree
+        dataBaseTree = serializable.Read('./Data/', "Databases")
+        # Get the dbNode
+        databaseNode = dataBaseTree.search(dataBaseTree.getRoot(), database)
+        # If DB exist
+        if databaseNode:
+            tablesTree = serializable.Read(f"./Data/{database}/", database)
+            if not tablesTree.search(tablesTree.getRoot(), table):
+                return 3 # table no existente
+            else:
+                tuplaTree = serializable.Read(f"./Data/{database}/{table}/", table)
+                maximun = max(columns)
+                minimun = min(columns)
+                numberColumnsA = tuplaTree.columns  #actual amount from column
+                if not (minimun>=0 and maximun<numberColumnsA):
+                    return 5
+                res = tuplaTree.CreatePK(columns)
+                if res:
+                    return res
+                else:
+                    serializable.update(f"./Data/{database}/{table}/", table, tuplaTree)
+                    return 0
+        else:
+            return 2 #database no existente
+    except:
+        return 1  
+
+def alterDropPK(database: str, table: str) -> int:
+
+    checkData()
+    if validateIdentifier(database):
+        dataBaseTree = serializable.Read('./Data/', "Databases")
+        root = dataBaseTree.getRoot()
+        if not dataBaseTree.search(root, database):
+            return 2 #database no existente
+        else:
+            tablesTree = serializable.Read(f"./Data/{database}/", database)
+            if not tablesTree.search(tablesTree.getRoot(), table):
+                return 3 # table no existente
+            
+            PKsTree = serializable.Read(f'./Data/{database}/{table}/', table)
+            res = PKsTree.DeletePk()
+            if res:
+                return res
+            else:
+                serializable.update(f'./Data/{database}/{table}/',table , PKsTree)
+            return 0 # exito
+    else:
+        return 1  #error
+
 # ---------------CRUD TUPLA----------------#
 # ---------------Rudy----------------------#
 # ---------------Marcos--------------------#
