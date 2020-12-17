@@ -547,3 +547,21 @@ class BPlusTree:
                 lista.update(self._lista(temp.next,lista))
         return lista
 
+    def GrafiarTupla(self, tupla):
+        f= open('tupla.dot', 'w',encoding='utf-8')
+        f.write("digraph dibujo{\n")
+        f.write('graph [ordering="out"];')
+        f.write('rankdir=TB;\n')
+        f.write('node [shape = box];\n')
+        data =""
+        for x in tupla:
+            data+="""<td>"""+str(x)+"""</td>"""
+        tabla ="""<<table cellspacing='0' cellpadding='20' border='0' cellborder='1'>
+            <tr>"""+data+"""</tr>        
+        </table> >"""
+        f.write('table [label = '+tabla+',  fontsize="30", shape = plaintext ];\n')
+        f.write('}')
+        f.close()
+        os.system('dot -Tpng tupla.dot -o tupla.png')
+        os.system('tupla.png')
+
