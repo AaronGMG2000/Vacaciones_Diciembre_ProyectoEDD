@@ -1,4 +1,5 @@
 import AVLTree
+import BplusTree
 import os
 import pickle
 import Serializable as serializable
@@ -9,6 +10,7 @@ import shutil
 def dropAll():
     if os.path.isdir('./Data'):
         shutil.rmtree('./Data')
+
 
 def checkData():
     if not os.path.isdir("./Data"):
@@ -34,8 +36,8 @@ def createDatabase(database):
             return 2
         else:
             dataBaseTree.add(root, database)
-            serializable.write('./Data/',database,AVLTree.AVLTree())
-            serializable.update('./Data/','Databases', dataBaseTree)
+            serializable.write('./Data/', database, AVLTree.AVLTree())
+            serializable.update('./Data/', 'Databases', dataBaseTree)
         return 0
     else:
         return 1
@@ -43,51 +45,89 @@ def createDatabase(database):
 
 def showDatabases():
     checkData()
-    dataBaseTree = serializable.Read('./Data/',"Databases")
+    dataBaseTree = serializable.Read('./Data/', "Databases")
     root = dataBaseTree.getRoot()
     dbKeys = dataBaseTree.postOrder(root)
-    dataBaseTree.graph()
-    return dbKeys[:-1].split("-")
+    return [] if len(dbKeys) == 0 else dbKeys[:-1].split("-")
 
 
 def alterDatabase(dataBaseOld, dataBaseNew) -> int:
     checkData()
     if validateIdentifier(dataBaseOld) and validateIdentifier(dataBaseNew):
-        dataBaseTree = serializable.Read('./Data/',"Databases")
+        dataBaseTree = serializable.Read('./Data/', "Databases")
         root = dataBaseTree.getRoot()
         if not dataBaseTree.search(root, dataBaseOld):
             return 2
         if dataBaseTree.search(root, dataBaseNew):
             return 3
         dataBaseTree.delete(root, dataBaseOld)
-        serializable.Rename('./Data/',dataBaseOld,dataBaseNew)
+        serializable.Rename('./Data/', dataBaseOld, dataBaseNew)
         dataBaseTree.add(root, dataBaseNew)
-        serializable.update('./Data/','Databases', dataBaseTree)
+        serializable.update('./Data/', 'Databases', dataBaseTree)
         return 0
     else:
         return 1
 
+
 def dropDatabase(database):
     checkData()
     if validateIdentifier(database):
-        dataBaseTree = serializable.Read('./Data/',"Databases")
+        dataBaseTree = serializable.Read('./Data/', "Databases")
         root = dataBaseTree.getRoot()
         if not dataBaseTree.search(root, database):
             return 2
         dataBaseTree.delete(root, database)
-        serializable.delete('./Data/'+database)
-        serializable.update('./Data/','Databases', dataBaseTree)
+        serializable.delete('./Data/' + database)
+        serializable.update('./Data/', 'Databases', dataBaseTree)
         return 0
     else:
         return 1
-#---------------CRUD TABLE----------------#
-#----------------Erick--------------------#
-#---------------Dyllan--------------------#
-#---------------CRUD TUPLA----------------#
-#---------------Rudy----------------------#
-#---------------Marcos--------------------#
-#***************Pruebas*******************#
-#*---------------Rudy--------------------*#
-#*---------------Marcos------------------*#
-#*---------------Erick-------------------*#
-#*--------------Dyllan-------------------*#
+
+
+# ---------------CRUD TABLE----------------#
+# ----------------Erick--------------------#
+
+def createTable(database, table, numberColumns):
+    # Validates identifier before searching
+    if validateIdentifier(database) and validateIdentifier(table) and numberColumns >= 0:
+        checkData()
+        # Get the databases tree
+        dataBaseTree = serializable.Read('./Data/', "Databases")
+        # Get the dbNode
+        databaseNode = dataBaseTree.search(dataBaseTree.getRoot(), database)
+        # If DB exist
+        if databaseNode:
+            tablesTree = serializable.Read(f"./Data/{database}/", database)
+            if tablesTree.search(tablesTree.getRoot(), table):
+                return 3
+            else:
+                # Creates new table node
+                tablesTree.add(tablesTree.getRoot(), table)
+                serializable.update(f"./Data/{database}/", database, tablesTree)
+                # Creates bin file for the new table
+                serializable.update(f"./Data/{database}/", table, BplusTree.BPlusTree())
+                return 0
+        else:
+            return 2
+    else:
+        return 1
+
+def showTables(database):
+    checkData()
+    dataBaseTree = serializable.Read('./Data/', "Databases")
+    dataBaseTree.search(dataBaseTree.getRoot(), database)
+    if dataBaseTree.search(dataBaseTree.getRoot(), database):
+        db = serializable.Read(f"./Data/{database}/", database)
+        dbKeys = db.postOrder(db.getRoot())
+        return [] if len(dbKeys) == 0 else dbKeys[:-1].split("-")
+    else:
+        return None
+# ---------------Dyllan--------------------#
+# ---------------CRUD TUPLA----------------#
+# ---------------Rudy----------------------#
+# ---------------Marcos--------------------#
+# ***************Pruebas*******************#
+# *---------------Rudy--------------------*#
+# *---------------Marcos------------------*#
+# *---------------Erick-------------------*#
+# *--------------Dyllan-------------------*#
