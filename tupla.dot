@@ -1,0 +1,7 @@
+digraph dibujo{
+graph [ordering="out"];rankdir=TB;
+node [shape = box];
+table [label = <<table cellspacing='0' cellpadding='20' border='0' cellborder='1'>
+            <tr><td>1</td><td>hola</td><td>1</td></tr>        
+        </table> >,  fontsize="30", shape = plaintext ];
+}
