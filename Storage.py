@@ -122,7 +122,23 @@ def showTables(database):
         return [] if len(dbKeys) == 0 else dbKeys[:-1].split("-")
     else:
         return None
-    
+
+def extractTable(database, table):
+    checkData()
+    # Get the databases tree
+    dataBaseTree = serializable.Read('./Data/', "Databases")
+    # Get the dbNode
+    databaseNode = dataBaseTree.search(dataBaseTree.getRoot(), database)
+    # If DB exist
+    if databaseNode:
+        tablesTree = serializable.Read(f"./Data/{database}/", database)
+        if tablesTree.search(tablesTree.getRoot(), table):
+            table = serializable.Read(f'./Data/{database}/{table}/', table)
+            return list(table.lista().values())
+        else:
+            return None
+    else:
+        return None
     
 # ---------------Dyllan--------------------#
 

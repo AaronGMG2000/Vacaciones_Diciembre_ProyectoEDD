@@ -34,3 +34,5 @@ print(j.insert('db1','tb1',[2,'hola',1])) #0
 print(j.insert('db1','tb1',[3,'hola',1])) #0
 print(j.insert('db1','tb1',[4,'hola',2,5])) #5
 print(j.insert('db1','tb1',[3,'hola',1])) #4
+
+print(j.extractTable("db1", "tb1"))
