@@ -1,6 +1,15 @@
 digraph dibujo{
 graph [ordering="out"];rankdir=TB;
 node [shape = box];
-Nodoprueba1 [ label = "prueba1
-[1, 'prueba1', 'prueba2']"];
+Nodo3_1D5_1D7_1 [ label = "3_1   |   5_1   |   7_1"];
+NodoH10_1D1_1D2_1 [ label = "10_1   |   1_1   |   2_1"];
+Nodo3_1D5_1D7_1->NodoH10_1D1_1D2_1;
+NodoH3_1D4_1 [ label = "3_1   |   4_1"];
+Nodo3_1D5_1D7_1->NodoH3_1D4_1;
+NodoH5_1D6_1 [ label = "5_1   |   6_1"];
+Nodo3_1D5_1D7_1->NodoH5_1D6_1;
+NodoH7_1D8_1D9_1 [ label = "7_1   |   8_1   |   9_1"];
+Nodo3_1D5_1D7_1->NodoH7_1D8_1D9_1;
+NodoH10_1D1_1D2_1->NodoH3_1D4_1->NodoH5_1D6_1->NodoH7_1D8_1D9_1;
+{rank=same;NodoH10_1D1_1D2_1;NodoH3_1D4_1;NodoH5_1D6_1;NodoH7_1D8_1D9_1}
 }

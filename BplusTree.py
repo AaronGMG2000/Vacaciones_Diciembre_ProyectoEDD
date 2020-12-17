@@ -411,10 +411,7 @@ class BPlusTree:
         if temp:
             if nombre == '':
                 nombre = "Nodo"+"D".join(str(x) for x in temp.keys)
-            if len(temp.values):
-                valor = ",".join(str(x) for x in temp.keys)+"\n"+",".join(str(x[1]) for x in temp.values.items())
-            else:
-                valor = ",".join(str(x) for x in temp.keys)
+            valor = "   |   ".join(str(x) for x in temp.keys)
             f.write(nombre+' [ label = "'+valor+'"];\n')
             for c in temp.child:
                 if c:
@@ -455,8 +452,16 @@ class BPlusTree:
         return f
 
     def register(self, register):
-        key = self.GenKey(register)
-        self.insert(key, register)
+        if len(register)!=self.columns:
+            return 5
+        try:
+            key = self.GenKey(register)
+            self.insert(key, register)
+            return 0
+        except:
+            if not len(self.PKey):
+                self.PKey-=1
+            return 1
     
     def GenKey(self, register):
         key = ''
@@ -475,8 +480,11 @@ class BPlusTree:
         return key
     
     def buscar(self, register):
-        key = self.GenKey(register)
-        return self._buscar(self.root ,key)
+        if len(self.PKey):
+            key = self.GenKey(register)
+            return self._buscar(self.root ,key)
+        else:
+            return None
 
     def _buscar(self, temp, key):
         if temp.child:
@@ -524,3 +532,18 @@ class BPlusTree:
         else:
             self.columns-=1
             return 0
+    
+    def lista(self):
+        if len(self.root.keys):
+            return self._lista(self.root,{})
+        else:
+            return {}
+    def _lista(self, temp,lista):
+        if len(temp.child):
+            lista = self._lista(temp.child[0], {})
+        else:
+            lista.update(temp.values)
+            if temp.next:
+                lista.update(self._lista(temp.next,lista))
+        return lista
+

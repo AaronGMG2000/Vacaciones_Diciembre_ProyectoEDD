@@ -159,28 +159,43 @@ def alterAddPK(database: str, table: str, columns: list) -> int:
 def alterDropPK(database: str, table: str) -> int:
 
     checkData()
-    if validateIdentifier(database):
-        dataBaseTree = serializable.Read('./Data/', "Databases")
-        root = dataBaseTree.getRoot()
-        if not dataBaseTree.search(root, database):
-            return 2 #database no existente
-        else:
-            tablesTree = serializable.Read(f"./Data/{database}/", database)
-            if not tablesTree.search(tablesTree.getRoot(), table):
-                return 3 # table no existente
-            
-            PKsTree = serializable.Read(f'./Data/{database}/{table}/', table)
-            res = PKsTree.DeletePk()
-            if res:
-                return res
-            else:
-                serializable.update(f'./Data/{database}/{table}/',table , PKsTree)
-            return 0 # exito
+    dataBaseTree = serializable.Read('./Data/', "Databases")
+    root = dataBaseTree.getRoot()
+    if not dataBaseTree.search(root, database):
+        return 2 #database no existente
     else:
-        return 1  #error
+        tablesTree = serializable.Read(f"./Data/{database}/", database)
+        if not tablesTree.search(tablesTree.getRoot(), table):
+            return 3 # table no existente
+        
+        PKsTree = serializable.Read(f'./Data/{database}/{table}/', table)
+        res = PKsTree.DeletePk()
+        if res:
+            return res
+        else:
+            serializable.update(f'./Data/{database}/{table}/',table , PKsTree)
+        return 0 # exito
 
 # ---------------CRUD TUPLA----------------#
 # ---------------Rudy----------------------#
+def insert(database, table, register):
+    checkData()
+    dataBaseTree = serializable.Read('./Data/', "Databases")
+    root = dataBaseTree.getRoot()
+    if not dataBaseTree.search(root, database):
+        return 2 #database no existente
+    else:
+        tablesTree = serializable.Read(f"./Data/{database}/", database)
+        if not tablesTree.search(tablesTree.getRoot(), table):
+            return 3 # table no existente
+        PKsTree = serializable.Read(f'./Data/{database}/{table}/', table)
+        if PKsTree.buscar(register):
+            return 4
+        res = PKsTree.register(register)
+        if res:
+            return res
+        serializable.update(f'./Data/{database}/{table}/',table , PKsTree)
+        return 0 # exito
 # ---------------Marcos--------------------#
 # ***************Pruebas*******************#
 # *---------------Rudy--------------------*#
