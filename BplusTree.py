@@ -18,14 +18,15 @@ class Node:
             self.keys.sort()
 class BPlusTree:
 
-    def __init__(self, degree = 5):
+    def __init__(self, degree = 5, columns = 0, direction=''):
         self.root = Node(None)
         self.degree = degree
         self.valuar = False
         self.PKey = []
         self.Fkey = []
         self.Incremet = 1
-        self.columns = 0
+        self.columns = columns
+        self.direction = direction
 
     def insert(self, key, value):
         if key == 0:
@@ -145,7 +146,6 @@ class BPlusTree:
                         temp.parent.child[i].next = temp.parent.child[i+1]
         return temp
 
-
     def delete(self, val):
         self.root = self._delete(self.root, str(val), None)
     
@@ -188,9 +188,8 @@ class BPlusTree:
                                 copy.insert(temp.next.keys[0], None)
                 temp = self.rotation(temp)
         return temp
-    
+
     #---------Rotaciones---------------#
-    
     def rotation(self, temp):   
         if not len(temp.keys) and temp.parent:
             index = temp.parent.child.index(temp)
@@ -390,7 +389,6 @@ class BPlusTree:
             temp.parent.insert(temp.parent.child[g].keys[0], None)
         return temp
     #---------Graficar-----------------#
-    
     def graficar(self):
         f= open('archivo.dot', 'w',encoding='utf-8')
         f.write("digraph dibujo{\n")
@@ -491,3 +489,38 @@ class BPlusTree:
                 return temp
             else:
                 return False
+    
+    def CreatePK(self, Pk):
+        if len(self.PKey):
+            return 4
+        else:
+            for x in Pk:
+                if type(x) != int:
+                    return 1
+            if not len(self.root.keys):
+                self.PKey = Pk
+                return 0
+            # else:
+                # pass
+                #verificar conflicto
+                #return 1 -conflicto
+                #return 0
+    
+    def DeletePk(self):
+        if len(self.PKey):
+            return 4
+        else:
+            self.PKey = []
+            return 0
+    
+    def addColumn(self, default):
+        self.columns+=1
+        #hacer función
+        return 0
+    
+    def dropColumn(self, column):
+        if column in self.PKey or self.columns==1:
+            return 4
+        else:
+            self.columns-=1
+            return 0
