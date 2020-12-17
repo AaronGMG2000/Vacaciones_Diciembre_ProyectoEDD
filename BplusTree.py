@@ -507,7 +507,7 @@ class BPlusTree:
                 #return 0
     
     def DeletePk(self):
-        if len(self.PKey):
+        if not len(self.PKey):
             return 4
         else:
             self.PKey = []

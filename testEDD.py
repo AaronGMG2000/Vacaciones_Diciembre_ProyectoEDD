@@ -27,3 +27,5 @@ print(j.createTable('db1','tb2',3))     # 0
 
 print(j.alterAddPK('db1','tb1',[0,1]))    # 0
 print(j.showTables('db1'))              # ['tb1', 'tb2']
+print(j.alterDropPK('db1','tb1'))       # 0
+print(j.alterDropPK('db1','tb2'))       # 4
