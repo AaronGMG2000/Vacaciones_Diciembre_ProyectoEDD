@@ -14,6 +14,7 @@ class Node:
         self.keys.append(key)
         if value:
             self.values[key] = value
+            self.values = dict(sorted(self.values.items()))
         if len(self.keys) > 1:
             self.keys.sort()
 class BPlusTree:
@@ -85,6 +86,8 @@ class BPlusTree:
                         temp.child[1].values[x] = c.values.get(x)
                     for x in temp.child[0].keys:
                         temp.child[0].values[x] = c.values.get(x)
+                    temp.child[1].values = dict(sorted(temp.child[1].values.items()))
+                    temp.child[0].values = dict(sorted(temp.child[0].values.items()))
                 temp.leaf = False
             else:
                 n = 0
@@ -138,8 +141,10 @@ class BPlusTree:
                         temp.parent.child[index].values = {}
                         for x in temp.parent.child[index+1].keys:
                             temp.parent.child[index+1].values[x] = v.get(x)
+                        temp.parent.child[index+1].values = dict(sorted(temp.parent.child[index+1].values.items()))
                         for x in temp.parent.child[index].keys:
                             temp.parent.child[index].values[x] = v.get(x)
+                        temp.parent.child[index].values = dict(sorted(temp.parent.child[index].values.items()))
                 if  self.valuar and not ev:
                     temp.parent.child[index+1].next =temp.parent.child[index].next 
                     for i in range(0,len(temp.parent.child)-1):
@@ -305,6 +310,7 @@ class BPlusTree:
             temp.child.append(x)
         temp.next = temp.parent.child[index+1].next
         temp.values.update(temp.parent.child[index+1].values)
+        temp.values = dict(sorted(temp.values.items()))
         temp.parent.child.remove(temp.parent.child[index+1])
         return temp
 
@@ -322,6 +328,7 @@ class BPlusTree:
             temp.parent.child[index-1].child.append(x)
         temp.parent.child[index-1].next = temp.next
         temp.parent.child[index-1].values.update(temp.values)
+        temp.parent.child[index-1].values = dict(sorted(temp.parent.child[index-1].values.items()))
         temp.parent.child.remove(temp)
         return temp
 
@@ -412,7 +419,10 @@ class BPlusTree:
         if temp:
             if nombre == '':
                 nombre = "Nodo"+"D".join(str(x) for x in temp.keys)
-            valor = "   |   ".join(str(x) for x in temp.keys)
+            if len(temp.values):
+                valor = "   |   ".join(str(x) for x in temp.keys)+"\n"+",".join(str(x) for x in temp.values.values())
+            else:
+                valor = "   |   ".join(str(x) for x in temp.keys)
             f.write(nombre+' [ label = "'+valor+'"];\n')
             for c in temp.child:
                 if c:
@@ -588,8 +598,7 @@ class BPlusTree:
         for x in data.keys():
             if x in self.PKey:
                 delete = True
-        return self._update(self.root, data, delete, key, columns)
-            
+        return self._update(self.root, data, delete, key, columns)         
     
     def _update(self, temp, data, delete, key, keys):
         if temp.child:
@@ -620,3 +629,32 @@ class BPlusTree:
         self.root = Node(None)
         self.Incremet = 1
     
+
+b = BPlusTree(5,3,'')
+b.CreatePK([0,1])
+b.register([1,1,'hola1'])
+b.register([2,1,'hola2'])
+b.register([3,1,'hola3'])
+b.register([4,1,'hola4'])
+b.register([5,1,'hola5'])
+b.register([6,1,'hola6'])
+b.register([7,1,'hola7'])
+b.register([8,1,'hola8'])
+b.register([9,1,'hola9'])
+b.register([10,1,'hola10'])
+b.register([11,1,'hola11'])
+b.register([12,1,'hola12'])
+b.register([13,1,'hola13'])
+b.register([14,1,'hola14'])
+b.register([15,1,'hola15'])
+b.register([16,1,'hola16'])
+b.register([17,1,'hola17'])
+b.delete([10,1])
+b.delete([17,1])
+b.delete([15,1])
+b.delete([1,1])
+b.delete([2,1])
+b.delete([3,1])
+b.delete([4,1])
+
+b.graficar()
