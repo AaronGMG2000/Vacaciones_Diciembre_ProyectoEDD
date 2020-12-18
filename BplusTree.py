@@ -9,7 +9,7 @@ class Node:
         self.child = []
         self.next = None
         self.leaf = True
-    
+
     def insert(self, key, value):
         self.keys.append(key)
         if value:
@@ -17,6 +17,7 @@ class Node:
             self.values = dict(sorted(self.values.items()))
         if len(self.keys) > 1:
             self.keys.sort()
+
 class BPlusTree:
 
     def __init__(self, degree = 5, columns = 0, direction=''):
@@ -26,12 +27,11 @@ class BPlusTree:
         self.PKey = []
         self.Fkey = []
         self.Incremet = 1
+        self.dropPK = False
         self.columns = columns
         self.direction = direction
 
     def insert(self, key, value):
-        if key == 0:
-            print("")
         self.root = self._insert(self.root, str(key), value)
         self.valuar = False
     
@@ -419,10 +419,7 @@ class BPlusTree:
         if temp:
             if nombre == '':
                 nombre = "Nodo"+"D".join(str(x) for x in temp.keys)
-            if len(temp.values):
-                valor = "   |   ".join(str(x) for x in temp.keys)+"\n"+",".join(str(x) for x in temp.values.values())
-            else:
-                valor = "   |   ".join(str(x) for x in temp.keys)
+            valor = "   |   ".join(str(x) for x in temp.keys)
             f.write(nombre+' [ label = "'+valor+'"];\n')
             for c in temp.child:
                 if c:
@@ -462,11 +459,28 @@ class BPlusTree:
                     f = self._rank(f,temp.child[0])
         return f
 
+    def reorganizar(self):
+        lista = list(self.lista().values())
+        temp = self.root
+        self.root = Node(None)
+        self.Incremet = 1
+        for l in lista:
+            if self.buscar(l):
+                self.root = temp
+                return 1
+            else:
+                self.register(l)
+        return 0
+
     def register(self, register):
         if len(register)!=self.columns:
             return 5
         try:
             key = self.GenKey(register)
+            if not len(self.PKey):
+                if len(self.search([key])):
+                    self.reorganizar()
+                    key = self.GenKey(register)
             self.insert(key, register)
             return 0
         except:
@@ -478,7 +492,7 @@ class BPlusTree:
         key = ''
         if len(self.PKey):
             if len(self.PKey)==1:
-                key = register[self.PKey[0]]
+                key = str(register[self.PKey[0]])
             else:
                 for x in self.PKey:
                     if self.PKey.index(x)==len(self.PKey)-1:
@@ -486,7 +500,7 @@ class BPlusTree:
                     else:
                         key+= str(register[x])+'_'   
         else:
-            key = self.Incremet
+            key = str(self.Incremet)
             self.Incremet+=1
         return key
     
@@ -509,16 +523,21 @@ class BPlusTree:
             return None
 
     def _buscar(self, temp, key):
+        found = False
         if temp.child:
             for i in range(0, len(temp.keys)):
                 if key < temp.keys[i]:
-                    self._buscar(temp.child[i], key)
-                    break
-        else:
-            if key in temp.keys:
-                return temp
+                    found = True
+                    return self._buscar(temp.child[i], key)
+        if not found:
+            if temp.child:
+                return self._buscar(temp.child[len(temp.keys)], key)
             else:
-                return False
+                if key in temp.keys:
+                    return temp
+                else:
+                    return False
+        return False
     
     def CreatePK(self, Pk):
         if len(self.PKey):
@@ -527,25 +546,27 @@ class BPlusTree:
             for x in Pk:
                 if type(x) != int:
                     return 1
+            self.PKey = Pk
             if not len(self.root.keys):
-                self.PKey = Pk
+                self.Incremet = 1
                 return 0
-            # else:
-                # pass
-                #verificar conflicto
-                #return 1 -conflicto
-                #return 0
-    
+            else:
+                res = self.reorganizar()
+                return res
+                
     def DeletePk(self):
         if not len(self.PKey):
             return 4
         else:
             self.PKey = []
+            self.dropPK = True
             return 0
     
     def addColumn(self, default):
         self.columns+=1
-        #hacer función
+        lista = list(self.lista().values())
+        for l in lista:
+            l.append(default)
         return 0
     
     def dropColumn(self, column):
@@ -553,6 +574,9 @@ class BPlusTree:
             return 4
         else:
             self.columns-=1
+            lista = list(self.lista().values())
+            for l in lista:
+                l.pop(column)
             return 0
     
     def lista(self):
@@ -628,33 +652,3 @@ class BPlusTree:
     def truncate(self):
         self.root = Node(None)
         self.Incremet = 1
-    
-
-b = BPlusTree(5,3,'')
-b.CreatePK([0,1])
-b.register([1,1,'hola1'])
-b.register([2,1,'hola2'])
-b.register([3,1,'hola3'])
-b.register([4,1,'hola4'])
-b.register([5,1,'hola5'])
-b.register([6,1,'hola6'])
-b.register([7,1,'hola7'])
-b.register([8,1,'hola8'])
-b.register([9,1,'hola9'])
-b.register([10,1,'hola10'])
-b.register([11,1,'hola11'])
-b.register([12,1,'hola12'])
-b.register([13,1,'hola13'])
-b.register([14,1,'hola14'])
-b.register([15,1,'hola15'])
-b.register([16,1,'hola16'])
-b.register([17,1,'hola17'])
-b.delete([10,1])
-b.delete([17,1])
-b.delete([15,1])
-b.delete([1,1])
-b.delete([2,1])
-b.delete([3,1])
-b.delete([4,1])
-
-b.graficar()
