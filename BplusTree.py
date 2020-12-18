@@ -146,8 +146,9 @@ class BPlusTree:
                         temp.parent.child[i].next = temp.parent.child[i+1]
         return temp
 
-    def delete(self, val):
-        self.root = self._delete(self.root, str(val), None)
+    def delete(self, keys):
+        val = "_".join(str(x) for x in keys)
+        self.root = self._delete(self.root, val, None)
     
     def _delete(self, temp, key, copy):
         found = False
@@ -479,6 +480,17 @@ class BPlusTree:
             self.Incremet+=1
         return key
     
+    def search(self, keys):
+        try:
+            key = "_".join(str(x) for x in keys)
+            res = self._buscar(self.root, key)
+            if res:
+                return list(res.values[key])
+            else:
+                return [] 
+        except:
+            return []
+
     def buscar(self, register):
         if len(self.PKey):
             key = self.GenKey(register)
@@ -538,6 +550,7 @@ class BPlusTree:
             return self._lista(self.root,{})
         else:
             return {}
+    
     def _lista(self, temp,lista):
         if len(temp.child):
             lista = self._lista(temp.child[0], {})
@@ -565,3 +578,45 @@ class BPlusTree:
         os.system('dot -Tpng tupla.dot -o tupla.png')
         os.system('tupla.png')
 
+    def update(self, data, columns):
+        key = "_".join(str(x) for x in columns)
+        delete = False
+        mini = min(data.keys())
+        maxi = max(data.keys())
+        if mini<0 or maxi>= self.columns:
+            return 1
+        for x in data.keys():
+            if x in self.PKey:
+                delete = True
+        return self._update(self.root, data, delete, key, columns)
+            
+    
+    def _update(self, temp, data, delete, key, keys):
+        if temp.child:
+            for i in range(0, len(temp.keys)):
+                if key < temp.keys[i]:
+                    self._buscar(temp.child[i], key)
+                    break
+        else:
+            if key in temp.keys:
+                try:
+                    list = temp.values.get(key)[:]
+                    for x in data.keys():
+                        list[x] = data.get(x)
+                    if delete:
+                        if self.buscar(list):
+                            return 1
+                        self.delete(keys)
+                        self.register(list)
+                    else:
+                        temp.values[key] = list
+                    return 0
+                except:
+                    return 1
+            else:
+                return 4
+    
+    def truncate(self):
+        self.root = Node(None)
+        self.Incremet = 1
+    

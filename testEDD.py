@@ -36,3 +36,12 @@ print(j.insert('db1','tb1',[4,'hola',2,5])) #5
 print(j.insert('db1','tb1',[3,'hola',1])) #4
 
 print(j.extractTable("db1", "tb1"))
+print(j.extractRow("db1","tb1",[1,"hola"]))
+print(j.extractRow("db1","tb1",[3,"hola"]))
+print(j.delete("db1","tb1",[1,'hola']))   #0
+print(j.extractTable("db1", "tb1"))
+print(j.update("db1","tb1",{1: 'probando update'}, ['2','hola'])) #0
+print(j.update("db1","tb1",{1: 'probando update', 0:'2'}, ['3','hola'])) #1
+print(j.extractTable("db1", "tb1"))         #[]
+print(j.loadCSV("./tb1.csv","db1","tb5"))
+print(j.extractTable("db1", "tb5"))         #[0,0,0,0,0]
