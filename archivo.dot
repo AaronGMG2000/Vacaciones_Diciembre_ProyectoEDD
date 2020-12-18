@@ -1,15 +1,22 @@
 digraph dibujo{
 graph [ordering="out"];rankdir=TB;
 node [shape = box];
-Nodo3_1D5_1D7_1 [ label = "3_1   |   5_1   |   7_1"];
-NodoH10_1D1_1D2_1 [ label = "10_1   |   1_1   |   2_1"];
-Nodo3_1D5_1D7_1->NodoH10_1D1_1D2_1;
-NodoH3_1D4_1 [ label = "3_1   |   4_1"];
-Nodo3_1D5_1D7_1->NodoH3_1D4_1;
-NodoH5_1D6_1 [ label = "5_1   |   6_1"];
-Nodo3_1D5_1D7_1->NodoH5_1D6_1;
-NodoH7_1D8_1D9_1 [ label = "7_1   |   8_1   |   9_1"];
-Nodo3_1D5_1D7_1->NodoH7_1D8_1D9_1;
-NodoH10_1D1_1D2_1->NodoH3_1D4_1->NodoH5_1D6_1->NodoH7_1D8_1D9_1;
-{rank=same;NodoH10_1D1_1D2_1;NodoH3_1D4_1;NodoH5_1D6_1;NodoH7_1D8_1D9_1}
+Nodo13_1D5_1D7_1 [ label = "13_1   |   5_1   |   7_1"];
+NodoH11_1D12_1 [ label = "11_1   |   12_1
+[11, 1, 'hola11'],[12, 1, 'hola12']"];
+Nodo13_1D5_1D7_1->NodoH11_1D12_1;
+NodoH13_1D14_1D16_1 [ label = "13_1   |   14_1   |   16_1
+[13, 1, 'hola13'],[14, 1, 'hola14'],[16, 1, 'hola16']"];
+Nodo13_1D5_1D7_1->NodoH13_1D14_1D16_1;
+NodoH3_1D4_1 [ label = "3_1   |   4_1
+[3, 1, 'hola3'],[4, 1, 'hola4']"];
+Nodo13_1D5_1D7_1->NodoH3_1D4_1;
+NodoH5_1D6_1 [ label = "5_1   |   6_1
+[5, 1, 'hola5'],[6, 1, 'hola6']"];
+Nodo13_1D5_1D7_1->NodoH5_1D6_1;
+NodoH7_1D8_1D9_1 [ label = "7_1   |   8_1   |   9_1
+[7, 1, 'hola7'],[8, 1, 'hola8'],[9, 1, 'hola9']"];
+Nodo13_1D5_1D7_1->NodoH7_1D8_1D9_1;
+NodoH11_1D12_1->NodoH13_1D14_1D16_1->NodoH3_1D4_1->NodoH5_1D6_1->NodoH7_1D8_1D9_1;
+{rank=same;NodoH11_1D12_1;NodoH13_1D14_1D16_1;NodoH3_1D4_1;NodoH5_1D6_1;NodoH7_1D8_1D9_1}
 }
