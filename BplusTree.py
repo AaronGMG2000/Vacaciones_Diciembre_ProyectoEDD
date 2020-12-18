@@ -419,10 +419,7 @@ class BPlusTree:
         if temp:
             if nombre == '':
                 nombre = "Nodo"+"D".join(str(x) for x in temp.keys)
-            if len(temp.values):
-                valor = "   |   ".join(str(x) for x in temp.keys)+"\n"+",".join(str(x) for x in temp.values.values())
-            else:
-                valor = "   |   ".join(str(x) for x in temp.keys)
+            valor = "   |   ".join(str(x) for x in temp.keys)
             f.write(nombre+' [ label = "'+valor+'"];\n')
             for c in temp.child:
                 if c:
@@ -655,4 +652,3 @@ class BPlusTree:
     def truncate(self):
         self.root = Node(None)
         self.Incremet = 1
-        
