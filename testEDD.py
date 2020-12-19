@@ -48,4 +48,5 @@ print(j.insert('db1', 'tb1', [5, 'E', 1]))  # 0
 # print(j.loadCSV("./tb1.csv","db1","tb5"))
 # print(j.extractTable("db1", "tb5"))         #[0,0,0,0,0]
 
-print(j.extractRangeTable("db1", "tb1", 1, "A", "C"))
+print(j.extractRangeTable("db1", "tb1", 0, 1, 3))
+# print(j.dropTable("db1","tb1"))
