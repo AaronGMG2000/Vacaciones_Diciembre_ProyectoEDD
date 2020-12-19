@@ -5,11 +5,12 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import filedialog
 from tkinter.filedialog import askopenfile
-import re
 import os
 
 def show_data_bases():
     data_bases = Storage.showDatabases()
+    database_tree = Storage.serializable.Read('./Data/', 'Databases')
+    database_tree.graph("Databases")
     tree_window = Toplevel(main_window)
     main_window.iconify()
     tree_window.geometry('850x430+300+100')
@@ -51,6 +52,8 @@ def show_data_bases():
 
 def show_tables(parent_window, database):
     tables = Storage.showTables(database)
+    db = Storage.serializable.Read(f"./Data/{database}/", database)
+    db.graph(database)
     parent_window.iconify()
     table_window = Toplevel(parent_window)
     parent_window.iconify()
@@ -72,9 +75,7 @@ def show_tables(parent_window, database):
     frame_tree = Frame(canvas_tree)
     canvas_tree.create_window((0, 0), width=3000, height=3000, window=frame_tree, anchor='nw')
     canvas_tree.image = PhotoImage(file=f'./Data/{database}/{database}.png')
-    #Label(frame_tree, width=2000, height=200).place(x=0, y=0)
     Label(frame_tree, image=canvas_tree.image).place(x=150, y=50)
-
     canvas_buttons = Canvas(table_window, width=120, height=380)
     canvas_buttons.place(x=25, y=15)
     scroll_buttons = Scrollbar(main_tree, orient=VERTICAL, command=canvas_buttons.yview)
@@ -86,7 +87,7 @@ def show_tables(parent_window, database):
     Button(buttons_frame, text='Regresar', font='Helvetica 8 bold italic', command=lambda: close_table_window(table_window, parent_window), bg='red', padx=15, pady=3).place(x=0, y=0)
     yview = 30
     for x in tables:
-        Button(buttons_frame, text=x, font='Helvetica 8 bold italic', fg='white', bg='black', command=lambda table = x: extract_table(database, table, table_window),padx=15, pady=5).place(x=0, y=yview)
+        Button(buttons_frame, text=x, font='Helvetica 8 bold italic', fg='white', bg='black', command=lambda table=x: extract_table(database, table, table_window),padx=15, pady=5).place(x=0, y=yview)
         yview += 35
 
 def extract_table(database, table, parent_window):
@@ -148,8 +149,8 @@ def get_keys(database, table):
     else:
         return None
 
-def table_graph(tupla, key,table, database):
-    f = open('tupla.dot', 'w', encoding='utf-8')
+def table_graph(tupla, key, table, database):
+    f = open(f'Data/{database}/{table}/tupla.dot', 'w', encoding='utf-8')
     f.write("digraph dibujo{\n")
     f.write('graph [ordering="out"];')
     f.write('rankdir=TB;\n')
@@ -163,7 +164,7 @@ def table_graph(tupla, key,table, database):
     f.write('table [label = ' + tabla + ',  fontsize="30", shape = plaintext ];\n')
     f.write('}')
     f.close()
-    Storage.os.system(f'dot -Tpng tupla.dot -o ./Data/{database}/{table}/tupla.png')
+    Storage.os.system(f'dot -Tpng Data/{database}/{table}/tupla.dot -o ./Data/{database}/{table}/tupla.png')
     info_window = Toplevel()
 
     info_window.title('Llave: ' + key)
@@ -180,10 +181,6 @@ def table_graph(tupla, key,table, database):
     tupla_canvas.create_window((0, 0), width=2000, height=300, window=photo_frame, anchor='nw')
     tupla_canvas.image = PhotoImage(file=f'./Data/{database}/{table}/tupla.png')
     Label(photo_frame,image=tupla_canvas.image).place(x=0,y=0)
-
-
-
-
 
 def close_table_window(window, parent):
     window.destroy()
@@ -489,7 +486,7 @@ def create_data_table(database,table,columns, entry1, entry2, entry3):
     entry3.delete(0, END)
 
 def isNumber(entry):
-    result =  re.search(r'[0-9]+|[\s]',entry)
+    result = Storage.re.search(r'[0-9]+|[\s]',entry)
     return result
 
 def function_show_tables(database,entry):
