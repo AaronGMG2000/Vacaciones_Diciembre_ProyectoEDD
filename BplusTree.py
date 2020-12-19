@@ -417,15 +417,15 @@ class BPlusTree:
     def _graficar(self, f, temp, nombre):
         if temp:
             if nombre == '':
-                nombre = "Nodo"+"D".join(str(x) for x in temp.keys)
-            valor = "   |   ".join(str(x) for x in temp.keys)
+                nombre = "Nodo"+"D".join(str(x).replace(" ","") for x in temp.keys)
+            valor = "   |   ".join("".join(str(x)) for x in temp.keys)
             f.write(nombre+' [ label = "'+valor+'"];\n')
             for c in temp.child:
                 if c:
                     if len(c.child)==0:
-                        nombre2 = "NodoH"+"D".join(str(x) for x in c.keys)
+                        nombre2 = "NodoH"+"D".join(str(x).replace(" ","")  for x in c.keys)
                     else:
-                        nombre2 = "Nodo"+"D".join(str(x) for x in c.keys)
+                        nombre2 = "Nodo"+"D".join(str(x).replace(" ","")  for x in c.keys)
                     f = self._graficar(f, c, nombre2)
                     f.write(nombre+'->'+ nombre2+';\n')
         return f
@@ -433,7 +433,7 @@ class BPlusTree:
     def _next(self, f, temp):
         if temp:
             if len(temp.child)==0 and temp!= self.root:
-                nombre2 = "NodoH"+"D".join(str(x) for x in temp.keys)
+                nombre2 = "NodoH"+"D".join(str(x).replace(" ","")  for x in temp.keys)
                 if temp.next:
                     f+=nombre2+'->'
                     f = self._next(f, temp.next)
@@ -447,7 +447,7 @@ class BPlusTree:
     def _rank(self, f, temp):
         if temp:
             if len(temp.child)==0 and temp!= self.root:
-                nombre2 = "NodoH"+"D".join(str(x) for x in temp.keys)
+                nombre2 = "NodoH"+"D".join(str(x).replace(" ","")  for x in temp.keys)
                 if temp.next:
                     f+=nombre2+';'
                     f = self._rank(f, temp.next)

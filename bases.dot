@@ -3,9 +3,11 @@ graph [ordering="out"];rankdir=TB;
 node [shape = box];
 NodoDATABASE2 [label = "DATABASE2"];
 NodoDATABASE1 [label = "DATABASE1"];
+NodoAARON [label = "AARON"];
 NodoDATABASE3 [label = "DATABASE3"];
-NodoJEJE [label = "JEJE"];
+NodoERICK [label = "ERICK"];
 NodoDATABASE2->NodoDATABASE1;
 NodoDATABASE2->NodoDATABASE3;
-NodoDATABASE3->NodoJEJE;
+NodoDATABASE1->NodoAARON;
+NodoDATABASE3->NodoERICK;
 }
