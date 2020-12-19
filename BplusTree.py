@@ -397,8 +397,8 @@ class BPlusTree:
             temp.parent.insert(temp.parent.child[g].keys[0], None)
         return temp
     #---------Graficar-----------------#
-    def graficar(self):
-        f= open('archivo.dot', 'w',encoding='utf-8')
+    def graficar(self, database, table):
+        f= open(f'Data/{database}/{table}/{table}.dot', 'w',encoding='utf-8')
         f.write("digraph dibujo{\n")
         f.write('graph [ordering="out"];')
         f.write('rankdir=TB;\n')
@@ -412,8 +412,7 @@ class BPlusTree:
             f.write(lista1)
         f.write('}')
         f.close()
-        os.system('dot -Tpng archivo.dot -o salida.png')
-        os.system('salida.png')
+        os.system(f'dot -Tpng Data/{database}/{table}/{table}.dot -o ./Data/{database}/{table}/{table}.png')
    
     def _graficar(self, f, temp, nombre):
         if temp:
@@ -628,8 +627,8 @@ class BPlusTree:
         if temp.child:
             for i in range(0, len(temp.keys)):
                 if key < temp.keys[i]:
-                    self._buscar(temp.child[i], key)
-                    break
+                    return self._update(temp.child[i], data,delete,key,keys)
+                    
         else:
             if key in temp.keys:
                 try:
@@ -648,6 +647,7 @@ class BPlusTree:
                     return 1
             else:
                 return 4
+        return 1
     
     def truncate(self):
         self.root = Node(None)

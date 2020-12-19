@@ -111,3 +111,4 @@ print(j.extractRow("DataBase1","Tabla",[2])) #Incorrecto, Se puede ver que se re
 print("*******************")
 print(j.extractRangeTable("DataBase1","Tabla",1, 2,3)) #imprime pk 2 y 3
 print(j.loadCSV("./tb1.csv","JeJe","tabla2"))
+j.showCollection()
