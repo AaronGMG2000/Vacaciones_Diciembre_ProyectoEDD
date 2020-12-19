@@ -376,24 +376,23 @@ def loadCSV(filepath, database, table):
     if not dataBaseTree.search(root, database.upper()):
         if createDatabase(database):
             return []
-    else:
-        tablesTree = serializable.Read(f"./Data/{database}/", database)
-        if not tablesTree.search(tablesTree.getRoot(), table.upper()):
-            col = True
-        try:
-            res = []
-            import csv
-            with open(filepath, 'r') as file:
-                reader = csv.reader(file, delimiter=',')
-                for row in reader:
-                    if col:
-                        if createTable(database, table, len(row)):
-                            return []
-                        col = False
-                    res.append(insert(database, table, row))
-            return res
-        except:
-            return []
+    tablesTree = serializable.Read(f"./Data/{database}/", database)
+    if not tablesTree.search(tablesTree.getRoot(), table.upper()):
+        col = True
+    try:
+        res = []
+        import csv
+        with open(filepath, 'r') as file:
+            reader = csv.reader(file, delimiter=',')
+            for row in reader:
+                if col:
+                    if createTable(database, table, len(row)):
+                        return []
+                    col = False
+                res.append(insert(database, table, row))
+        return res
+    except:
+        return []
 
 
 def extractRow(database, table, columns):

@@ -110,4 +110,4 @@ print(j.insert("DataBase1","Tabla",[1,6,'Guatemala','Chimaltenango','Zaragoza'])
 print(j.extractRow("DataBase1","Tabla",[2])) #Incorrecto, Se puede ver que se reorganizo
 print("*******************")
 print(j.extractRangeTable("DataBase1","Tabla",1, 2,3)) #imprime pk 2 y 3
-j.showCollection()
+print(j.loadCSV("./tb1.csv","JeJe","tabla2"))
