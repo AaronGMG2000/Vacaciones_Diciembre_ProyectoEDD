@@ -156,8 +156,8 @@ def extractRangeTable(database, table, columnNumber, lower, upper):
 
             if columnNumber < 0 or columnNumber >= len(tableList):
                 return None
-            for i in tableList:
-                try:
+            try:
+                for i in tableList:
                     if type(i[columnNumber]) == str:
                         if str(i[columnNumber]) <= str(upper) and str(i[columnNumber]) >= str(lower):
                             validList.append(i)
@@ -170,8 +170,8 @@ def extractRangeTable(database, table, columnNumber, lower, upper):
                     elif type(i[columnNumber]) == bool:
                         if bool(i[columnNumber]) <= bool(upper) and bool(i[columnNumber]) >= bool(lower):
                             validList.append(i)
-                except:
-                    return None
+            except:
+                return None
             return validList
 
         else:

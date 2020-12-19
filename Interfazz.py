@@ -395,7 +395,7 @@ def show_functions():
         column_update = Entry(row_canvas, width=15)
         column_update.place(x=395, y=240)
         tkinter.Button(row_canvas, text='Update', font='Helvetica 10 bold italic', width=10, command=lambda:
-        update(database_update.get(), table_update.get(), register_dic.get(), column_update, database_update, table_update, register_dic, column_update)).place(x=495, y=235)
+        update(database_update.get(), table_update.get(), register_dic.get(), column_update.get(), database_update, table_update, register_dic, column_update)).place(x=495, y=235)
         # ----------------- -----------
         tkinter.Label(row_canvas, text='Delete', font='Helvetica 10 bold italic', width=20).place(x=10, y=300)
         database_delete = Entry(row_canvas, width=12)

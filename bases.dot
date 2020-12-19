@@ -1,7 +1,13 @@
 digraph dibujo{
 graph [ordering="out"];rankdir=TB;
 node [shape = box];
-Nododb2 [label = "db2"];
-Nododb1 [label = "db1"];
-Nododb2->Nododb1;
+NodoDATABASE2 [label = "DATABASE2"];
+NodoDATABASE1 [label = "DATABASE1"];
+NodoAARON [label = "AARON"];
+NodoDATABASE3 [label = "DATABASE3"];
+NodoERICK [label = "ERICK"];
+NodoDATABASE2->NodoDATABASE1;
+NodoDATABASE2->NodoDATABASE3;
+NodoDATABASE1->NodoAARON;
+NodoDATABASE3->NodoERICK;
 }
