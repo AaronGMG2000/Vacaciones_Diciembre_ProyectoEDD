@@ -47,6 +47,7 @@ def showDatabases():
     checkData()
     dataBaseTree = serializable.Read('./Data/', "Databases")
     root = dataBaseTree.getRoot()
+    dataBaseTree.graph("Databases")
     dbKeys = dataBaseTree.postOrder(root)
     return [] if len(dbKeys) == 0 else dbKeys[:-1].split("-")
 
@@ -119,6 +120,7 @@ def showTables(database):
     dataBaseTree.search(dataBaseTree.getRoot(), database)
     if dataBaseTree.search(dataBaseTree.getRoot(), database):
         db = serializable.Read(f"./Data/{database}/", database)
+        db.graph(database)
         dbKeys = db.postOrder(db.getRoot())
         return [] if len(dbKeys) == 0 else dbKeys[:-1].split("-")
     else:
@@ -135,8 +137,9 @@ def extractTable(database, table):
     if databaseNode:
         tablesTree = serializable.Read(f"./Data/{database}/", database)
         if tablesTree.search(tablesTree.getRoot(), table):
-            table = serializable.Read(f'./Data/{database}/{table}/', table)
-            return list(table.lista().values())
+            table_aux = serializable.Read(f'./Data/{database}/{table}/', table)
+            table_aux.graficar(database, table)
+            return list(table_aux.lista().values())
         else:
             return None
     else:
@@ -303,6 +306,7 @@ def alterDropColumn(database: str, table: str, columnNumber: int) -> int:
                         return res
                     else:
                         serializable.update(f"./Data/{database}/{table}/", table, tuplaTree)
+                        #tuplaTree.GrafiarTupla()
                         return 0
         else:
             return 2  # database no existente
@@ -394,7 +398,7 @@ def extractRow(database, table, columns):
         if not tablesTree.search(tablesTree.getRoot(), table):
             return []  # table no existente
         PKsTree = serializable.Read(f'./Data/{database}/{table}/', table)
-        return PKsTree.search(columns)  # exito
+        return PKsTree.buscar(columns)  # exito
 
 
 def update(database, table, register, columns):
@@ -462,3 +466,10 @@ def truncate(database, table):
 # *---------------Marcos------------------*#
 # *---------------Erick-------------------*#
 # *--------------Dyllan-------------------*#
+#print(insert('Prueba', 'tablas', ['data','data2','data3','data4']))
+#print(alterDropColumn('Prueba','tablas',2))
+#print(insert('Prueba','tb1, ['data','data2','data3','data4','data5']))
+#print(alterDropColumn('Prueba','jojo',0))
+#print(insert('Nueva', 'Jaja', ['data','data2','data3']))
+#print(alterDropColumn('Nueva','Jaja', 0))
+print(truncate('Nueva', 'tabla'))
