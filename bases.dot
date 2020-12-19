@@ -1,7 +1,7 @@
 digraph dibujo{
 graph [ordering="out"];rankdir=TB;
 node [shape = box];
-Nodob2 [label = "b2"];
-Nodob1 [label = "b1"];
-Nodob2->Nodob1;
+Nododb2 [label = "db2"];
+Nododb1 [label = "db1"];
+Nododb2->Nododb1;
 }
