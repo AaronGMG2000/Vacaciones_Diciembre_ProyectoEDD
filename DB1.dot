@@ -1,0 +1,7 @@
+digraph dibujo{
+graph [ordering="out"];rankdir=TB;
+node [shape = box];
+NodoTABLA1 [label = "TABLA1"];
+NodoDB1 [label = "DB1"];
+NodoTABLA1->NodoDB1;
+}

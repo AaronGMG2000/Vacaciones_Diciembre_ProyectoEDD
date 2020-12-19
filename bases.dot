@@ -1,6 +1,7 @@
 digraph dibujo{
 graph [ordering="out"];rankdir=TB;
 node [shape = box];
+<<<<<<< Updated upstream
 NodoDATABASE2 [label = "DATABASE2"];
 NodoDATABASE1 [label = "DATABASE1"];
 NodoAARON [label = "AARON"];
@@ -10,4 +11,9 @@ NodoDATABASE2->NodoDATABASE1;
 NodoDATABASE2->NodoDATABASE3;
 NodoDATABASE1->NodoAARON;
 NodoDATABASE3->NodoERICK;
+=======
+NodoDB1 [label = "DB1"];
+NodoDB3 [label = "DB3"];
+NodoDB1->NodoDB3;
+>>>>>>> Stashed changes
 }
