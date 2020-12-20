@@ -1,7 +1,19 @@
 digraph dibujo{
 graph [ordering="out"];rankdir=TB;
 node [shape = box];
-NodoTABLA3 [label = "TABLA3"];
+NodoRADIO [label = "RADIO"];
+NodoNO [label = "NO"];
+NodoNUEVO [label = "NUEVO"];
 NodoTABLA [label = "TABLA"];
-NodoTABLA3->NodoTABLA;
+NodoRUDY [label = "RUDY"];
+NodoREUDY [label = "REUDY"];
+NodoSD [label = "SD"];
+NodoTABLA3 [label = "TABLA3"];
+NodoRADIO->NodoNO;
+NodoRADIO->NodoTABLA;
+NodoNO->NodoNUEVO;
+NodoTABLA->NodoRUDY;
+NodoTABLA->NodoTABLA3;
+NodoRUDY->NodoREUDY;
+NodoRUDY->NodoSD;
 }
