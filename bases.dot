@@ -1,8 +1,12 @@
 digraph dibujo{
 graph [ordering="out"];rankdir=TB;
 node [shape = box];
+<<<<<<< HEAD
 NodoJO [label = "JO"];
 NodoGATOS [label = "GATOS"];
+=======
+<<<<<<< Updated upstream
+>>>>>>> main
 NodoDATABASE2 [label = "DATABASE2"];
 NodoDATABASE1 [label = "DATABASE1"];
 NodoDATABASE3 [label = "DATABASE3"];
@@ -26,6 +30,7 @@ NodoGATOS->NodoDATABASE2;
 NodoGATOS->NodoJAJO;
 NodoDATABASE2->NodoDATABASE1;
 NodoDATABASE2->NodoDATABASE3;
+<<<<<<< HEAD
 NodoDATABASE3->NodoDYLLAN;
 NodoJAJO->NodoJASD;
 NodoPRUEBAA->NodoMARCOS;
@@ -38,4 +43,13 @@ NodoSIMON->NodoRUDY;
 NodoSIMON->NodoSTORAGE;
 NodoRUDY->NodoRUDYYYY;
 NodoSTORAGE->NodoSISALE;
+=======
+NodoDATABASE1->NodoAARON;
+NodoDATABASE3->NodoERICK;
+=======
+NodoDB1 [label = "DB1"];
+NodoDB3 [label = "DB3"];
+NodoDB1->NodoDB3;
+>>>>>>> Stashed changes
+>>>>>>> main
 }
