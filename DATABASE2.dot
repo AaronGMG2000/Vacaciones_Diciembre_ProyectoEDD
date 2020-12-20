@@ -1,9 +1,0 @@
-digraph dibujo{
-graph [ordering="out"];rankdir=TB;
-node [shape = box];
-NodoTABLA5 [label = "TABLA5"];
-NodoTABLA4 [label = "TABLA4"];
-NodoTABLA6 [label = "TABLA6"];
-NodoTABLA5->NodoTABLA4;
-NodoTABLA5->NodoTABLA6;
-}

@@ -728,15 +728,8 @@ def extract_row_window(database, table):
 
 def extract_row(database, table, columns, entry1):
     if database and table and columns:
-        pk = []
         separate = columns.split(',')
-        for x in separate:
-            if not isNumber(x):
-                messagebox.showinfo(title='Extract Row', message='No ingreso algun numero de columna')
-                entry1.delete(0, END)
-                return
-            pk.append(int(x))
-        result = Storage.extractRow(database, table, pk)
+        result = Storage.extractRow(database, table, separate)
         messagebox.showinfo(title='Extract Row', message='Resultado: '+str(result))
     else:
         messagebox.showinfo(title='Extract Row', message='No se llenaron los campos de texto')
@@ -758,7 +751,6 @@ def update_window(grandParent, parent, database, table):
 
 def update(grandParent, parent, window, database, table, register, columns, entry1, entry2):
     if database and table and register and columns:
-        pk = []
         dictionary = {}
         separate_register = register.split(',')
         separate = columns.split(',')
@@ -770,13 +762,7 @@ def update(grandParent, parent, window, database, table, register, columns, entr
                 return
             key = int(data[0])
             dictionary[key] = data[1]
-        for x in separate:
-            if not isNumber(x):
-                messagebox.showinfo(title='Extract Row', message='No ingreso algun numero de columna')
-                entry2.delete(0, END)
-                return
-            pk.append(int(x))
-        result = Storage.update(database, table, dictionary, pk)
+        result = Storage.update(database, table, dictionary, separate)
         if result == 0:
             messagebox.showinfo(title='Update', message='Operacion exitosa')
             window.destroy()
@@ -815,15 +801,8 @@ def delete_window(grandParent, parent, database, table):
 
 def delete(grandParent, parent, window, database, table, columns, entry1):
     if database and table and columns:
-        pk = []
         separate = columns.split(',')
-        for x in separate:
-            if not isNumber(x):
-                messagebox.showinfo(title='Extract Row', message='No ingreso algun numero de columna')
-                entry3.delete(0, END)
-                return
-            pk.append(int(x))
-        result = Storage.delete(database, table, pk)
+        result = Storage.delete(database, table, separate)
         if result == 0:
             messagebox.showinfo(title='Update', message='Operacion exitosa')
             window.destroy()

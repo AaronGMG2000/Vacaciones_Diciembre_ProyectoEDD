@@ -1,55 +1,13 @@
 digraph dibujo{
 graph [ordering="out"];rankdir=TB;
 node [shape = box];
-<<<<<<< HEAD
-NodoJO [label = "JO"];
-NodoGATOS [label = "GATOS"];
-=======
-<<<<<<< Updated upstream
->>>>>>> main
 NodoDATABASE2 [label = "DATABASE2"];
 NodoDATABASE1 [label = "DATABASE1"];
+NodoDATABASE4 [label = "DATABASE4"];
 NodoDATABASE3 [label = "DATABASE3"];
-NodoDYLLAN [label = "DYLLAN"];
-NodoJAJO [label = "JAJO"];
-NodoJASD [label = "JASD"];
-NodoPRUEBAA [label = "PRUEBAA"];
-NodoMARCOS [label = "MARCOS"];
-NodoJOSE [label = "JOSE"];
-NodoJOJO [label = "JOJO"];
-NodoNOEXISTE [label = "NOEXISTE"];
-NodoMARIO [label = "MARIO"];
-NodoSIMON [label = "SIMON"];
-NodoRUDY [label = "RUDY"];
-NodoRUDYYYY [label = "RUDYYYY"];
-NodoSTORAGE [label = "STORAGE"];
-NodoSISALE [label = "SISALE"];
-NodoJO->NodoGATOS;
-NodoJO->NodoPRUEBAA;
-NodoGATOS->NodoDATABASE2;
-NodoGATOS->NodoJAJO;
+NodoDATABASE5 [label = "DATABASE5"];
 NodoDATABASE2->NodoDATABASE1;
-NodoDATABASE2->NodoDATABASE3;
-<<<<<<< HEAD
-NodoDATABASE3->NodoDYLLAN;
-NodoJAJO->NodoJASD;
-NodoPRUEBAA->NodoMARCOS;
-NodoPRUEBAA->NodoSIMON;
-NodoMARCOS->NodoJOSE;
-NodoMARCOS->NodoNOEXISTE;
-NodoJOSE->NodoJOJO;
-NodoNOEXISTE->NodoMARIO;
-NodoSIMON->NodoRUDY;
-NodoSIMON->NodoSTORAGE;
-NodoRUDY->NodoRUDYYYY;
-NodoSTORAGE->NodoSISALE;
-=======
-NodoDATABASE1->NodoAARON;
-NodoDATABASE3->NodoERICK;
-=======
-NodoDB1 [label = "DB1"];
-NodoDB3 [label = "DB3"];
-NodoDB1->NodoDB3;
->>>>>>> Stashed changes
->>>>>>> main
+NodoDATABASE2->NodoDATABASE4;
+NodoDATABASE4->NodoDATABASE3;
+NodoDATABASE4->NodoDATABASE5;
 }
