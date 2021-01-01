@@ -1,4 +1,0 @@
-digraph dibujo{
-graph [ordering="out"];rankdir=TB;
-node [shape = box];
-}

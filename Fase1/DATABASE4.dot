@@ -1,0 +1,13 @@
+digraph dibujo{
+graph [ordering="out"];rankdir=TB;
+node [shape = box];
+NodoTABLA2 [label = "TABLA2"];
+NodoTABLA1 [label = "TABLA1"];
+NodoTABLA4 [label = "TABLA4"];
+NodoTABLA3 [label = "TABLA3"];
+NodoTABLA6 [label = "TABLA6"];
+NodoTABLA2->NodoTABLA1;
+NodoTABLA2->NodoTABLA4;
+NodoTABLA4->NodoTABLA3;
+NodoTABLA4->NodoTABLA6;
+}
