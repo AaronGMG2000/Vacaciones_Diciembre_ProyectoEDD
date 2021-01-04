@@ -779,6 +779,10 @@ def insert(database: str, table: str, register: list) -> int:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
+                for x in register:
+                    if type(x)==str:
+                        x = x.encode(db[2], "strict")
+                
                 if tab[1] == 'avl' :
                     res = avl.insert(database, table, register)
                 elif tab[1] == 'b':
@@ -803,7 +807,6 @@ def insert(database: str, table: str, register: list) -> int:
     except:
         return 1
 
-
 def loadCSV(file: str, database: str, table: str) -> list:
     checkData()
     try:
@@ -814,6 +817,18 @@ def loadCSV(file: str, database: str, table: str) -> list:
         if db:
             if tab:
                 res = 3
+                import csv
+                with open(file, 'r', encoding='utf-8-sig') as file:
+                    reader = csv.reader(file, delimiter=',')
+                    fil = open("./data/change.csv", "w", newline='', encoding='utf-8')
+                    spamreader = csv.writer(fil)
+                    for y in reader:
+                        for g in y:
+                            if type(g) == str:
+                                g = g.encode(db[2])
+                        spamreader.writerow(y)
+                    file = "./data/change.csv"
+                    fil.close()
                 if tab[1] == 'avl':
                     res = avl.loadCSV(file, database, table)
                 elif tab[1] == 'b':
@@ -829,12 +844,11 @@ def loadCSV(file: str, database: str, table: str) -> list:
                 elif tab[1] == 'hash':
                     res = hash.loadCSV(file, database, table)
                 return res
-            return 3
+            return []
         else:
-            return 2
+            return []
     except:
-        return 1
-
+        return []
 
 def extractRow(database: str, table: str, columns: list) -> list:
     checkData()
@@ -845,6 +859,7 @@ def extractRow(database: str, table: str, columns: list) -> list:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
+                
                 if tab[1] == 'avl':
                     res = avl.extractRow(database, table, columns)
                 elif tab[1] == 'b':
@@ -866,7 +881,6 @@ def extractRow(database: str, table: str, columns: list) -> list:
     except:
         return 1
 
-
 def update(database: str, table: str, register: dict, columns: list) -> int:
     checkData()
     try:
@@ -876,7 +890,10 @@ def update(database: str, table: str, register: dict, columns: list) -> int:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
-                
+                for x in list(register.values()):
+                    if type(x)==str:
+                        x = x.encode(db[2], "strict")
+                        
                 if tab[1] == 'avl':
                     row = avl.extractRow(database, table, columns)
                     res = avl.update(database, table, register, columns)
@@ -908,11 +925,9 @@ def update(database: str, table: str, register: dict, columns: list) -> int:
                 if not res:
                     if os.path.isfile('./Data/security/'+database+"_"+table+".json"):
                         row2 = row[:]
-                        llave = []
-                        for x in range(len(row2)):
-                            if x in tab[3]:
-                                llave.append(row2[x])
-                        row2 = mod.extractRow(database, table, llave)
+                        values = list(register.values())
+                        for x in list(register.keys()):
+                            row2[x] = values[x]
                         block.blockchain().CompararHash(row, row2, database, table)
                 return res
             return 3
@@ -920,7 +935,6 @@ def update(database: str, table: str, register: dict, columns: list) -> int:
             return 2
     except:
         return 1
-
 
 def delete(database: str, table: str, columns: list) -> int:
     checkData()
@@ -932,19 +946,28 @@ def delete(database: str, table: str, columns: list) -> int:
         if db:
             if tab:
                 if tab[1] == 'avl':
+                    row = avl.extractRow(database, table, columns)
                     res = avl.delete(database, table, columns)
                 elif tab[1] == 'b':
+                    row = b.extractRow(database, table, columns)
                     res = b.delete(database, table, columns)
                 elif tab[1] == 'bplus':
+                    row = bplus.extractRow(database, table, columns)
                     res = bplus.delete(database, table, columns)
                 elif tab[1] == 'dict':
+                    row = dict.extractRow(database, table, columns)
                     res = dict.delete(database, table, columns)
                 elif tab[1] == 'isam':
+                    row = isam.extractRow(database, table, columns)
                     res = isam.delete(database, table, columns)
                 elif tab[1] == 'json':
+                    row = json.extractRow(database, table, columns)
                     res = json.delete(database, table, columns)
                 elif tab[1] == 'hash':
+                    row = hash.extractRow(database, table, columns)
                     res = hash.delete(database, table, columns)
+                if not res:
+                    block.blockchain().EliminarHash(row, database, table)
                 return res
             return 3
         else:
@@ -1022,7 +1045,6 @@ def cifrarDataBase(database:str):
             return 2
     except:
         return 1
-
 
 def generateChecksum(database, tipo):
     checkData()

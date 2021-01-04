@@ -67,9 +67,13 @@
     },
     {
         "id": 7,
-        "content": {},
+        "content": {
+            "1": "Prueba6",
+            "2": "1",
+            "3": "1"
+        },
         "previous": "0ab64779b6ac4f9489a4607b95b62d2aab45a13477caa60cf9c57230a797b397",
-        "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "Estructure": "incorrecta"
+        "hash": "feb014ed2bdb6b5a36c2fa81f21e9cdd5726d508bc0274f4729fd4f890c97a95",
+        "Estructure": "correcta"
     }
 ]
