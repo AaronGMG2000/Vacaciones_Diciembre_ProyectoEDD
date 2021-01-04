@@ -11,6 +11,7 @@ from .isam import ISAMMode as isam
 from .json import jsonMode as json
 from . import Serializable as Serializable
 from . import blockchain as block
+from . import Criptografia as crypt
 import hashlib
 import shutil
 import os
@@ -255,14 +256,19 @@ def cambioTablas(modo, tablas, database, mode, db):
         tab = dataTable.get(database+"_"+x)
         tab[1] = mode
         mod.createTable(database, x, tab[2])
+
+        # for y in modo.extractTable(database, x):
+        #     mod.insert(database, x,y)
+
         file = open("./data/change.csv", "w", newline='', encoding='utf-8')
         spamreader = csv.writer(file)
         
         for y in modo.extractTable(database, x):
             spamreader.writerow(y)
-        mod.loadCSV("./data/change.csv", database, x)
-        mod.alterAddPK(database, x, tab[3])
         file.close()
+        if len(tab[3]):
+            mod.alterAddPK(database, x, tab[3])
+        mod.loadCSV("./data/change.csv", database, x)
         os.remove("./data/change.csv")
         Serializable.update('./Data', 'DataTables', dataTable)
     return 0
@@ -706,8 +712,10 @@ def alterTableMode(database: str, table: str, mode: str) -> int:
                         mod.createTable(database, table, len(y))
                     spamreader.writerow(y)
                     t=1
-                mod.loadCSV("./data/change.csv", database, table)
                 file.close()
+                if len(tab[3]):
+                    mod.alterAddPK(database, table, tab[3])
+                mod.loadCSV("./data/change.csv", database, table)
                 os.remove("./data/change.csv")
                 data[database] = db
                 tab[1] = mode
@@ -868,24 +876,44 @@ def update(database: str, table: str, register: dict, columns: list) -> int:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
-                if os.path.isfile('./Data/security/'+database+"_"+table+".json"):
-                    res = verificarSeguridad(database, table, tab, 'update', columns, register)
-                    if res:
-                        return res
+                
                 if tab[1] == 'avl':
+                    row = avl.extractRow(database, table, columns)
                     res = avl.update(database, table, register, columns)
+                    mod = avl
                 elif tab[1] == 'b':
+                    row = b.extractRow(database, table, columns)
                     res = b.update(database, table, register, columns)
+                    mod = b
                 elif tab[1] == 'bplus':
+                    row = bplus.extractRow(database, table, columns)
                     res = bplus.update(database, table, register, columns)
+                    mod = bplus
                 elif tab[1] == 'dict':
+                    row = dict.extractRow(database, table, columns)
                     res = dict.update(database, table, register, columns)
+                    mod = dict
                 elif tab[1] == 'isam':
+                    row = isam.extractRow(database, table, columns)
                     res = isam.update(database, table, register, columns)
+                    mod = isam
                 elif tab[1] == 'json':
+                    row = json.extractRow(database, table, columns)
                     res = json.update(database, table, register, columns)
+                    mod = json
                 elif tab[1] == 'hash':
+                    row = hash.extractRow(database, table, columns)
                     res = hash.update(database, table, register, columns)
+                    mod = hash
+                if not res:
+                    if os.path.isfile('./Data/security/'+database+"_"+table+".json"):
+                        row2 = row[:]
+                        llave = []
+                        for x in range(len(row2)):
+                            if x in tab[3]:
+                                llave.append(row2[x])
+                        row2 = mod.extractRow(database, table, llave)
+                        block.blockchain().CompararHash(row, row2, database, table)
                 return res
             return 3
         else:
@@ -955,54 +983,46 @@ def truncate(database: str, table: str) -> int:
     except:
         return 1
 
-def verificarSeguridad(database, table, tab, tipo, columns, register):
-    if tipo == 'update':
-        mod = None
-        if tab[1] == 'avl':
-            row = avl.extractRow(database, table, columns)
-            mod = avl
-        elif tab[1] == 'b':
-            row = b.extractRow(database, table, columns)
-            mod = b
-        elif tab[1] == 'bplus':
-            row = bplus.extractRow(database, table, columns)
-            mod = bplus
-        elif tab[1] == 'dict':
-            row = dict.extractRow(database, table, columns)
-            mod = dict
-        elif tab[1] == 'isam':
-            row = isam.extractRow(database, table, columns)
-            mod = isam
-        elif tab[1] == 'json':
-            row = json.extractRow(database, table, columns)
-            mod = json
-        elif tab[1] == 'hash':
-            row = hash.extractRow(database, table, columns)
-            mod = hash
-        if len(row):
-            row2 = row[:]
-            keys = []
-            values = list(register.values())
-            l = list(register.keys())
-            l.sort()
-            for x in l:
-                if x in tab[3]:
-                    keys.append(values[x])
-                row2[x] = values[x]
-            
-            if len(keys):
-                llave = []
-                for x in range(len(row2)):
-                    if x in tab[3]:
-                        llave.append(row2[x])
-                rowp = mod.extractRow(database, table, llave)
-                if len(rowp):
-                    return 1
-            res = block.blockchain().CompararHash(row, row2, database, table)
-            return res
-    elif tipo == 'delete':
-        pass
-    return 1
+def cifrarDataBase(database:str):
+    checkData()
+    try:
+        data = Serializable.Read('./Data/',"Data")
+        dataTable = Serializable.Read('./Data/',"DataTables")
+        db = data.get(database)
+        if db:
+            res = showTables(database)
+            encrypt_row = []
+            if len(res):
+                for  x in res:
+                    tab = dataTable.get(database+"_"+x)
+                    row = extractTable(database, x)
+                    for l in row:
+                        # if len(tab[3]):
+                        #     key = []
+                        #     for t in tab[3]:
+                        #         key.append(l[t])
+                        #     row_encrypt = crypt.encrypt_list(l, database)
+                        #     dict = {}
+                        #     for g in range(len(l)):
+                        #         dict.update({g:row_encrypt[g]})
+                        #     print(update(database, x, dict, key))
+                        # else:
+                        truncate(database, x)
+                        encrypt_row.append(crypt.encrypt_list(l,database))
+                    import csv
+                    file = open("./data/change.csv", "w", newline='', encoding='utf-8')
+                    spamreader = csv.writer(file)
+                    for y in encrypt_row:
+                        spamreader.writerow(y)
+                    file.close()
+                    loadCSV("./data/change.csv", database, x)
+                            
+            return 0
+        else:
+            return 2
+    except:
+        return 1
+
 
 def generateChecksum(database, tipo):
     checkData()

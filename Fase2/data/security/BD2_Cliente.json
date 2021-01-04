@@ -12,7 +12,8 @@
             "8": "Clare"
         },
         "previous": "0000000000000000000000000000000000000000000000000000000000000000",
-        "hash": "7b5833f8b0db4c265580c62c2947d1b04181f09f7765da7b031d1eabc7e5509e"
+        "hash": "7b5833f8b0db4c265580c62c2947d1b04181f09f7765da7b031d1eabc7e5509e",
+        "Estructure": "correcta"
     },
     {
         "id": 2,
@@ -27,7 +28,8 @@
             "8": "Mora"
         },
         "previous": "7b5833f8b0db4c265580c62c2947d1b04181f09f7765da7b031d1eabc7e5509e",
-        "hash": "35ad7176d71d029379dee91e13f190a29c1688674553a44699d6cf6c26eb5a85"
+        "hash": "35ad7176d71d029379dee91e13f190a29c1688674553a44699d6cf6c26eb5a85",
+        "Estructure": "correcta"
     },
     {
         "id": 3,
@@ -42,7 +44,8 @@
             "8": "Eindhoven"
         },
         "previous": "35ad7176d71d029379dee91e13f190a29c1688674553a44699d6cf6c26eb5a85",
-        "hash": "b0ef4a20ce377017dafdd887367bf8058935e263373b84234a80e279bd78dbd2"
+        "hash": "b0ef4a20ce377017dafdd887367bf8058935e263373b84234a80e279bd78dbd2",
+        "Estructure": "correcta"
     },
     {
         "id": 4,
@@ -57,7 +60,8 @@
             "8": "Carlton"
         },
         "previous": "b0ef4a20ce377017dafdd887367bf8058935e263373b84234a80e279bd78dbd2",
-        "hash": "3778639756cee28a8dfb86f62b8f2d5a00fc329c55a9b96ce0419e715cf8e399"
+        "hash": "3778639756cee28a8dfb86f62b8f2d5a00fc329c55a9b96ce0419e715cf8e399",
+        "Estructure": "correcta"
     },
     {
         "id": 5,
@@ -72,7 +76,8 @@
             "8": "Woking"
         },
         "previous": "3778639756cee28a8dfb86f62b8f2d5a00fc329c55a9b96ce0419e715cf8e399",
-        "hash": "b7d7296907b80e16f84e6989f98638dcdaa471e65a20c8afc40abb39c34f83c1"
+        "hash": "b7d7296907b80e16f84e6989f98638dcdaa471e65a20c8afc40abb39c34f83c1",
+        "Estructure": "correcta"
     },
     {
         "id": 6,
@@ -87,7 +92,8 @@
             "8": "Seattle"
         },
         "previous": "b7d7296907b80e16f84e6989f98638dcdaa471e65a20c8afc40abb39c34f83c1",
-        "hash": "284e883edb2fb05f7bc26fff99768d9e702db681b0e65888d04615353b16314e"
+        "hash": "284e883edb2fb05f7bc26fff99768d9e702db681b0e65888d04615353b16314e",
+        "Estructure": "correcta"
     },
     {
         "id": 7,
@@ -102,7 +108,8 @@
             "8": "Giurdignano"
         },
         "previous": "284e883edb2fb05f7bc26fff99768d9e702db681b0e65888d04615353b16314e",
-        "hash": "ae4994e8959b3e3f95afa2be6c7549000a0daf90db87456260430e89aa90b8e9"
+        "hash": "ae4994e8959b3e3f95afa2be6c7549000a0daf90db87456260430e89aa90b8e9",
+        "Estructure": "correcta"
     },
     {
         "id": 8,
@@ -117,7 +124,8 @@
             "8": "Bridge of Allan"
         },
         "previous": "ae4994e8959b3e3f95afa2be6c7549000a0daf90db87456260430e89aa90b8e9",
-        "hash": "db2cb56cc73df3caa052631f3bb971b2732e2fd7a0001bcbe4b4f378bad50561"
+        "hash": "db2cb56cc73df3caa052631f3bb971b2732e2fd7a0001bcbe4b4f378bad50561",
+        "Estructure": "correcta"
     },
     {
         "id": 9,
@@ -132,7 +140,8 @@
             "8": "Santiago"
         },
         "previous": "db2cb56cc73df3caa052631f3bb971b2732e2fd7a0001bcbe4b4f378bad50561",
-        "hash": "b304f55d0942f82c5eb9835634dd27ec6b004fa28d1adb6a8cfa30e5131ba1b4"
+        "hash": "b304f55d0942f82c5eb9835634dd27ec6b004fa28d1adb6a8cfa30e5131ba1b4",
+        "Estructure": "correcta"
     },
     {
         "id": 10,
@@ -147,7 +156,8 @@
             "8": "Dannevirke"
         },
         "previous": "b304f55d0942f82c5eb9835634dd27ec6b004fa28d1adb6a8cfa30e5131ba1b4",
-        "hash": "1f43c8a45d2f3061e4aafc3fec1f0b8f500c0901b006d1d61dde389be4d66a60"
+        "hash": "1f43c8a45d2f3061e4aafc3fec1f0b8f500c0901b006d1d61dde389be4d66a60",
+        "Estructure": "correcta"
     },
     {
         "id": 11,
@@ -162,7 +172,8 @@
             "8": "Amroha"
         },
         "previous": "1f43c8a45d2f3061e4aafc3fec1f0b8f500c0901b006d1d61dde389be4d66a60",
-        "hash": "ee2fb271746993eeb2ac0c428fa9a3af0c5de4864bda2aa4bc787adaaeea29f2"
+        "hash": "ee2fb271746993eeb2ac0c428fa9a3af0c5de4864bda2aa4bc787adaaeea29f2",
+        "Estructure": "correcta"
     },
     {
         "id": 12,
@@ -177,7 +188,8 @@
             "8": "Kitchener"
         },
         "previous": "ee2fb271746993eeb2ac0c428fa9a3af0c5de4864bda2aa4bc787adaaeea29f2",
-        "hash": "a274cc1851e34c527744b06f2741533ff7b5274602be2daaa1e748b0a22da5ad"
+        "hash": "a274cc1851e34c527744b06f2741533ff7b5274602be2daaa1e748b0a22da5ad",
+        "Estructure": "correcta"
     },
     {
         "id": 13,
@@ -192,7 +204,8 @@
             "8": "Creil"
         },
         "previous": "a274cc1851e34c527744b06f2741533ff7b5274602be2daaa1e748b0a22da5ad",
-        "hash": "372fa7b8084ac85fe7c8458764919e2a8a8d179e4ff023395896c8d7639a171c"
+        "hash": "372fa7b8084ac85fe7c8458764919e2a8a8d179e4ff023395896c8d7639a171c",
+        "Estructure": "correcta"
     },
     {
         "id": 14,
@@ -207,7 +220,8 @@
             "8": "Fogliano Redipuglia"
         },
         "previous": "372fa7b8084ac85fe7c8458764919e2a8a8d179e4ff023395896c8d7639a171c",
-        "hash": "3c9d73804eb37863ebe7f16346bdb73e0563f71787d85e5101600a6ecb33242b"
+        "hash": "3c9d73804eb37863ebe7f16346bdb73e0563f71787d85e5101600a6ecb33242b",
+        "Estructure": "correcta"
     },
     {
         "id": 15,
@@ -222,7 +236,8 @@
             "8": "Itegem"
         },
         "previous": "3c9d73804eb37863ebe7f16346bdb73e0563f71787d85e5101600a6ecb33242b",
-        "hash": "4c0a7593adddc9cafb0e41a23b61d5f237dc1d9ad48a3b33d743afb646fcbf27"
+        "hash": "4c0a7593adddc9cafb0e41a23b61d5f237dc1d9ad48a3b33d743afb646fcbf27",
+        "Estructure": "correcta"
     },
     {
         "id": 16,
@@ -237,7 +252,8 @@
             "8": "Ak\u00c3\u2026\u00c5\u00b8ehir"
         },
         "previous": "4c0a7593adddc9cafb0e41a23b61d5f237dc1d9ad48a3b33d743afb646fcbf27",
-        "hash": "122abebe548a4836fb1432b2bf72578d767af9857d6a791caa87642dd5044f02"
+        "hash": "122abebe548a4836fb1432b2bf72578d767af9857d6a791caa87642dd5044f02",
+        "Estructure": "correcta"
     },
     {
         "id": 17,
@@ -252,7 +268,8 @@
             "8": "Cefal\u00c3\u0192\u00c2\u00a0 Diana"
         },
         "previous": "122abebe548a4836fb1432b2bf72578d767af9857d6a791caa87642dd5044f02",
-        "hash": "7fd0af2d8c76f5119639c3ed31f3f6496e4e791cfdbd0e380b75f3c6f181a3b7"
+        "hash": "7fd0af2d8c76f5119639c3ed31f3f6496e4e791cfdbd0e380b75f3c6f181a3b7",
+        "Estructure": "correcta"
     },
     {
         "id": 18,
@@ -267,7 +284,8 @@
             "8": "Sant'Angelo Limosano"
         },
         "previous": "7fd0af2d8c76f5119639c3ed31f3f6496e4e791cfdbd0e380b75f3c6f181a3b7",
-        "hash": "2c7024201f990859b0dda7e0b85d437e1228fffa3b0eaa8ebd952a3fe3e316b2"
+        "hash": "2c7024201f990859b0dda7e0b85d437e1228fffa3b0eaa8ebd952a3fe3e316b2",
+        "Estructure": "correcta"
     },
     {
         "id": 19,
@@ -282,7 +300,8 @@
             "8": "Manchester"
         },
         "previous": "2c7024201f990859b0dda7e0b85d437e1228fffa3b0eaa8ebd952a3fe3e316b2",
-        "hash": "96203441a26c655f65aa177b5dd738b7b04522f51c625c55b599bafdacb44e1e"
+        "hash": "96203441a26c655f65aa177b5dd738b7b04522f51c625c55b599bafdacb44e1e",
+        "Estructure": "correcta"
     },
     {
         "id": 20,
@@ -297,7 +316,8 @@
             "8": "Cambridge"
         },
         "previous": "96203441a26c655f65aa177b5dd738b7b04522f51c625c55b599bafdacb44e1e",
-        "hash": "ac6811acfb1ce5117e4ba4b97976aef43edefa86e223d02b891647535d1961ba"
+        "hash": "ac6811acfb1ce5117e4ba4b97976aef43edefa86e223d02b891647535d1961ba",
+        "Estructure": "correcta"
     },
     {
         "id": 21,
@@ -312,7 +332,8 @@
             "8": "Oudenaken"
         },
         "previous": "ac6811acfb1ce5117e4ba4b97976aef43edefa86e223d02b891647535d1961ba",
-        "hash": "9d0be47ced42ef82353bc5b7875a6f44ef7c32ae09b4b11819f9b4d41fad0a08"
+        "hash": "9d0be47ced42ef82353bc5b7875a6f44ef7c32ae09b4b11819f9b4d41fad0a08",
+        "Estructure": "correcta"
     },
     {
         "id": 22,
@@ -327,7 +348,8 @@
             "8": "San Carlos"
         },
         "previous": "9d0be47ced42ef82353bc5b7875a6f44ef7c32ae09b4b11819f9b4d41fad0a08",
-        "hash": "2ea1eeaf1c984222c5e2cfef4cfb1a21d2c96e0a7cafda473e1a3b8c41e7e9a0"
+        "hash": "2ea1eeaf1c984222c5e2cfef4cfb1a21d2c96e0a7cafda473e1a3b8c41e7e9a0",
+        "Estructure": "correcta"
     },
     {
         "id": 23,
@@ -342,7 +364,8 @@
             "8": "Wabamun"
         },
         "previous": "2ea1eeaf1c984222c5e2cfef4cfb1a21d2c96e0a7cafda473e1a3b8c41e7e9a0",
-        "hash": "e8c2fb4873ec97f081c7a73bcbc9a597b2f4bc54da71e1f0aeb92a4344664620"
+        "hash": "e8c2fb4873ec97f081c7a73bcbc9a597b2f4bc54da71e1f0aeb92a4344664620",
+        "Estructure": "correcta"
     },
     {
         "id": 24,
@@ -357,7 +380,8 @@
             "8": "Kington"
         },
         "previous": "e8c2fb4873ec97f081c7a73bcbc9a597b2f4bc54da71e1f0aeb92a4344664620",
-        "hash": "257eedf5cb8d79ec29b6a5676f213952862900274f9f86ff1bfa7d12e0fcf94d"
+        "hash": "257eedf5cb8d79ec29b6a5676f213952862900274f9f86ff1bfa7d12e0fcf94d",
+        "Estructure": "correcta"
     },
     {
         "id": 25,
@@ -372,7 +396,8 @@
             "8": "Rigolet"
         },
         "previous": "257eedf5cb8d79ec29b6a5676f213952862900274f9f86ff1bfa7d12e0fcf94d",
-        "hash": "232619165977292cfafadfc09359287b3f94ba42e3aec048483bc00fa5b29720"
+        "hash": "232619165977292cfafadfc09359287b3f94ba42e3aec048483bc00fa5b29720",
+        "Estructure": "correcta"
     },
     {
         "id": 26,
@@ -387,7 +412,8 @@
             "8": "Gonnosn\u00c3\u0192\u00c2\u00b2"
         },
         "previous": "232619165977292cfafadfc09359287b3f94ba42e3aec048483bc00fa5b29720",
-        "hash": "6ff7e65535da52cc4f426a3ee3ec1e8ec9335907d2aa9d00fc58c2025969a177"
+        "hash": "6ff7e65535da52cc4f426a3ee3ec1e8ec9335907d2aa9d00fc58c2025969a177",
+        "Estructure": "correcta"
     },
     {
         "id": 27,
@@ -402,7 +428,8 @@
             "8": "Bienne-lez-Happart"
         },
         "previous": "6ff7e65535da52cc4f426a3ee3ec1e8ec9335907d2aa9d00fc58c2025969a177",
-        "hash": "c382d2d469d5d304c1b18344dd20ddd86235aff407dbc63c02fac5450073b7d4"
+        "hash": "c382d2d469d5d304c1b18344dd20ddd86235aff407dbc63c02fac5450073b7d4",
+        "Estructure": "correcta"
     },
     {
         "id": 28,
@@ -417,7 +444,8 @@
             "8": "Milmort"
         },
         "previous": "c382d2d469d5d304c1b18344dd20ddd86235aff407dbc63c02fac5450073b7d4",
-        "hash": "abc2d1c915df88534b81036eac94bd4fd3aca492bd8bf576ce8be391dc0016b1"
+        "hash": "abc2d1c915df88534b81036eac94bd4fd3aca492bd8bf576ce8be391dc0016b1",
+        "Estructure": "correcta"
     },
     {
         "id": 29,
@@ -432,7 +460,8 @@
             "8": "Kelso"
         },
         "previous": "abc2d1c915df88534b81036eac94bd4fd3aca492bd8bf576ce8be391dc0016b1",
-        "hash": "f11e3660c4beda5936097c306eace72a15549aca01a133f6890f47c7fbebfc67"
+        "hash": "f11e3660c4beda5936097c306eace72a15549aca01a133f6890f47c7fbebfc67",
+        "Estructure": "correcta"
     },
     {
         "id": 30,
@@ -447,7 +476,8 @@
             "8": "Itanagar"
         },
         "previous": "f11e3660c4beda5936097c306eace72a15549aca01a133f6890f47c7fbebfc67",
-        "hash": "71d24ef516ee54c140bf328db0a3b65c469c7f0cc575367c145520e153b7ec05"
+        "hash": "71d24ef516ee54c140bf328db0a3b65c469c7f0cc575367c145520e153b7ec05",
+        "Estructure": "correcta"
     },
     {
         "id": 31,
@@ -462,7 +492,8 @@
             "8": "Bolzano Vicentino"
         },
         "previous": "71d24ef516ee54c140bf328db0a3b65c469c7f0cc575367c145520e153b7ec05",
-        "hash": "db3a55ede1db9421fc0a119c53f6cb160180d5f8fdc6087e7b1832b8af07f9dd"
+        "hash": "db3a55ede1db9421fc0a119c53f6cb160180d5f8fdc6087e7b1832b8af07f9dd",
+        "Estructure": "correcta"
     },
     {
         "id": 32,
@@ -477,7 +508,8 @@
             "8": "Pabianice"
         },
         "previous": "db3a55ede1db9421fc0a119c53f6cb160180d5f8fdc6087e7b1832b8af07f9dd",
-        "hash": "ebed9671f016ccbd2e163f800791b800498a099594e4712c37fa77e1594a2348"
+        "hash": "ebed9671f016ccbd2e163f800791b800498a099594e4712c37fa77e1594a2348",
+        "Estructure": "correcta"
     },
     {
         "id": 33,
@@ -492,7 +524,8 @@
             "8": "Saratov"
         },
         "previous": "ebed9671f016ccbd2e163f800791b800498a099594e4712c37fa77e1594a2348",
-        "hash": "ac342dd393851ff008ff04cde3431fcffe7c14ac7a755de7d7ffb63f1b4ebfaa"
+        "hash": "ac342dd393851ff008ff04cde3431fcffe7c14ac7a755de7d7ffb63f1b4ebfaa",
+        "Estructure": "correcta"
     },
     {
         "id": 34,
@@ -507,7 +540,8 @@
             "8": "Stary Oskol"
         },
         "previous": "ac342dd393851ff008ff04cde3431fcffe7c14ac7a755de7d7ffb63f1b4ebfaa",
-        "hash": "4e684028677c477ed81117198fb901b151989365f83bc91cd257062bc2512441"
+        "hash": "4e684028677c477ed81117198fb901b151989365f83bc91cd257062bc2512441",
+        "Estructure": "correcta"
     },
     {
         "id": 35,
@@ -522,7 +556,8 @@
             "8": "Sombreffe"
         },
         "previous": "4e684028677c477ed81117198fb901b151989365f83bc91cd257062bc2512441",
-        "hash": "edbd494aaca6055afc28d3b05482861f8eea417f2e136a6be1e59abd252d85a9"
+        "hash": "edbd494aaca6055afc28d3b05482861f8eea417f2e136a6be1e59abd252d85a9",
+        "Estructure": "correcta"
     },
     {
         "id": 36,
@@ -537,7 +572,8 @@
             "8": "Saint-Pierre"
         },
         "previous": "edbd494aaca6055afc28d3b05482861f8eea417f2e136a6be1e59abd252d85a9",
-        "hash": "a01dcd9cfcfd6c38c1572f7c0df4c6f7b44a6b35e4334503397a73c94586e59b"
+        "hash": "a01dcd9cfcfd6c38c1572f7c0df4c6f7b44a6b35e4334503397a73c94586e59b",
+        "Estructure": "correcta"
     },
     {
         "id": 37,
@@ -552,7 +588,8 @@
             "8": "Arica"
         },
         "previous": "a01dcd9cfcfd6c38c1572f7c0df4c6f7b44a6b35e4334503397a73c94586e59b",
-        "hash": "b79dc9e8f8c06bf58ce6c71dad18eec83e569a8d0da5592b97d2ed5744ddfc64"
+        "hash": "b79dc9e8f8c06bf58ce6c71dad18eec83e569a8d0da5592b97d2ed5744ddfc64",
+        "Estructure": "correcta"
     },
     {
         "id": 38,
@@ -567,7 +604,8 @@
             "8": "Armidale"
         },
         "previous": "b79dc9e8f8c06bf58ce6c71dad18eec83e569a8d0da5592b97d2ed5744ddfc64",
-        "hash": "06818294845b49f80adfde87a32b16344eefbf96e9053e057010ee1f42b9aba5"
+        "hash": "06818294845b49f80adfde87a32b16344eefbf96e9053e057010ee1f42b9aba5",
+        "Estructure": "correcta"
     },
     {
         "id": 39,
@@ -582,7 +620,8 @@
             "8": "Kerkrade"
         },
         "previous": "06818294845b49f80adfde87a32b16344eefbf96e9053e057010ee1f42b9aba5",
-        "hash": "58b2190e816e7b5f121539a4a8c91d384137f4fd756b78b2379cb984be89d145"
+        "hash": "58b2190e816e7b5f121539a4a8c91d384137f4fd756b78b2379cb984be89d145",
+        "Estructure": "correcta"
     },
     {
         "id": 40,
@@ -597,7 +636,8 @@
             "8": "Sint-Denijs-Westrem"
         },
         "previous": "58b2190e816e7b5f121539a4a8c91d384137f4fd756b78b2379cb984be89d145",
-        "hash": "c9ec71394aafbff4c81db02376602901aa9c661f3a80f6c5b3b4fb04815f02d5"
+        "hash": "c9ec71394aafbff4c81db02376602901aa9c661f3a80f6c5b3b4fb04815f02d5",
+        "Estructure": "correcta"
     },
     {
         "id": 41,
@@ -612,7 +652,8 @@
             "8": "Frankston"
         },
         "previous": "c9ec71394aafbff4c81db02376602901aa9c661f3a80f6c5b3b4fb04815f02d5",
-        "hash": "18af7db5072bd24462f3f356697c9a33778dda74fa1bf81f5542e42c42674bd6"
+        "hash": "18af7db5072bd24462f3f356697c9a33778dda74fa1bf81f5542e42c42674bd6",
+        "Estructure": "correcta"
     },
     {
         "id": 42,
@@ -627,7 +668,8 @@
             "8": "Augusta"
         },
         "previous": "18af7db5072bd24462f3f356697c9a33778dda74fa1bf81f5542e42c42674bd6",
-        "hash": "0576e77ed308f736cfe79e28ff41dc7dcbbdbbe78f5a62d1f5dce5b4f4864f92"
+        "hash": "0576e77ed308f736cfe79e28ff41dc7dcbbdbbe78f5a62d1f5dce5b4f4864f92",
+        "Estructure": "correcta"
     },
     {
         "id": 43,
@@ -642,7 +684,8 @@
             "8": "Crowsnest Pass"
         },
         "previous": "0576e77ed308f736cfe79e28ff41dc7dcbbdbbe78f5a62d1f5dce5b4f4864f92",
-        "hash": "0c179fda9f8eaedc901bf3782d1bd2489298b3b87c83d89e23871bc45423c6a4"
+        "hash": "0c179fda9f8eaedc901bf3782d1bd2489298b3b87c83d89e23871bc45423c6a4",
+        "Estructure": "correcta"
     },
     {
         "id": 44,
@@ -657,7 +700,8 @@
             "8": "Rekem"
         },
         "previous": "0c179fda9f8eaedc901bf3782d1bd2489298b3b87c83d89e23871bc45423c6a4",
-        "hash": "8d829828c01b7a5884385c1a9350f66930581067eedb84cc2dcf0c66b8e30ad2"
+        "hash": "8d829828c01b7a5884385c1a9350f66930581067eedb84cc2dcf0c66b8e30ad2",
+        "Estructure": "correcta"
     },
     {
         "id": 45,
@@ -672,7 +716,8 @@
             "8": "Jemappes"
         },
         "previous": "8d829828c01b7a5884385c1a9350f66930581067eedb84cc2dcf0c66b8e30ad2",
-        "hash": "ddc24900d205e7763eca33a9f27d47bdfd976b6f979ccf09c4a73206c35a5c8f"
+        "hash": "ddc24900d205e7763eca33a9f27d47bdfd976b6f979ccf09c4a73206c35a5c8f",
+        "Estructure": "correcta"
     },
     {
         "id": 46,
@@ -687,7 +732,8 @@
             "8": "Terzorio"
         },
         "previous": "ddc24900d205e7763eca33a9f27d47bdfd976b6f979ccf09c4a73206c35a5c8f",
-        "hash": "0b6a13e4bb5177e7cc8e61a5b6e9f61a37c7f17aba13b553865f64af64fe39c4"
+        "hash": "0b6a13e4bb5177e7cc8e61a5b6e9f61a37c7f17aba13b553865f64af64fe39c4",
+        "Estructure": "correcta"
     },
     {
         "id": 47,
@@ -702,7 +748,8 @@
             "8": "Manizales"
         },
         "previous": "0b6a13e4bb5177e7cc8e61a5b6e9f61a37c7f17aba13b553865f64af64fe39c4",
-        "hash": "2bb2b174c482ec0e2878eefa3ede85477f6d7ee78e20fa95607a5d1ae916dd2f"
+        "hash": "2bb2b174c482ec0e2878eefa3ede85477f6d7ee78e20fa95607a5d1ae916dd2f",
+        "Estructure": "correcta"
     },
     {
         "id": 48,
@@ -717,7 +764,8 @@
             "8": "Af\u00c3\u2026\u00c5\u00b8in"
         },
         "previous": "2bb2b174c482ec0e2878eefa3ede85477f6d7ee78e20fa95607a5d1ae916dd2f",
-        "hash": "6af1a4f950d0f91eb38a8f1bc455e78d116ce488a83935a52aa311c293166c66"
+        "hash": "6af1a4f950d0f91eb38a8f1bc455e78d116ce488a83935a52aa311c293166c66",
+        "Estructure": "correcta"
     },
     {
         "id": 49,
@@ -732,7 +780,8 @@
             "8": "Issime"
         },
         "previous": "6af1a4f950d0f91eb38a8f1bc455e78d116ce488a83935a52aa311c293166c66",
-        "hash": "419cdc15939d0c48b023ca113b1ff9e472f8d6998eb7170cb7e2924bafc34549"
+        "hash": "419cdc15939d0c48b023ca113b1ff9e472f8d6998eb7170cb7e2924bafc34549",
+        "Estructure": "correcta"
     },
     {
         "id": 50,
@@ -747,7 +796,8 @@
             "8": "Montoggio"
         },
         "previous": "419cdc15939d0c48b023ca113b1ff9e472f8d6998eb7170cb7e2924bafc34549",
-        "hash": "2b33f6621f61d5c377ef6b1a80b01a74f1836147ba1ea3b1b0c1fa4bf4898f36"
+        "hash": "2b33f6621f61d5c377ef6b1a80b01a74f1836147ba1ea3b1b0c1fa4bf4898f36",
+        "Estructure": "correcta"
     },
     {
         "id": 51,
@@ -762,7 +812,8 @@
             "8": "Qutubullapur"
         },
         "previous": "2b33f6621f61d5c377ef6b1a80b01a74f1836147ba1ea3b1b0c1fa4bf4898f36",
-        "hash": "861baadde2db51eaa7c583656baceb9533d083a7dd61da1ea8a110180775e81a"
+        "hash": "861baadde2db51eaa7c583656baceb9533d083a7dd61da1ea8a110180775e81a",
+        "Estructure": "correcta"
     },
     {
         "id": 52,
@@ -777,7 +828,8 @@
             "8": "Castellana Sicula"
         },
         "previous": "861baadde2db51eaa7c583656baceb9533d083a7dd61da1ea8a110180775e81a",
-        "hash": "8c7d7a6692685eb7fef9c094c7203f6f23bd88f793100868b721ddd92cefe258"
+        "hash": "8c7d7a6692685eb7fef9c094c7203f6f23bd88f793100868b721ddd92cefe258",
+        "Estructure": "correcta"
     },
     {
         "id": 53,
@@ -792,7 +844,8 @@
             "8": "Burgos"
         },
         "previous": "8c7d7a6692685eb7fef9c094c7203f6f23bd88f793100868b721ddd92cefe258",
-        "hash": "a8a03abd319abe0b3eacdd20c476a2fefb478a9ffb1bbe1805954d3c508bdc93"
+        "hash": "a8a03abd319abe0b3eacdd20c476a2fefb478a9ffb1bbe1805954d3c508bdc93",
+        "Estructure": "correcta"
     },
     {
         "id": 54,
@@ -807,7 +860,8 @@
             "8": "Baltimore"
         },
         "previous": "a8a03abd319abe0b3eacdd20c476a2fefb478a9ffb1bbe1805954d3c508bdc93",
-        "hash": "b74fc8f745416f80fabbecf0a96a5a88d602410ba1ff8f0609e84da942d79084"
+        "hash": "b74fc8f745416f80fabbecf0a96a5a88d602410ba1ff8f0609e84da942d79084",
+        "Estructure": "correcta"
     },
     {
         "id": 55,
@@ -822,7 +876,8 @@
             "8": "Multan"
         },
         "previous": "b74fc8f745416f80fabbecf0a96a5a88d602410ba1ff8f0609e84da942d79084",
-        "hash": "a5e3278bb5d1b04d4ec360d38eeae207e01b1e4655f0264bc2e0037c2464a229"
+        "hash": "a5e3278bb5d1b04d4ec360d38eeae207e01b1e4655f0264bc2e0037c2464a229",
+        "Estructure": "correcta"
     },
     {
         "id": 56,
@@ -837,7 +892,8 @@
             "8": "Rivello"
         },
         "previous": "a5e3278bb5d1b04d4ec360d38eeae207e01b1e4655f0264bc2e0037c2464a229",
-        "hash": "2419198bf85cd2e068e4e1477f8ef8dcb088e73f49651087866a440589313390"
+        "hash": "2419198bf85cd2e068e4e1477f8ef8dcb088e73f49651087866a440589313390",
+        "Estructure": "correcta"
     },
     {
         "id": 57,
@@ -852,7 +908,8 @@
             "8": "Hengelo"
         },
         "previous": "2419198bf85cd2e068e4e1477f8ef8dcb088e73f49651087866a440589313390",
-        "hash": "e589da844f6c3381cbb42f37a6ffe1ec57829b03b2cb643de9be6f4a2fefbe93"
+        "hash": "e589da844f6c3381cbb42f37a6ffe1ec57829b03b2cb643de9be6f4a2fefbe93",
+        "Estructure": "correcta"
     },
     {
         "id": 58,
@@ -867,7 +924,8 @@
             "8": "Port Alice"
         },
         "previous": "e589da844f6c3381cbb42f37a6ffe1ec57829b03b2cb643de9be6f4a2fefbe93",
-        "hash": "1302f973d33164db30b677c2ac1fd1f1d1bc79440de3fcf88735fe30f2aa8fff"
+        "hash": "1302f973d33164db30b677c2ac1fd1f1d1bc79440de3fcf88735fe30f2aa8fff",
+        "Estructure": "correcta"
     },
     {
         "id": 59,
@@ -882,7 +940,8 @@
             "8": "Athens"
         },
         "previous": "1302f973d33164db30b677c2ac1fd1f1d1bc79440de3fcf88735fe30f2aa8fff",
-        "hash": "b3a99763502dccc10a5490be68dcee6e761b7fe1df173569bf8a701a772dac34"
+        "hash": "b3a99763502dccc10a5490be68dcee6e761b7fe1df173569bf8a701a772dac34",
+        "Estructure": "correcta"
     },
     {
         "id": 60,
@@ -897,7 +956,8 @@
             "8": "Alexandria"
         },
         "previous": "b3a99763502dccc10a5490be68dcee6e761b7fe1df173569bf8a701a772dac34",
-        "hash": "7dff2f907a8c4dd46b3e786245048108bd1c0ccd44f2fff8d81fe8bcb846ae19"
+        "hash": "7dff2f907a8c4dd46b3e786245048108bd1c0ccd44f2fff8d81fe8bcb846ae19",
+        "Estructure": "correcta"
     },
     {
         "id": 61,
@@ -912,7 +972,8 @@
             "8": "Montecarotto"
         },
         "previous": "7dff2f907a8c4dd46b3e786245048108bd1c0ccd44f2fff8d81fe8bcb846ae19",
-        "hash": "69cc7bb1f5a18d2c21553b72cc84db08293a1f32b47633c722b0436aa10ff993"
+        "hash": "69cc7bb1f5a18d2c21553b72cc84db08293a1f32b47633c722b0436aa10ff993",
+        "Estructure": "correcta"
     },
     {
         "id": 62,
@@ -927,7 +988,8 @@
             "8": "Neerheylissem"
         },
         "previous": "69cc7bb1f5a18d2c21553b72cc84db08293a1f32b47633c722b0436aa10ff993",
-        "hash": "af112de9cd0ff749699700f37acbd494c4945ec30b64d994be45709aa5f4506f"
+        "hash": "af112de9cd0ff749699700f37acbd494c4945ec30b64d994be45709aa5f4506f",
+        "Estructure": "correcta"
     },
     {
         "id": 63,
@@ -942,7 +1004,8 @@
             "8": "North Battleford"
         },
         "previous": "af112de9cd0ff749699700f37acbd494c4945ec30b64d994be45709aa5f4506f",
-        "hash": "5cec48928bee393e92eb15016726cb5be395cff7190c3ea692375c805b62142e"
+        "hash": "5cec48928bee393e92eb15016726cb5be395cff7190c3ea692375c805b62142e",
+        "Estructure": "correcta"
     },
     {
         "id": 64,
@@ -957,7 +1020,8 @@
             "8": "Appelterre-Eichem"
         },
         "previous": "5cec48928bee393e92eb15016726cb5be395cff7190c3ea692375c805b62142e",
-        "hash": "9fcafb5a811a1430897eb7e8afb4d4a788b3c28b7f2c61c3b194af1ccb81a33c"
+        "hash": "9fcafb5a811a1430897eb7e8afb4d4a788b3c28b7f2c61c3b194af1ccb81a33c",
+        "Estructure": "correcta"
     },
     {
         "id": 65,
@@ -972,7 +1036,8 @@
             "8": "Brussel"
         },
         "previous": "9fcafb5a811a1430897eb7e8afb4d4a788b3c28b7f2c61c3b194af1ccb81a33c",
-        "hash": "e961c2ac11f571d4d2097cdc0c1785e09ce01c05400191670a2f13d499b22a00"
+        "hash": "e961c2ac11f571d4d2097cdc0c1785e09ce01c05400191670a2f13d499b22a00",
+        "Estructure": "correcta"
     },
     {
         "id": 66,
@@ -987,7 +1052,8 @@
             "8": "Longano"
         },
         "previous": "e961c2ac11f571d4d2097cdc0c1785e09ce01c05400191670a2f13d499b22a00",
-        "hash": "c5d0372fdd687c34cb11e8cfe46a7e03156cdd679a869fe5e946340a29c30463"
+        "hash": "c5d0372fdd687c34cb11e8cfe46a7e03156cdd679a869fe5e946340a29c30463",
+        "Estructure": "correcta"
     },
     {
         "id": 67,
@@ -1002,7 +1068,8 @@
             "8": "Villarrica"
         },
         "previous": "c5d0372fdd687c34cb11e8cfe46a7e03156cdd679a869fe5e946340a29c30463",
-        "hash": "201db0450e2f7aab421ea94604e53449ed70fb3a29f0cea42c2cd34ca4007165"
+        "hash": "201db0450e2f7aab421ea94604e53449ed70fb3a29f0cea42c2cd34ca4007165",
+        "Estructure": "correcta"
     },
     {
         "id": 68,
@@ -1017,7 +1084,8 @@
             "8": "Vorst"
         },
         "previous": "201db0450e2f7aab421ea94604e53449ed70fb3a29f0cea42c2cd34ca4007165",
-        "hash": "49c55375e65056e2462521454dcf82d6d6b26e0f54177b22cdcc6abe391e150a"
+        "hash": "49c55375e65056e2462521454dcf82d6d6b26e0f54177b22cdcc6abe391e150a",
+        "Estructure": "correcta"
     },
     {
         "id": 69,
@@ -1032,7 +1100,8 @@
             "8": "North Bay"
         },
         "previous": "49c55375e65056e2462521454dcf82d6d6b26e0f54177b22cdcc6abe391e150a",
-        "hash": "9b8bbb3bb476dd68a51b15d3afa3e1baf899156cfbf6039700bd6aac2150e670"
+        "hash": "9b8bbb3bb476dd68a51b15d3afa3e1baf899156cfbf6039700bd6aac2150e670",
+        "Estructure": "correcta"
     },
     {
         "id": 70,
@@ -1047,7 +1116,8 @@
             "8": "Merzig"
         },
         "previous": "9b8bbb3bb476dd68a51b15d3afa3e1baf899156cfbf6039700bd6aac2150e670",
-        "hash": "6071c7d65b1092835788b23914e7c6a03165c59b51e46e5c6c7c113eea08e666"
+        "hash": "6071c7d65b1092835788b23914e7c6a03165c59b51e46e5c6c7c113eea08e666",
+        "Estructure": "correcta"
     },
     {
         "id": 71,
@@ -1062,7 +1132,8 @@
             "8": "Castle Douglas"
         },
         "previous": "6071c7d65b1092835788b23914e7c6a03165c59b51e46e5c6c7c113eea08e666",
-        "hash": "d6716a6e4045d1f576d4716adc2ec66feada3be767cc7b89ff557fbb2d741c7d"
+        "hash": "d6716a6e4045d1f576d4716adc2ec66feada3be767cc7b89ff557fbb2d741c7d",
+        "Estructure": "correcta"
     },
     {
         "id": 72,
@@ -1077,7 +1148,8 @@
             "8": "Savannah"
         },
         "previous": "d6716a6e4045d1f576d4716adc2ec66feada3be767cc7b89ff557fbb2d741c7d",
-        "hash": "96f2ce6016c64e9652c9c8a049f9d19a5d42fbc6b55f62175279a3db4b9d1e05"
+        "hash": "96f2ce6016c64e9652c9c8a049f9d19a5d42fbc6b55f62175279a3db4b9d1e05",
+        "Estructure": "correcta"
     },
     {
         "id": 73,
@@ -1092,7 +1164,8 @@
             "8": "Gimhae"
         },
         "previous": "96f2ce6016c64e9652c9c8a049f9d19a5d42fbc6b55f62175279a3db4b9d1e05",
-        "hash": "3507f41ca6204747a98c12e1d0fc1b071f0e4e65e9c5c830d0d8e430882cb686"
+        "hash": "3507f41ca6204747a98c12e1d0fc1b071f0e4e65e9c5c830d0d8e430882cb686",
+        "Estructure": "correcta"
     },
     {
         "id": 74,
@@ -1107,7 +1180,8 @@
             "8": "Gjoa Haven"
         },
         "previous": "3507f41ca6204747a98c12e1d0fc1b071f0e4e65e9c5c830d0d8e430882cb686",
-        "hash": "4c71501f10eee455f9559bebd850857ae9872cb9a8645689a113dd5e02ba6ce4"
+        "hash": "4c71501f10eee455f9559bebd850857ae9872cb9a8645689a113dd5e02ba6ce4",
+        "Estructure": "correcta"
     },
     {
         "id": 75,
@@ -1122,10 +1196,123 @@
             "8": "Silifke"
         },
         "previous": "4c71501f10eee455f9559bebd850857ae9872cb9a8645689a113dd5e02ba6ce4",
-        "hash": "290ae7828b67fa57a5893fb976fb8443099a9acb9b48c5dd6b7250a7a476fa46"
+        "hash": "290ae7828b67fa57a5893fb976fb8443099a9acb9b48c5dd6b7250a7a476fa46",
+        "Estructure": "correcta"
     },
     {
         "id": 76,
+        "content": {
+            "1": "47164504",
+            "2": "Asher",
+            "3": "Vasquez",
+            "4": "85",
+            "5": "Quisque.tincidunt@Vivamusnonlorem.edu",
+            "6": "45242704",
+            "7": "Malta",
+            "8": "Carnoustie"
+        },
+        "previous": "290ae7828b67fa57a5893fb976fb8443099a9acb9b48c5dd6b7250a7a476fa46",
+        "hash": "c92ec2424a1a9dd13d13282b6a230c36a95d3adb91849023454af28ec8632799",
+        "Estructure": "correcta"
+    },
+    {
+        "id": 77,
+        "content": {
+            "1": "47371009",
+            "2": "Dustin",
+            "3": "Johnston",
+            "4": "57",
+            "5": "eu.turpis.Nulla@Donecnonjusto.edu",
+            "6": "74106702",
+            "7": "South Sudan",
+            "8": "Kirkby Lonsdale"
+        },
+        "previous": "c92ec2424a1a9dd13d13282b6a230c36a95d3adb91849023454af28ec8632799",
+        "hash": "be45ffcdbf10d25c77990f80ed98597766553c698c188a71737574c8658f4cb4",
+        "Estructure": "correcta"
+    },
+    {
+        "id": 78,
+        "content": {
+            "1": "47688438",
+            "2": "Blaze",
+            "3": "Armstrong",
+            "4": "60",
+            "5": "nisl.Quisque@InfaucibusMorbi.com",
+            "6": "18810451",
+            "7": "Afghanistan",
+            "8": "Sahiwal"
+        },
+        "previous": "be45ffcdbf10d25c77990f80ed98597766553c698c188a71737574c8658f4cb4",
+        "hash": "030ce2ae699246652bc9efa37b24f5192a33a9fc1abe7cf82d2763ecf4d1bbe5",
+        "Estructure": "correcta"
+    },
+    {
+        "id": 79,
+        "content": {
+            "1": "48209811",
+            "2": "Kareem",
+            "3": "Kelly",
+            "4": "43",
+            "5": "luctus.ipsum.leo@mattisornarelectus.ca",
+            "6": "78470665",
+            "7": "Heard Island and Mcdonald Islands",
+            "8": "Medan"
+        },
+        "previous": "030ce2ae699246652bc9efa37b24f5192a33a9fc1abe7cf82d2763ecf4d1bbe5",
+        "hash": "8aa8bdba2583cabbf184e6d97c8682c7306b65a7d89991f6895052fafc7410f9",
+        "Estructure": "correcta"
+    },
+    {
+        "id": 80,
+        "content": {
+            "1": "48249795",
+            "2": "Shay",
+            "3": "Owens",
+            "4": "28",
+            "5": "In.tincidunt.congue@Donecconsectetuermauris.org",
+            "6": "86137184",
+            "7": "Saint Pierre and Miquelon",
+            "8": "Puente Alto"
+        },
+        "previous": "8aa8bdba2583cabbf184e6d97c8682c7306b65a7d89991f6895052fafc7410f9",
+        "hash": "b79be02011a70415c32012a4a0f2bc05b23c80ae2a7b83ce75180c668909ac7d",
+        "Estructure": "correcta"
+    },
+    {
+        "id": 81,
+        "content": {
+            "1": "49946181",
+            "2": "Clementine",
+            "3": "Mccoy",
+            "4": "68",
+            "5": "molestie@molestiearcuSed.net",
+            "6": "30583112",
+            "7": "Guatemala",
+            "8": "Jinju"
+        },
+        "previous": "b79be02011a70415c32012a4a0f2bc05b23c80ae2a7b83ce75180c668909ac7d",
+        "hash": "2bea486f593e41ebce4da805d31f82b802d586e5cc2b9b88d9104651796cf5e1",
+        "Estructure": "correcta"
+    },
+    {
+        "id": 82,
+        "content": {
+            "1": "50374146",
+            "2": "Nell",
+            "3": "Alford",
+            "4": "35",
+            "5": "Cras@atfringillapurus.com",
+            "6": "64155148",
+            "7": "Turkmenistan",
+            "8": "Rueil-Malmaison"
+        },
+        "previous": "2bea486f593e41ebce4da805d31f82b802d586e5cc2b9b88d9104651796cf5e1",
+        "hash": "79583dc0b62d6d5fe294fd2f43a9de6ce28ae1a34d37485cedd232ce3dd29cfb",
+        "Estructure": "correcta"
+    },
+    {
+        "id": 83,
         "content": {
             "1": "5115499",
             "2": "Caesar",
@@ -1136,11 +1323,12 @@
             "7": "Colombia",
             "8": "Lanaken"
         },
-        "previous": "290ae7828b67fa57a5893fb976fb8443099a9acb9b48c5dd6b7250a7a476fa46",
-        "hash": "b14887beaf8e625f2b274804966e46570146d1e1054e026af35bf2d846205a2a"
+        "previous": "79583dc0b62d6d5fe294fd2f43a9de6ce28ae1a34d37485cedd232ce3dd29cfb",
+        "hash": "b14887beaf8e625f2b274804966e46570146d1e1054e026af35bf2d846205a2a",
+        "Estructure": "correcta"
     },
     {
-        "id": 77,
+        "id": 84,
         "content": {
             "1": "6643101",
             "2": "Paul",
@@ -1152,10 +1340,11 @@
             "8": "Sint-Joost-ten-Node"
         },
         "previous": "b14887beaf8e625f2b274804966e46570146d1e1054e026af35bf2d846205a2a",
-        "hash": "13eedc72ea179a0a237ecf5e5ffbdb801d0aca0ba0eef70fc8a1565b85fa0a68"
+        "hash": "13eedc72ea179a0a237ecf5e5ffbdb801d0aca0ba0eef70fc8a1565b85fa0a68",
+        "Estructure": "correcta"
     },
     {
-        "id": 78,
+        "id": 85,
         "content": {
             "1": "6759332",
             "2": "Yoshio",
@@ -1167,10 +1356,11 @@
             "8": "Hoorn"
         },
         "previous": "13eedc72ea179a0a237ecf5e5ffbdb801d0aca0ba0eef70fc8a1565b85fa0a68",
-        "hash": "e4efc68e5e1fd8873dacd46a73f07c887352e4304e33dcaff4e354e0d9a75d33"
+        "hash": "e4efc68e5e1fd8873dacd46a73f07c887352e4304e33dcaff4e354e0d9a75d33",
+        "Estructure": "correcta"
     },
     {
-        "id": 79,
+        "id": 86,
         "content": {
             "1": "7083053",
             "2": "Cathleen",
@@ -1182,10 +1372,11 @@
             "8": "Filot"
         },
         "previous": "e4efc68e5e1fd8873dacd46a73f07c887352e4304e33dcaff4e354e0d9a75d33",
-        "hash": "4f3459c5c23aef2268fef4cc7c4ebd91da1f7bdc00466f8d10444559547506db"
+        "hash": "4f3459c5c23aef2268fef4cc7c4ebd91da1f7bdc00466f8d10444559547506db",
+        "Estructure": "correcta"
     },
     {
-        "id": 80,
+        "id": 87,
         "content": {
             "1": "7333831",
             "2": "Victor",
@@ -1197,10 +1388,11 @@
             "8": "Forio"
         },
         "previous": "4f3459c5c23aef2268fef4cc7c4ebd91da1f7bdc00466f8d10444559547506db",
-        "hash": "a31d7c5406fd014bae636ca357307262efa2ffb0dbc9938b8fe4188c4f063e82"
+        "hash": "a31d7c5406fd014bae636ca357307262efa2ffb0dbc9938b8fe4188c4f063e82",
+        "Estructure": "correcta"
     },
     {
-        "id": 81,
+        "id": 88,
         "content": {
             "1": "7518233",
             "2": "Cassady",
@@ -1212,10 +1404,11 @@
             "8": "Norderstedt"
         },
         "previous": "a31d7c5406fd014bae636ca357307262efa2ffb0dbc9938b8fe4188c4f063e82",
-        "hash": "580cee39d302f5d425de5a331ab2f7a17a64038aeddc38d5786c06bfd0d880fc"
+        "hash": "580cee39d302f5d425de5a331ab2f7a17a64038aeddc38d5786c06bfd0d880fc",
+        "Estructure": "correcta"
     },
     {
-        "id": 82,
+        "id": 89,
         "content": {
             "1": "7763750",
             "2": "Carter",
@@ -1227,10 +1420,11 @@
             "8": "Castel Guelfo di Bologna"
         },
         "previous": "580cee39d302f5d425de5a331ab2f7a17a64038aeddc38d5786c06bfd0d880fc",
-        "hash": "36f507427180506f931e6e7ed0d80574eaed207f0594b4d0865a3fa04cfdc152"
+        "hash": "36f507427180506f931e6e7ed0d80574eaed207f0594b4d0865a3fa04cfdc152",
+        "Estructure": "correcta"
     },
     {
-        "id": 83,
+        "id": 90,
         "content": {
             "1": "7774204",
             "2": "Armand",
@@ -1242,10 +1436,11 @@
             "8": "Ulhasnagar"
         },
         "previous": "36f507427180506f931e6e7ed0d80574eaed207f0594b4d0865a3fa04cfdc152",
-        "hash": "e40434c9ec3419df5a738fdb450aa9140971f059d0654b39c33bc54f082ce903"
+        "hash": "e40434c9ec3419df5a738fdb450aa9140971f059d0654b39c33bc54f082ce903",
+        "Estructure": "correcta"
     },
     {
-        "id": 84,
+        "id": 91,
         "content": {
             "1": "7829452",
             "2": "Kiayada",
@@ -1257,10 +1452,11 @@
             "8": "Hearst"
         },
         "previous": "e40434c9ec3419df5a738fdb450aa9140971f059d0654b39c33bc54f082ce903",
-        "hash": "eb327f953b7a9e3397d7b925e8a683d1103f98c54c1a66f7396bcc8c33cf0b95"
+        "hash": "eb327f953b7a9e3397d7b925e8a683d1103f98c54c1a66f7396bcc8c33cf0b95",
+        "Estructure": "correcta"
     },
     {
-        "id": 85,
+        "id": 92,
         "content": {
             "1": "8073030",
             "2": "Jessica",
@@ -1272,10 +1468,11 @@
             "8": "Istanbul"
         },
         "previous": "eb327f953b7a9e3397d7b925e8a683d1103f98c54c1a66f7396bcc8c33cf0b95",
-        "hash": "3641ae9b389758bdb569586f3a6889db69a237cf12d06b96ecfbde21990a975e"
+        "hash": "3641ae9b389758bdb569586f3a6889db69a237cf12d06b96ecfbde21990a975e",
+        "Estructure": "correcta"
     },
     {
-        "id": 86,
+        "id": 93,
         "content": {
             "1": "8263324",
             "2": "Blythe",
@@ -1287,10 +1484,11 @@
             "8": "Tando Allahyar"
         },
         "previous": "3641ae9b389758bdb569586f3a6889db69a237cf12d06b96ecfbde21990a975e",
-        "hash": "785b0820c163d19fedf488c05e4ec6ec90eed58da35929793f66875b3b65f022"
+        "hash": "785b0820c163d19fedf488c05e4ec6ec90eed58da35929793f66875b3b65f022",
+        "Estructure": "correcta"
     },
     {
-        "id": 87,
+        "id": 94,
         "content": {
             "1": "8405439",
             "2": "Astra",
@@ -1302,10 +1500,11 @@
             "8": "Calarc\u00c3\u0192\u00c2\u00a1"
         },
         "previous": "785b0820c163d19fedf488c05e4ec6ec90eed58da35929793f66875b3b65f022",
-        "hash": "6a6d2dd646c3e4d5799461005830d2a35b3506038ef2bde07706427a0d64aedf"
+        "hash": "6a6d2dd646c3e4d5799461005830d2a35b3506038ef2bde07706427a0d64aedf",
+        "Estructure": "correcta"
     },
     {
-        "id": 88,
+        "id": 95,
         "content": {
             "1": "8796179",
             "2": "Callie",
@@ -1317,10 +1516,11 @@
             "8": "Gorinchem"
         },
         "previous": "6a6d2dd646c3e4d5799461005830d2a35b3506038ef2bde07706427a0d64aedf",
-        "hash": "c4991d0a48eb3d6a0938c3fd28c9daa7580c0c61adcf5d377e595a03d0b1c1cf"
+        "hash": "c4991d0a48eb3d6a0938c3fd28c9daa7580c0c61adcf5d377e595a03d0b1c1cf",
+        "Estructure": "correcta"
     },
     {
-        "id": 89,
+        "id": 96,
         "content": {
             "1": "9285621",
             "2": "Hope",
@@ -1332,10 +1532,11 @@
             "8": "Bazel"
         },
         "previous": "c4991d0a48eb3d6a0938c3fd28c9daa7580c0c61adcf5d377e595a03d0b1c1cf",
-        "hash": "1c8365ab7720e1a9af69338650d55896d9922839f12ee6cb308a510e6f38364e"
+        "hash": "1c8365ab7720e1a9af69338650d55896d9922839f12ee6cb308a510e6f38364e",
+        "Estructure": "correcta"
     },
     {
-        "id": 90,
+        "id": 97,
         "content": {
             "1": "9424358",
             "2": "Brianna",
@@ -1347,10 +1548,11 @@
             "8": "Episcopia"
         },
         "previous": "1c8365ab7720e1a9af69338650d55896d9922839f12ee6cb308a510e6f38364e",
-        "hash": "5ba944cdd3e93c88eb6d559f63b9e061a87c52aaac5e87ead19aedec99988b4c"
+        "hash": "5ba944cdd3e93c88eb6d559f63b9e061a87c52aaac5e87ead19aedec99988b4c",
+        "Estructure": "correcta"
     },
     {
-        "id": 91,
+        "id": 98,
         "content": {
             "1": "9481060",
             "2": "Igor",
@@ -1362,10 +1564,11 @@
             "8": "Sobral"
         },
         "previous": "5ba944cdd3e93c88eb6d559f63b9e061a87c52aaac5e87ead19aedec99988b4c",
-        "hash": "4d03881f107f2a86c3b6ef66daf59eb5defcd890fbd4a636795ac92c7cd4e7ef"
+        "hash": "4d03881f107f2a86c3b6ef66daf59eb5defcd890fbd4a636795ac92c7cd4e7ef",
+        "Estructure": "correcta"
     },
     {
-        "id": 92,
+        "id": 99,
         "content": {
             "1": "9620844",
             "2": "Hammett",
@@ -1377,10 +1580,11 @@
             "8": "Belford Roxo"
         },
         "previous": "4d03881f107f2a86c3b6ef66daf59eb5defcd890fbd4a636795ac92c7cd4e7ef",
-        "hash": "9b55a786f677d069167b49eab8e8a01643b6b81a9764e61aaeadd953f0d453d7"
+        "hash": "9b55a786f677d069167b49eab8e8a01643b6b81a9764e61aaeadd953f0d453d7",
+        "Estructure": "correcta"
     },
     {
-        "id": 93,
+        "id": 100,
         "content": {
             "1": "9784415",
             "2": "Armand",
@@ -1392,6 +1596,7 @@
             "8": "Inverurie"
         },
         "previous": "9b55a786f677d069167b49eab8e8a01643b6b81a9764e61aaeadd953f0d453d7",
-        "hash": "be8807adef5aafc4d4b93e06620a198a058fde454c23bde1987e143e3d147f09"
+        "hash": "be8807adef5aafc4d4b93e06620a198a058fde454c23bde1987e143e3d147f09",
+        "Estructure": "correcta"
     }
 ]

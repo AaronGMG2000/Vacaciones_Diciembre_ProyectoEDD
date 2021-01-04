@@ -337,7 +337,10 @@ def insert(database: str, table: str, register: list) -> int:
             pk = len(data)
         else:
             for i in pkey:
-                pk += str(register[i])+'|'
+                if i!=pkey[-1]:
+                    pk += str(register[i])+'|'
+                else:
+                    pk += str(register[i])
         if pk in data:
             return 4
         new = {pk:register}
