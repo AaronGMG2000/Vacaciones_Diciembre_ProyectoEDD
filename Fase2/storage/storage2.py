@@ -256,20 +256,18 @@ def cambioTablas(modo, tablas, database, mode, db):
         tab = dataTable.get(database+"_"+x)
         tab[1] = mode
         mod.createTable(database, x, tab[2])
-
-        # for y in modo.extractTable(database, x):
-        #     mod.insert(database, x,y)
-
-        file = open("./data/change.csv", "w", newline='', encoding='utf-8')
-        spamreader = csv.writer(file)
-        
-        for y in modo.extractTable(database, x):
-            spamreader.writerow(y)
-        file.close()
         if len(tab[3]):
             mod.alterAddPK(database, x, tab[3])
-        mod.loadCSV("./data/change.csv", database, x)
-        os.remove("./data/change.csv")
+        # file = open("./data/change.csv", "w", newline='', encoding='utf-8')
+        # spamreader = csv.writer(file)
+        # for y in modo.extractTable(database, x):
+        #     spamreader.writerow(y)
+        # file.close()
+        # mod.loadCSV("./data/change.csv", database, x)
+        # os.remove("./data/change.csv")
+        for y in modo.extractTable(database, x):
+            mod.insert(database, x,y)
+        
         Serializable.update('./Data', 'DataTables', dataTable)
     return 0
 
@@ -296,18 +294,29 @@ def alterDatabaseEncoding(database: str, encoding: str) -> int:
                 res = json.showTables(database)
             elif mode == 'hash':
                 res = hash.showTables(database)
+            table_enconde={}
             if len(res):
                 for x in res:
                     row = extractTable(database, x)
                     if len(row):
+                        row_encode=[]
                         for l in row:
+                            i = 0
                             for g in l:
                                 if type(g) == str:
-                                    g.encode(encoding)
-            if not res:
-                db[2] == encoding
-                data[database] = db
-                Serializable.update('./Data', 'Data', data)
+                                    l[i] = g.encode(encoding)
+                                i+=1
+                            row_encode.append(l)
+                        table_enconde[x] = row_encode
+            for tabla in table_enconde.keys():
+                truncate(database, tabla)
+                for l in table_enconde[tabla]:
+                    insert(database, tabla, l)
+                    
+            db[2] = encoding
+            data[database] = db
+            Serializable.update('./Data', 'Data', data)
+
             return 0
         else:
             return 2
@@ -402,6 +411,13 @@ def extractTable(database: str, table: str) -> list:
                     res = json.extractTable(database, table)
                 elif tab[1] == 'hash':
                     res = hash.extractTable(database, table)
+                for y in res:
+                    i = 0
+                    for g in y:
+                        if type(g) == type(b''):
+                            g = g.decode(db[2])
+                            y[i] = g
+                        i+=1
                 return res
         return None
     except:
@@ -737,22 +753,27 @@ def alterTableMode(database: str, table: str, mode: str) -> int:
                     mod = json
                 elif mode == 'hash':
                     mod = hash
-                import csv
-                file = open("./data/change.csv", "w", newline='', encoding='utf-8')
-                spamreader = csv.writer(file)
-                t=0
+                
                 if mod.showTables(database) == None:
                     mod.createDatabase(database)
-                for y in tuplas:
-                    if t == 0:
-                        mod.createTable(database, table, len(y))
-                    spamreader.writerow(y)
-                    t=1
-                file.close()
+                
+                # import csv
+                # file = open("./data/change.csv", "w", newline='', encoding='utf-8')
+                # spamreader = csv.writer(file)
+                # t=0
+                # for y in tuplas:
+                    # if t == 0:
+                        # mod.createTable(database, table, len(y))
+                    # spamreader.writerow(y)
+                    # t=1
+                # file.close()
+                # mod.loadCSV("./data/change.csv", database, table)
+                # os.remove("./data/change.csv")
+                mod.createTable(database, table, tab[2])
                 if len(tab[3]):
                     mod.alterAddPK(database, table, tab[3])
-                mod.loadCSV("./data/change.csv", database, table)
-                os.remove("./data/change.csv")
+                for y in modo.extractTable(database, table):
+                    mod.insert(database, table, y)
                 data[database] = db
                 tab[1] = mode
                 Serializable.update('./Data', 'Data', data)
@@ -811,9 +832,12 @@ def insert(database: str, table: str, register: list) -> int:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
+                i = 0
                 for x in register:
                     if type(x)==str:
-                        x.encode(db[2], "strict")
+                        x = x.encode(db[2], "strict")
+                        register[i] = x
+                    i+=1
                 if tab[1] == 'avl' :
                     res = avl.insert(database, table, register)
                 elif tab[1] == 'b':
@@ -847,36 +871,37 @@ def loadCSV(file: str, database: str, table: str) -> list:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
-                res = 3
+                res = []
                 import csv
                 with open(file, 'r', encoding='utf-8-sig') as fil:
                     reader = csv.reader(fil, delimiter=',')
                     for y in reader:
-                        for g in y:
-                            if type(g) == str:
-                                g.encode(db[2], errors='strict')
+                        # for g in y:
+                        #     if type(g) == str:
+                        #         g.encode(db[2], errors='strict')
+                        res.append(insert(database, table, y))  
                     fil.close()
 
                 if tab[1] == 'avl':
-                    res = avl.loadCSV(file, database, table)
+                    # res = avl.loadCSV(file, database, table)
                     tabla = avl.extractTable(database, table)
                 elif tab[1] == 'b':
-                    res = b.loadCSV(file, database, table)
+                    # res = b.loadCSV(file, database, table)
                     tabla = b.extractTable(database, table)
                 elif tab[1] == 'bplus':
-                    res = bplus.loadCSV(file, database, table)
+                    # res = bplus.loadCSV(file, database, table)
                     tabla = bplus.extractTable(database, table)
                 elif tab[1] == 'dict':
-                    res = dict.loadCSV(file, database, table)
+                    # res = dict.loadCSV(file, database, table)
                     tabla = dict.extractTable(database, table)
                 elif tab[1] == 'isam':
-                    res = isam.loadCSV(file, database, table)
+                    # res = isam.loadCSV(file, database, table)
                     tabla = isam.extractTable(database, table)
                 elif tab[1] == 'json':
-                    res = json.loadCSV(file, database, table)
+                    # res = json.loadCSV(file, database, table)
                     tabla = json.extractTable(database, table)
                 elif tab[1] == 'hash':
-                    res = hash.loadCSV(file, database, table)
+                    # res = hash.loadCSV(file, database, table)
                     tabla = hash.extractTable(database, table)
                 if len(tabla):
                     if os.path.isfile("./Data/security/"+database+"_"+table+".json"):
@@ -929,9 +954,14 @@ def update(database: str, table: str, register: dict, columns: list) -> int:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
-                for x in list(register.values()):
-                    if type(x)==str:
-                        x.encode(db[2], "strict")
+                for x in list(register.keys()):
+                    if type(register[x])==str:
+                        register[x] = register[x].encode(db[2], "strict")
+                i=0
+                for x in columns:
+                    x = str(x).encode(db[2], "strict")
+                    columns[i] = x
+                    i+=1
                 if tab[1] == 'avl':
                     row = avl.extractRow(database, table, columns)
                     res = avl.update(database, table, register, columns)
@@ -976,6 +1006,11 @@ def delete(database: str, table: str, columns: list) -> int:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
+                i=0
+                for x in columns:
+                    x = str(x).encode(db[2], "strict")
+                    columns[i] = x
+                    i+=1
                 if tab[1] == 'avl':
                     row = avl.extractRow(database, table, columns)
                     res = avl.delete(database, table, columns)
@@ -1053,7 +1088,7 @@ def decrypt(backup:str, password: str):
         return crypt.decrypt(backup, password, password)
     except:
         return None
-        
+
 def checksumDatabase(database: str, mode: str) -> str:
     checkData()
     try:

@@ -1,4 +1,4 @@
-from storage import storage as f
+from storage import storage2 as f
 import time
 
 f.dropAll()#limpieza de todos los datos
@@ -125,6 +125,7 @@ print("Tablas de BD1:",f.showTables("BD1"))
 print("Tablas de BD2:",f.showTables("BD2"))
 print("Tablas de BD3:",f.showTables("BD3"))
 print("Tablas de BD4:",f.showTables("BD4"))
+print("tuplas de Estudiante:", f.extractTable("BD1","Estudiante"))
 # print(f.insert("BD2","Cliente",[0000000,"Helen","Valenzuela","40","facilisis@a.net",0000000,"Tokelau","Brussel"]))
 #-------------------Cambiando bases de datos a otro modo-----------------#
 print(f.alterDatabaseMode("BD4","hash"),'esperando 0') #Este no se que codigo pusiste pero es repetir modo de hash a hash
@@ -153,7 +154,7 @@ print(f.insert("prueba11","seguridad",['Prueba4','4','1']),'esperando 0')
 print(f.insert("prueba11","seguridad",['Prueba5','5','1']),'esperando 0')
 print(f.insert("prueba11","seguridad",['Pruebá6','1','1']),'esperando 0')
 # print(f.quitarmodoSeguro("prueba11","seguridad"),'esperando 0')
-# print(f.update("prueba11","seguridad",{0:'Prueba'},['Prueba6','1']),'esperando 0')
+print(f.update("prueba11","seguridad",{0:'Prueba'},['Pruebá6','1']),'esperando 0')
 print(f.checksumDatabase("prueba11",'SHA256'))
 print(f.checksumDatabase("prueba11",'MD5'))
 print(f.checksumTable("prueba11","seguridad","MD5"), "checksum MD5 prueba11 seguridad")
@@ -175,6 +176,9 @@ print(f.checksumTable("BD2","Factura","SHA256"),"cecksumTable2 Acceso")
 print(f.encrypt("BD2","Contraseña"),'esperando gAAAAABf9O34zwfU3QM0YKTUFrt9I08-mqm43SB2z5Q81yyGuaMEWtNx6JVEnjq6f8h28j4uA9Z4hCRk9-Io80qYQNFKwaciBA==')
 print(f.decrypt("gAAAAABf9O34zwfU3QM0YKTUFrt9I08-mqm43SB2z5Q81yyGuaMEWtNx6JVEnjq6f8h28j4uA9Z4hCRk9-Io80qYQNFKwaciBA==","Contraseña"),'esperando BD2')
 print(f.alterDatabaseEncoding("prueba11","iso-8859-1"))
+print(f.extractTable("prueba11","seguridad"))
+print(f.alterDatabaseEncoding("prueba11","utf8"))
+
 # print(f.extractTable("BD2","Cliente"))
 final = time.time()
 print("------------------------------------------------------------------")
