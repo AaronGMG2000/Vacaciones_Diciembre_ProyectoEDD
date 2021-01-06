@@ -1,14 +1,18 @@
 from cryptography.fernet import Fernet
 import os
-
-def checkData(database):
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+import base64
+def checkData(database, password):
     if not os.path.isdir('./Data/Criptografia'):
         os.mkdir('./Data/Criptografia')
     if not os.path.isfile("./Data/Criptografia/"+database+".key"):
-        generate_key(database)
+        generate_key(database, password)
 
-def generate_key(database):
-    clave = Fernet.generate_key()
+def generate_key(database, password):
+    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(),length=32,salt=b'qqjfwl',iterations=100,backend=default_backend())
+    clave=base64.urlsafe_b64encode(kdf.derive(password.encode()))
     file = open("./Data/Criptografia/"+database+".key","wb")
     file.write(clave)
     file.close()
@@ -16,14 +20,14 @@ def generate_key(database):
 def cargar_key(database):
     return open("./Data/Criptografia/"+database+".key","rb").read()
 
-def encrypt(string, database):
-    checkData(database)
+def encrypt(string, database, password):
+    checkData(database, password)
     key = cargar_key(database)
     f = Fernet(key)
     return f.encrypt(string.encode()).decode()
 
-def encrypt_list(list, database):
-    checkData(database)
+def encrypt_list(list, database, password):
+    checkData(database, password)
     list_encrypt = []
     key = cargar_key(database)
     f = Fernet(key)
@@ -31,16 +35,14 @@ def encrypt_list(list, database):
         list_encrypt.append(f.encrypt(str(x).encode()).decode())
     return list_encrypt
 
-def decrypt(string, database):
-    try:
-        key = cargar_key(database)
-        f = Fernet(key)
-        return f.decrypt(string.encode()).decode()
-    except:
-        return ''
+def decrypt(string, database, password):
+    checkData(database, password)
+    key = cargar_key(database)
+    f = Fernet(key)
+    return f.decrypt(string.encode()).decode()
 
-def decrypt_list(list, database):
-    checkData(database)
+def decrypt_list(list, database, password):
+    checkData(database, password)
     list_encrypt = []
     key = cargar_key(database)
     f = Fernet(key)
@@ -48,8 +50,8 @@ def decrypt_list(list, database):
         list_encrypt.append(f.decrypt(str(x).encode()).decode())
     return list_encrypt
 
-def encrypt_file(database, table, mode):
-    checkData(database)
+def encrypt_file(database, table, mode, password):
+    checkData(database, password)
     key = cargar_key(database)
     f = Fernet(key)
     if mode == 'avl':
@@ -77,8 +79,8 @@ def encrypt_file(database, table, mode):
     fil2.write(f.encrypt(file))
     return 0
 
-def decrypt_file(database, table, mode):
-    checkData(database)
+def decrypt_file(database, table, mode, password):
+    checkData(database, password)
     key = cargar_key(database)
     f = Fernet(key)
     if mode == 'avl':

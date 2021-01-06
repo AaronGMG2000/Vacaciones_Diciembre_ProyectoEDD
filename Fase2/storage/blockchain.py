@@ -70,7 +70,7 @@ class blockchain:
         file = open("./Data/security/"+database+"_"+table+".json", "w+", encoding='utf-8')
         file.write(json.dumps([j for j in lista], indent=4))
         file.close()
-        self.graficar(database, table)
+        # self.graficar(database, table)
     
     def delete(self, registro, database, table):
         file = open("./Data/security/"+database+"_"+table+".json", "r")
@@ -80,21 +80,23 @@ class blockchain:
         i=0
         for bloque in lista:
             if registro == bloque["hash"]:
-                lista.remove(bloque)
                 if anterior:
                     if i!=len(lista)-1:
                         siguiente = lista[i+1]
                         if anterior["hash"]!= siguiente["previous"]:
                             siguiente["Estructure"]='incorrecta'
                 else:
-                    di = lista[i+1]
-                    di["Estructure"]='incorrecta'
+                    if len(lista):
+                        di = lista[i+1]
+                        di["Estructure"]='incorrecta'
+                lista.remove(bloque)
+            anterior = bloque
             i+=1
 
         file = open("./Data/security/"+database+"_"+table+".json", "w+", encoding='utf-8')
         file.write(json.dumps([j for j in lista], indent=4))
         file.close()
-        self.graficar(database, table)
+        # self.graficar(database, table)
 
     def CompararHash(self, data:list, newData: list, database, table):
         ldata = ",".join(str(x) for x in data)
@@ -120,32 +122,33 @@ class blockchain:
         file = open("./Data/security/"+database+"_"+table+".json", "r")
         lista = json.loads(file.read())
         file.close()
-        f= open('./Data/security/'+database+'_'+table+'.dot', 'w',encoding='utf-8')
-        f.write("digraph dibujo{\n")
-        f.write('graph [ordering="out"];')
-        f.write('rankdir=TB;\n')
-        f.write('node [shape = box];\n')
-        data =""
-        t=0
-        color = 'white'
-        for x in lista:
-            if x['Estructure']=='incorrecta':
-                color = 'orangered'
-            nombre = 'Nodo'+str(t)
-            data = ''
-            for y in list(x.values()):
-                if type(y) == dict:
-                    d = ",".join(str(x) for x in list(y.values()))
-                    data+="""<tr><td>"""+d+"""</td></tr>"""
-                else:
-                    if str(y)!='correcta' and str(y)!='incorrecta':
-                        data+="""<tr><td>"""+str(y)+"""</td></tr>"""
-            tabla ="""<<table BGCOLOR='"""+color+"""' cellspacing='0' cellpadding='20' border='0' cellborder='1'>
-                """+data+"""        
-            </table> >"""
-            f.write(nombre+' [label = '+tabla+',  fontsize="30", shape = plaintext ];\n')
-            t+=1
-        f.write('}')
-        f.close()
-        os.system('dot -Tpng ./Data/security/'+database+'_'+table+'.dot -o tupla.png')
-        os.system('tupla.png')
+        if type(lista)==list:
+            f= open('./Data/security/'+database+'_'+table+'.dot', 'w',encoding='utf-8')
+            f.write("digraph dibujo{\n")
+            f.write('graph [ordering="out"];')
+            f.write('rankdir=TB;\n')
+            f.write('node [shape = box];\n')
+            data =""
+            t=0
+            color = 'white'
+            for x in lista:
+                if x['Estructure']=='incorrecta':
+                    color = 'orangered'
+                nombre = 'Nodo'+str(t)
+                data = ''
+                for y in list(x.values()):
+                    if type(y) == dict:
+                        d = ",".join(str(x) for x in list(y.values()))
+                        data+="""<tr><td>"""+d+"""</td></tr>"""
+                    else:
+                        if str(y)!='correcta' and str(y)!='incorrecta':
+                            data+="""<tr><td>"""+str(y)+"""</td></tr>"""
+                tabla ="""<<table BGCOLOR='"""+color+"""' cellspacing='0' cellpadding='20' border='0' cellborder='1'>
+                    """+data+"""        
+                </table> >"""
+                f.write(nombre+' [label = '+tabla+',  fontsize="30", shape = plaintext ];\n')
+                t+=1
+            f.write('}')
+            f.close()
+            os.system('dot -Tpng ./Data/security/'+database+'_'+table+'.dot -o tupla.png')
+            os.system('tupla.png')

@@ -6,20 +6,20 @@ inicio = time.time()
 
 #-------------------Create Database Nuevo--------------------------#
 print(f.createDatabase("prueba1","bplus","ascii"),"esperado 0") 
-print(f.createDatabase("prueba2","hash","ascii"),"esperado 0")
-print(f.createDatabase("prueba3","b","ascii"),"esperado 0")
+print(f.createDatabase("prueba2","hash","utf8"),"esperado 0")
+print(f.createDatabase("prueba3","b","iso-8859-1"),"esperado 0")
 print(f.createDatabase("pruebá4","isam","ascii"),"esperado 0")
-print(f.createDatabase("prueba5","avl","ascii"),"esperado 0")
-print(f.createDatabase("prueba6","dict","ascii"),"esperado 0")
+print(f.createDatabase("prueba5","avl","utf8"),"esperado 0")
+print(f.createDatabase("prueba6","dict","iso-8859-1"),"esperado 0")
 print(f.createDatabase("prueba7","json","ascii"),"esperado 0")
-print(f.createDatabase("prueba7","bplus","ascii"),"esperado 2")
-print(f.createDatabase("212prueba7","b","ascii"),"esperado 1")
+print(f.createDatabase("prueba7","bplus","utf8"),"esperado 2")
+print(f.createDatabase("212prueba7","b","iso-8859-1"),"esperado 1")
 print(f.createDatabase("212prueba7","bplus","ascii"),"esperado 1")
-print(f.createDatabase("212prueba7","isam","ascii"),"esperado 1")
-print(f.createDatabase("212prueba7","hash","ascii"),"esperado 1")
+print(f.createDatabase("212prueba7","isam","utf8"),"esperado 1")
+print(f.createDatabase("212prueba7","hash","iso-8859-1"),"esperado 1")
 print(f.createDatabase("212prueba7","avl","ascii"),"esperado 1")
-print(f.createDatabase("212prueba7","json","ascii"),"esperado 1")
-print(f.createDatabase("212prueba7","dict","ascii"),"esperado 0")
+print(f.createDatabase("212prueba7","json","utf8"),"esperado 1")
+print(f.createDatabase("212prueba7","dict","iso-8859-1"),"esperado 0")
 print(f.createDatabase("212prueba7","bplus","utf"),"esperado 4")
 print(f.createDatabase("212prueba7","bplu","ascii"),"esperado 3")
 print(f.showDatabases())
@@ -32,10 +32,10 @@ print(f.alterDatabaseMode("prueba2","bplus"),"esperando 0")
 
 #--------------Creación de tablas para prueba-------------------#
 #Area para crear bases de datos
-print("Estado BD:",f.createDatabase("BD1","hash","utf8"))#Sistema de Asignaciones
+print("Estado BD:",f.createDatabase("BD1","hash","iso-8859-1"))#Sistema de Asignaciones
 print("Estado BD:",f.createDatabase("BD2","hash","utf8"))#Sistema de Compras de productos
-print("Estado BD:",f.createDatabase("BD3","hash","utf8"))#Sistema de Accesos de usuario para una base de datos
-print("Estado BD:",f.createDatabase("BD4","hash","utf8"))#Sistema de Peliculas y Series para una pagina web
+print("Estado BD:",f.createDatabase("BD3","hash","ascii"))#Sistema de Accesos de usuario para una base de datos
+print("Estado BD:",f.createDatabase("BD4","hash","iso-8859-1"))#Sistema de Peliculas y Series para una pagina web
 print("Estado BD:",f.showDatabases())#Nos deberia mostrar todas las bases de datos
 
 #Area para crear tablas
@@ -139,34 +139,34 @@ print(f.alterDatabaseMode("BD3","avl"),'esperando 0')
 print(f.alterDatabaseMode("BD3","isam"),'esperando 0')
 print(f.alterTableMode("BD2","Asignacion_Curso","hash"),'esperando 3')
 print(f.alterTableMode("BD2","Cliente","json"),'esperando 0')
-print(f.modoSeguro("BD2","Cliente"),'esperando 0')
-print(f.createDatabase("prueba11","bplus","ascii"),"esperado 0") 
+print(f.safeModeOn("BD2","Cliente"),'esperando 0')
+print(f.createDatabase("prueba11","bplus","utf8"),"esperado 0") 
 print(f.createTable("prueba11","seguridad",3),'esperando 0')
 print(f.alterAddPK("prueba11","seguridad",[0,1]),'esperando 0')
-print(f.modoSeguro("prueba11","seguridad"),'esperando 0')
+print(f.safeModeOn("prueba11","seguridad"),'esperando 0')
 print(f.insert("prueba11","seguridad",['Prueba1','1','1']),'esperando 0')
 print(f.insert("prueba11","seguridad",['1','Prueba1','1']),'esperando 0')
 print(f.insert("prueba11","seguridad",['Prueba2','2','1']),'esperando 0')
 print(f.insert("prueba11","seguridad",['Prueba3','3','1']),'esperando 0')
 print(f.insert("prueba11","seguridad",['Prueba4','4','1']),'esperando 0')
 print(f.insert("prueba11","seguridad",['Prueba5','5','1']),'esperando 0')
-print(f.insert("prueba11","seguridad",['Prueba6','1','1']),'esperando 0')
+print(f.insert("prueba11","seguridad",['Pruebá6','1','1']),'esperando 0')
 # print(f.quitarmodoSeguro("prueba11","seguridad"),'esperando 0')
 # print(f.update("prueba11","seguridad",{0:'Prueba'},['Prueba6','1']),'esperando 0')
-print(f.delete("prueba11","seguridad",['Prueba6','1']),'esperando 0')
-print(f.generateChecksum("prueba11",'MD5'))
-print(f.cifrarDataBase("BD2"),'esperando 0')
-print(f.extractTable("prueba11","seguridad"))
+print(f.checksumDatabase("prueba11",'SHA256'))
+print(f.checksumDatabase("prueba11",'MD5'))
+print(f.checksumTable("prueba11","seguridad","MD5"), "checksum MD5 prueba11 seguridad")
+print(f.delete("prueba11","seguridad",['Prueba2','2']),'esperando 0')
+print(f.checksumDatabase("prueba11",'SHA256'), "checksum sha256 prueba11")
+print(f.checksumDatabase("prueba11",'MD5'), "checksum MD5 prueba11")
+print(f.checksumTable("prueba11","seguridad","MD5"), "checksum MD5 prueba11 seguridad")
+print(f.checksumDatabase("BD2",'MD5'), "checksum MD5 BD2")
+print(f.checksumTable("BD2","Cliente","MD5"), "checksumTable Cliente")
+print(f.checksumTable("BD3","Acceso","SHA256"),"cecksumTable Acceso")
+print(f.encrypt("BD2","Contraseña"),'esperando gAAAAABf9O34zwfU3QM0YKTUFrt9I08-mqm43SB2z5Q81yyGuaMEWtNx6JVEnjq6f8h28j4uA9Z4hCRk9-Io80qYQNFKwaciBA==')
+print(f.decrypt("gAAAAABf9O34zwfU3QM0YKTUFrt9I08-mqm43SB2z5Q81yyGuaMEWtNx6JVEnjq6f8h28j4uA9Z4hCRk9-Io80qYQNFKwaciBA==","Contraseña"),'esperando BD2')
+print(f.alterDatabaseEncoding("prueba11","iso-8859-1"))
+# print(f.extractTable("BD2","Cliente"))
 final = time.time()
 print("------------------------------------------------------------------")
 print("Tiempo de Ejecucion:", final-inicio, "segundos")
-
-# # unicode string
-# string = 'pythön!'
-
-# # print string
-# print('The string is:', string)
-
-# print('The encoded version (with ignore) is:', string.encode("utf-8", "strict"))
-
-# rr = string.encode("utf-8", "replace")

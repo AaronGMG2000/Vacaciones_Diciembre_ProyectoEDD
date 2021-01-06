@@ -273,6 +273,47 @@ def cambioTablas(modo, tablas, database, mode, db):
         Serializable.update('./Data', 'DataTables', dataTable)
     return 0
 
+def alterDatabaseEncoding(database: str, encoding: str) -> int:
+    checkData()
+    try:
+        data = Serializable.Read('./Data/',"Data")
+        if encoding not in ['ascii', 'iso-8859-1', 'utf8']:
+            return 3
+        db = data.get(database)
+        if db:
+            mode = db[1][0]
+            if mode == 'avl':
+                res = avl.showTables(database)
+            elif mode == 'b':
+                res = b.showTables(database)
+            elif mode == 'bplus':
+                res = bplus.showTables(database)
+            elif mode == 'dict':
+                res = dict.showTables(database)
+            elif mode == 'isam':
+                res = isam.showTables(database)
+            elif mode == 'json':
+                res = json.showTables(database)
+            elif mode == 'hash':
+                res = hash.showTables(database)
+            if len(res):
+                for x in res:
+                    row = extractTable(database, x)
+                    if len(row):
+                        for l in row:
+                            for g in l:
+                                if type(g) == str:
+                                    g.encode(encoding)
+            if not res:
+                db[2] == encoding
+                data[database] = db
+                Serializable.update('./Data', 'Data', data)
+            return 0
+        else:
+            return 2
+    except:
+        return 1
+
 #----------------Table-------------------#
 
 def createTable(database: str, table: str, numberColumns: int) -> int:
@@ -729,7 +770,7 @@ def alterTableMode(database: str, table: str, mode: str) -> int:
     except:
         return 1        
 
-def modoSeguro(database: str, table: str)->int:
+def safeModeOn(database: str, table: str)->int:
     checkData()
     try:
         data = Serializable.Read('./Data/',"Data")
@@ -741,17 +782,13 @@ def modoSeguro(database: str, table: str)->int:
                 if os.path.isfile("./Data/security/"+database+"_"+table+".json"):
                     return 4
                 block.blockchain().crear(database, table)
-                row = extractTable(database, table)
-                if len(row):
-                    for x in row:
-                        block.blockchain().insert(x, database, table)
                 return 0
             return 3
         return 2
     except:
         return 1
 
-def quitarmodoSeguro(database: str, table: str)->int:
+def safeModeOff(database: str, table: str)->int:
     checkData()
     try:
         data = Serializable.Read('./Data/',"Data")
@@ -781,8 +818,7 @@ def insert(database: str, table: str, register: list) -> int:
             if tab:
                 for x in register:
                     if type(x)==str:
-                        x = x.encode(db[2], "strict")
-                
+                        x.encode(db[2], "strict")
                 if tab[1] == 'avl' :
                     res = avl.insert(database, table, register)
                 elif tab[1] == 'b':
@@ -818,31 +854,39 @@ def loadCSV(file: str, database: str, table: str) -> list:
             if tab:
                 res = 3
                 import csv
-                with open(file, 'r', encoding='utf-8-sig') as file:
-                    reader = csv.reader(file, delimiter=',')
-                    fil = open("./data/change.csv", "w", newline='', encoding='utf-8')
-                    spamreader = csv.writer(fil)
+                with open(file, 'r', encoding='utf-8-sig') as fil:
+                    reader = csv.reader(fil, delimiter=',')
                     for y in reader:
                         for g in y:
                             if type(g) == str:
-                                g = g.encode(db[2])
-                        spamreader.writerow(y)
-                    file = "./data/change.csv"
+                                g.encode(db[2], errors='strict')
                     fil.close()
+
                 if tab[1] == 'avl':
                     res = avl.loadCSV(file, database, table)
+                    tabla = avl.extractTable(database, table)
                 elif tab[1] == 'b':
                     res = b.loadCSV(file, database, table)
+                    tabla = b.extractTable(database, table)
                 elif tab[1] == 'bplus':
                     res = bplus.loadCSV(file, database, table)
+                    tabla = bplus.extractTable(database, table)
                 elif tab[1] == 'dict':
                     res = dict.loadCSV(file, database, table)
+                    tabla = dict.extractTable(database, table)
                 elif tab[1] == 'isam':
                     res = isam.loadCSV(file, database, table)
+                    tabla = isam.extractTable(database, table)
                 elif tab[1] == 'json':
                     res = json.loadCSV(file, database, table)
+                    tabla = json.extractTable(database, table)
                 elif tab[1] == 'hash':
                     res = hash.loadCSV(file, database, table)
+                    tabla = hash.extractTable(database, table)
+                if len(tabla):
+                    if os.path.isfile("./Data/security/"+database+"_"+table+".json"):
+                        for register in tabla:
+                            block.blockchain().insert(register, database, table)
                 return res
             return []
         else:
@@ -892,36 +936,28 @@ def update(database: str, table: str, register: dict, columns: list) -> int:
             if tab:
                 for x in list(register.values()):
                     if type(x)==str:
-                        x = x.encode(db[2], "strict")
-                        
+                        x.encode(db[2], "strict")
                 if tab[1] == 'avl':
                     row = avl.extractRow(database, table, columns)
                     res = avl.update(database, table, register, columns)
-                    mod = avl
                 elif tab[1] == 'b':
                     row = b.extractRow(database, table, columns)
                     res = b.update(database, table, register, columns)
-                    mod = b
                 elif tab[1] == 'bplus':
                     row = bplus.extractRow(database, table, columns)
                     res = bplus.update(database, table, register, columns)
-                    mod = bplus
                 elif tab[1] == 'dict':
                     row = dict.extractRow(database, table, columns)
                     res = dict.update(database, table, register, columns)
-                    mod = dict
                 elif tab[1] == 'isam':
                     row = isam.extractRow(database, table, columns)
                     res = isam.update(database, table, register, columns)
-                    mod = isam
                 elif tab[1] == 'json':
                     row = json.extractRow(database, table, columns)
                     res = json.update(database, table, register, columns)
-                    mod = json
                 elif tab[1] == 'hash':
                     row = hash.extractRow(database, table, columns)
                     res = hash.update(database, table, register, columns)
-                    mod = hash
                 if not res:
                     if os.path.isfile('./Data/security/'+database+"_"+table+".json"):
                         row2 = row[:]
@@ -967,14 +1003,14 @@ def delete(database: str, table: str, columns: list) -> int:
                     row = hash.extractRow(database, table, columns)
                     res = hash.delete(database, table, columns)
                 if not res:
-                    block.blockchain().EliminarHash(row, database, table)
+                    if os.path.isfile('./Data/security/'+database+"_"+table+".json"):
+                        block.blockchain().EliminarHash(row, database, table)
                 return res
             return 3
         else:
             return 2
     except:
         return 1
-
 
 def truncate(database: str, table: str) -> int:
     checkData()
@@ -999,6 +1035,9 @@ def truncate(database: str, table: str) -> int:
                     res = json.truncate(database, table)
                 elif tab[1] == 'hash':
                     res = hash.truncate(database, table)
+                if not res:
+                    if os.path.isfile('./Data/security/'+database+"_"+table+".json"):
+                        block.blockchain().crear(database, table)
                 return res
             return 3
         else:
@@ -1006,98 +1045,87 @@ def truncate(database: str, table: str) -> int:
     except:
         return 1
 
-def cifrarDataBase(database:str):
+#------------Nuevas Funciones-------------#
+
+def encrypt(backup:str, password: str):
     checkData()
     try:
-        data = Serializable.Read('./Data/',"Data")
-        dataTable = Serializable.Read('./Data/',"DataTables")
-        db = data.get(database)
-        if db:
-            res = showTables(database)
-            encrypt_row = []
-            if len(res):
-                for  x in res:
-                    tab = dataTable.get(database+"_"+x)
-                    row = extractTable(database, x)
-                    for l in row:
-                        # if len(tab[3]):
-                        #     key = []
-                        #     for t in tab[3]:
-                        #         key.append(l[t])
-                        #     row_encrypt = crypt.encrypt_list(l, database)
-                        #     dict = {}
-                        #     for g in range(len(l)):
-                        #         dict.update({g:row_encrypt[g]})
-                        #     print(update(database, x, dict, key))
-                        # else:
-                        truncate(database, x)
-                        encrypt_row.append(crypt.encrypt_list(l,database))
-                    import csv
-                    file = open("./data/change.csv", "w", newline='', encoding='utf-8')
-                    spamreader = csv.writer(file)
-                    for y in encrypt_row:
-                        spamreader.writerow(y)
-                    file.close()
-                    loadCSV("./data/change.csv", database, x)
-                            
-            return 0
-        else:
-            return 2
+        return crypt.encrypt(backup, password, password)
     except:
         return 1
 
-def generateChecksum(database, tipo):
+def decrypt(backup:str, password: str):
+    checkData()
+    return crypt.decrypt(backup, password, password)
+
+def checksumDatabase(database: str, mode: str) -> str:
     checkData()
     try:
         data = Serializable.Read('./Data/',"Data")
         db = data.get(database)
         if db:
-            res = 1
-            mode =db[1][0] 
-            if mode == 'avl':
-                tables = avl.showTables(database)
-                mod='avl'
-            elif mode == 'b':
-                tables = b.showTables(database)
-                mod='b'
-            elif mode == 'bplus':
-                tables = bplus.showTables(database)
-                mod='bplus'
-            elif mode == 'dict':
-                tables = dict.showTables(database)
-                mod='dict'
-            elif mode == 'isam':
-                tables = isam.showTables(database)
-                mod='isam'
-            elif mode == 'json':
-                tables = json.showTables(database)
-                mod='json'
-            elif mode == 'hash':
-                tables = hash.showTables(database)
-                mod='hash'
+            tables = showTables(database)
             if len(tables):
-                if tipo == 'MD5':
+                dataTable = Serializable.Read('./Data/',"DataTables")
+                if mode == 'MD5':
                     hash_md5 = hashlib.md5()
-                elif tipo == 'SHA256':
-                    hash_md5 = hashlib.sha256
+                elif mode == 'SHA256':
+                    hash_md5 = hashlib.sha256()
+                else:
+                    return None
                 for x in tables:
+                    tab = dataTable.get(database+"_"+x)
+                    mod = tab[1]
                     if mod == 'avl':
                         hash_md5.update(open('./Data/avlMode/'+database+"_"+x+".tbl",'rb').read())
                     elif mod == 'b':
-                        hash_md5.update(open('filename.exe','rb').read())
+                        hash_md5.update(open('./Data/B/'+database+"-"+x+"-b.bin",'rb').read())
                     elif mod == 'isam':
-                        hash_md5.update(open('filename.exe','rb').read())
+                        hash_md5.update(open('./Data/ISAMMode/tables/'+database+x+".bin",'rb').read())
                     elif mod == 'bplus':
                         hash_md5.update(open('./Data/BPlusMode/'+database+"/"+x+"/"+x+".bin",'rb').read())
                     elif mod == 'dict':
-                        hash_md5.update(open('filename.exe','rb').read())
+                        hash_md5.update(open('./Data/dict/'+database+"/"+x+".bin",'rb').read())
                     elif mod == 'json':
-                        hash_md5.update(open('filename.exe','rb').read())
+                        hash_md5.update(open('./Data/json/'+database+"-"+x,'rb').read())
                     elif mod == 'hash':
                         hash_md5.update(open('./Data/hash/'+database+"/"+x+".bin",'rb').read())
-                    return hash_md5.hexdigest()
-            return res
-        else:
-            return 2
+                return hash_md5.hexdigest()
+        return None
     except:
-        return 1
+        return None
+
+def checksumTable(database: str, table:str, mode: str) -> str:
+    checkData()
+    try:
+        data = Serializable.Read('./Data/',"Data")
+        db = data.get(database)
+        dataTable = Serializable.Read('./Data/',"DataTables")
+        tab = dataTable.get(database+"_"+table)
+        if db:
+            if tab:
+                mod=tab[1]
+                if mode == 'MD5':
+                    hash_md5 = hashlib.md5()
+                elif mode == 'SHA256':
+                    hash_md5 = hashlib.sha256()
+                else:
+                    return None
+                if mod == 'avl':
+                    hash_md5.update(open('./Data/avlMode/'+database+"_"+table+".tbl",'rb').read())
+                elif mod == 'b':
+                    hash_md5.update(open('./Data/B/'+database+"-"+table+"-b.bin",'rb').read())
+                elif mod == 'isam':
+                    hash_md5.update(open('./Data/ISAMMode/tables/'+database+table+".bin",'rb').read())
+                elif mod == 'bplus':
+                    hash_md5.update(open('./Data/BPlusMode/'+database+"/"+table+"/"+table+".bin",'rb').read())
+                elif mod == 'dict':
+                    hash_md5.update(open('./Data/dict/'+database+"/"+table+".bin",'rb').read())
+                elif mod == 'json':
+                    hash_md5.update(open('./Data/json/'+database+"-"+table,"rb").read())
+                elif mod == 'hash':
+                    hash_md5.update(open('./Data/hash/'+database+"/"+table+".bin",'rb').read())
+                return hash_md5.hexdigest()
+        return None
+    except:
+        return None
