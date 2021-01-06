@@ -296,14 +296,25 @@ def alterDatabaseEncoding(database: str, encoding: str) -> int:
                 res = json.showTables(database)
             elif mode == 'hash':
                 res = hash.showTables(database)
+            table_enconde={}
             if len(res):
                 for x in res:
                     row = extractTable(database, x)
                     if len(row):
+                        row_encode=[]
                         for l in row:
+                            i = 0
                             for g in l:
                                 if type(g) == str:
-                                    g.encode(encoding)
+                                    l[i] = g.encode(encoding)
+                                i+=1
+                            row_encode.append(l)
+                        table_enconde[x] = row_encode
+            for tabla in table_enconde.keys():
+                truncate(database, tabla)
+                for l in table_enconde[tabla]:
+                    insert(database, tabla, l)
+                        
             if not res:
                 db[2] == encoding
                 data[database] = db
@@ -402,6 +413,13 @@ def extractTable(database: str, table: str) -> list:
                     res = json.extractTable(database, table)
                 elif tab[1] == 'hash':
                     res = hash.extractTable(database, table)
+                for y in res:
+                    i = 0
+                    for g in y:
+                        if type(g) == type(b''):
+                            g = g.decode(db[2])
+                            y[i] = g
+                        i+=1
                 return res
         return None
     except:
@@ -434,7 +452,6 @@ def extractRangeTable(database: str, table: str, columnNumber: int,
             return 2
     except:
         return 1
-
 
 def alterAddPK(database: str, table: str, columns: list) -> int:
     checkData()
@@ -470,7 +487,6 @@ def alterAddPK(database: str, table: str, columns: list) -> int:
     except:
         return 1
 
-
 def alterDropPK(database: str, table: str) -> int:
     checkData()
     try:
@@ -504,7 +520,6 @@ def alterDropPK(database: str, table: str) -> int:
             return 2
     except:
         return 1
-
 
 def alterTableAddFK(database: str, table: str, indexName: str, 
                     columns: list,  tableRef: str, columnsRef: list) -> int:
@@ -552,7 +567,6 @@ def alterTable(database: str, tableOld: str, tableNew: str) -> int:
     except:
         return 1
 
-
 def alterAddColumn(database: str, table: str, default: any) -> int:
     checkData()
     try:
@@ -586,7 +600,6 @@ def alterAddColumn(database: str, table: str, default: any) -> int:
             return 2
     except:
         return 1
-
 
 def alterDropColumn(database: str, table: str, columnNumber: int) -> int:
     checkData()
@@ -816,9 +829,12 @@ def insert(database: str, table: str, register: list) -> int:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
+                i = 0
                 for x in register:
                     if type(x)==str:
-                        x.encode(db[2], "strict")
+                        x = x.encode(db[2], "strict")
+                        register[i] = x
+                    i+=1
                 if tab[1] == 'avl' :
                     res = avl.insert(database, table, register)
                 elif tab[1] == 'b':
@@ -852,36 +868,37 @@ def loadCSV(file: str, database: str, table: str) -> list:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
-                res = 3
+                res = []
                 import csv
                 with open(file, 'r', encoding='utf-8-sig') as fil:
                     reader = csv.reader(fil, delimiter=',')
                     for y in reader:
-                        for g in y:
-                            if type(g) == str:
-                                g.encode(db[2], errors='strict')
+                        # for g in y:
+                        #     if type(g) == str:
+                        #         g.encode(db[2], errors='strict')
+                        res.append(insert(database, table, y))  
                     fil.close()
 
                 if tab[1] == 'avl':
-                    res = avl.loadCSV(file, database, table)
+                    # res = avl.loadCSV(file, database, table)
                     tabla = avl.extractTable(database, table)
                 elif tab[1] == 'b':
-                    res = b.loadCSV(file, database, table)
+                    # res = b.loadCSV(file, database, table)
                     tabla = b.extractTable(database, table)
                 elif tab[1] == 'bplus':
-                    res = bplus.loadCSV(file, database, table)
+                    # res = bplus.loadCSV(file, database, table)
                     tabla = bplus.extractTable(database, table)
                 elif tab[1] == 'dict':
-                    res = dict.loadCSV(file, database, table)
+                    # res = dict.loadCSV(file, database, table)
                     tabla = dict.extractTable(database, table)
                 elif tab[1] == 'isam':
-                    res = isam.loadCSV(file, database, table)
+                    # res = isam.loadCSV(file, database, table)
                     tabla = isam.extractTable(database, table)
                 elif tab[1] == 'json':
-                    res = json.loadCSV(file, database, table)
+                    # res = json.loadCSV(file, database, table)
                     tabla = json.extractTable(database, table)
                 elif tab[1] == 'hash':
-                    res = hash.loadCSV(file, database, table)
+                    # res = hash.loadCSV(file, database, table)
                     tabla = hash.extractTable(database, table)
                 if len(tabla):
                     if os.path.isfile("./Data/security/"+database+"_"+table+".json"):
@@ -934,9 +951,14 @@ def update(database: str, table: str, register: dict, columns: list) -> int:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
-                for x in list(register.values()):
-                    if type(x)==str:
-                        x.encode(db[2], "strict")
+                for x in list(register.keys()):
+                    if register[x]==str:
+                        register[x] = register[x].encode(db[2], "strict")
+                i=0
+                for x in columns:
+                    x = str(x).encode(db[2], "strict")
+                    columns[i] = x
+                    i+=1
                 if tab[1] == 'avl':
                     row = avl.extractRow(database, table, columns)
                     res = avl.update(database, table, register, columns)
@@ -981,6 +1003,11 @@ def delete(database: str, table: str, columns: list) -> int:
         tab = dataTable.get(database+"_"+table)
         if db:
             if tab:
+                i=0
+                for x in columns:
+                    x = str(x).encode(db[2], "strict")
+                    columns[i] = x
+                    i+=1
                 if tab[1] == 'avl':
                     row = avl.extractRow(database, table, columns)
                     res = avl.delete(database, table, columns)
@@ -1044,19 +1071,20 @@ def truncate(database: str, table: str) -> int:
             return 2
     except:
         return 1
-
 #------------Nuevas Funciones-------------#
-
 def encrypt(backup:str, password: str):
     checkData()
     try:
         return crypt.encrypt(backup, password, password)
     except:
-        return 1
+        return None
 
 def decrypt(backup:str, password: str):
     checkData()
-    return crypt.decrypt(backup, password, password)
+    try:
+        return crypt.decrypt(backup, password, password)
+    except:
+        return None
 
 def checksumDatabase(database: str, mode: str) -> str:
     checkData()
