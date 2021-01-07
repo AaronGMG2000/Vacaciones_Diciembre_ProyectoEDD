@@ -1,4 +1,4 @@
-from storage import storage2 as f
+from storage import storage as f
 import time
 
 f.dropAll()#limpieza de todos los datos
@@ -183,3 +183,8 @@ print(f.alterDatabaseEncoding("prueba11","utf8"))
 final = time.time()
 print("------------------------------------------------------------------")
 print("Tiempo de Ejecucion:", final-inicio, "segundos")
+print(f.extractTable("BD1","Periodo"))
+print(f"Compresion {f.alterTableCompress('BD1','Periodo',7)}")
+print(f.extractTable("BD1","Periodo"))
+print(f"Decompresion {f.alterTableDecompress('BD1','Periodo')}")
+print(f.extractTable("BD1","Periodo"))
