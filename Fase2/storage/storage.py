@@ -1125,3 +1125,130 @@ def checksumTable(database: str, table:str, mode: str) -> str:
         return None
     except:
         return None
+
+def alterDatabaseCompress(database, level):
+    checkData()
+    data = Serializable.Read('./Data/', "Data")
+    db = data.get(database)
+    dataTable = Serializable.Read('./Data/', "DataTables")
+    if db:
+        alterDatabaseEncoding(database, "utf8")
+        print(f"Tablas: {showTables(database)}")
+        for table in showTables(database):
+            tab = dataTable.get(database + "_" + table)
+            # print(f"Tab: {tab}")
+            tuplas = extractTable(database, table)
+            if tuplas != None:
+                truncate(database, table)
+                # print(f"Tuplas {tuplas}")
+                import zlib
+                for y in tuplas:
+                    compressed_data = []
+                    for item in y:
+                        compressed_item = item
+                        if type(item) == bytes or type(item) == bytearray:
+                            compressed_item = zlib.compress(item, level)
+                        elif type(item) == str:
+                            compressed_item = zlib.compress(item.encode(), level)
+                        # print(type(compressed_item))
+                        compressed_data.append(compressed_item)
+                    # print(f"compressed data {compressed_data}")
+                    insert(database, table, compressed_data)
+                    # print(f"{database}, {table}: {extractTable(database, table)}")
+        return 0
+    else:
+       return 2
+
+def alterDatabaseDecompress(database):
+    checkData()
+    data = Serializable.Read('./Data/', "Data")
+    db = data.get(database)
+    dataTable = Serializable.Read('./Data/', "DataTables")
+    if db:
+        alterDatabaseEncoding(database, "utf8")
+        for table in showTables(database):
+            tab = dataTable.get(database + "_" + table)
+            tuplas = extractTable(database, table)
+            if tuplas != None:
+                truncate(database, table)
+                # print(f"Tuplas {tuplas}")
+                import zlib
+                for y in tuplas:
+                    compressed_data = []
+                    for item in y:
+                        compressed_item = item
+                        if type(item) == bytes or type(item) == bytearray:
+                            compressed_item = zlib.decompress(item)
+                            compressed_item = compressed_item.decode()
+                        # elif type(item) == str:
+                        #     compressed_item = zlib.compress(item.encode(), level)
+                        # print(type(compressed_item))
+                        compressed_data.append(compressed_item)
+                    # print(f"compressed data {compressed_data}")
+                    insert(database, table, compressed_data)
+                    # print(f"{database}, {table}: {extractTable(database, table)}")
+        return 0
+    else:
+        return 2
+
+def alterTableCompress(database, table, level):
+    checkData()
+    data = Serializable.Read('./Data/', "Data")
+    db = data.get(database)
+    dataTable = Serializable.Read('./Data/', "DataTables")
+    if db:
+        alterDatabaseEncoding(database, "utf8")
+        tab = dataTable.get(database + "_" + table)
+        # print(f"Tab: {tab}")
+        tuplas = extractTable(database, table)
+        if tuplas != None:
+            truncate(database, table)
+            # print(f"Tuplas {tuplas}")
+            import zlib
+            for y in tuplas:
+                compressed_data = []
+                for item in y:
+                    compressed_item = item
+                    if type(item) == bytes or type(item) == bytearray:
+                        compressed_item = zlib.compress(item, level)
+                    elif type(item) == str:
+                        compressed_item = zlib.compress(item.encode(), level)
+                    # print(type(compressed_item))
+                    compressed_data.append(compressed_item)
+                # print(f"compressed data {compressed_data}")
+                insert(database, table, compressed_data)
+                # print(f"{database}, {table}: {extractTable(database, table)}")
+        return 0
+    else:
+        return 2
+
+def alterTableDecompress(database, table):
+    checkData()
+    data = Serializable.Read('./Data/', "Data")
+    db = data.get(database)
+    dataTable = Serializable.Read('./Data/', "DataTables")
+    if db:
+        alterDatabaseEncoding(database, "utf8")
+        tab = dataTable.get(database + "_" + table)
+        tuplas = extractTable(database, table)
+        if tuplas != None:
+            truncate(database, table)
+            # print(f"Tuplas {tuplas}")
+            import zlib
+            for y in tuplas:
+                compressed_data = []
+                for item in y:
+                    compressed_item = item
+                    if type(item) == bytes or type(item) == bytearray:
+                        compressed_item = zlib.decompress(item)
+                        compressed_item = compressed_item.decode()
+                    # elif type(item) == str:
+                    #     compressed_item = zlib.compress(item.encode(), level)
+                    # print(type(compressed_item))
+                    compressed_data.append(compressed_item)
+                # print(f"compressed data {compressed_data}")
+                insert(database, table, compressed_data)
+                # print(f"{database}, {table}: {extractTable(database, table)}")
+        return 0
+    else:
+        return 2
