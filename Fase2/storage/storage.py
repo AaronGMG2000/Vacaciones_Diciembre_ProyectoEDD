@@ -46,7 +46,7 @@ def dropAll():
     hash._storage = hash.ListaBaseDatos.ListaBaseDatos()
     b.b = b.db.DB()
 #----------------DataBase----------------#
-
+#-----------------Dyllan------------------#
 def createDatabase(database: str, mode: str, encoding: str) -> int:
     checkData()
     if not validateIdentifier(database):
@@ -308,7 +308,7 @@ def cambioTablas(modo, tablas, database, mode, db):
         os.remove("./data/change.csv")
         Serializable.update('./Data', 'DataTables', dataTable)
     return 0
-
+#-------------------Dyllan---------------------#
 def alterDatabaseEncoding(database: str, encoding: str) -> int:
     checkData()
     try:
@@ -1026,7 +1026,7 @@ def safeModeOff(database: str, table: str)->int:
     except:
         return 1
 #----------------Tupla-------------------#
-
+#*--------------Erick---------------------#
 def insert(database: str, table: str, register: list) -> int:
     checkData()
     try:
@@ -1274,7 +1274,9 @@ def truncate(database: str, table: str) -> int:
             return 2
     except:
         return 1
+#*----------------Erick---------------------#
 #------------Nuevas Funciones-------------#
+#----------Dyllan------------------#
 def encrypt(backup:str, password: str):
     checkData()
     try:
@@ -1288,7 +1290,7 @@ def decrypt(backup:str, password: str):
         return crypt.decrypt(backup, password, password)
     except:
         return None
-        
+#------------Dyllan------------------#        
 def checksumDatabase(database: str, mode: str) -> str:
     checkData()
     try:
@@ -1379,6 +1381,7 @@ def checksumTable(database: str, table:str, mode: str) -> str:
     except:
         return None
 
+#-----------Primero versión vieja, luego esta versión Erick----------
 def alterDatabaseCompress(database, level):
     checkData()
     data = Serializable.Read('./Data/', "Data")
