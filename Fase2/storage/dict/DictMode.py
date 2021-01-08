@@ -68,8 +68,8 @@ def extractRow(database: str, table: str, columns: list):
     return ky.extractRow(database, table, columns)
 
 'Carga'
-def loadCSV(file: str, database: str, table: str):
-    return ld.loadCSV(file,database,table)
+def loadCSV(file: str, database: str, table: str, tipado):
+    return ld.loadCSV(file,database,table, tipado)
 
 def dropAll():
     return bd.dropAll()

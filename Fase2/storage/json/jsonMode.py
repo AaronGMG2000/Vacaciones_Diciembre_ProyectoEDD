@@ -52,9 +52,13 @@ def alterDatabase(databaseOld: str, databaseNew) -> int:
             return 2
         if databaseNew in data:
             return 3
+        tab = showTables(databaseOld)
         data[databaseNew] = data[databaseOld]
         data.pop(databaseOld)
         write(dataPath, data)
+        if len(tab):
+            for x in tab:
+                os.rename("./Data/json/"+databaseOld+"-"+x,"./Data/json/"+databaseNew+"-"+x)
         return 0
     except:
         return 1
@@ -218,6 +222,7 @@ def alterTable(database: str, tableOld: str, tableNew: str) -> int:
         data[database][tableNew] = data[database][tableOld]
         data[database].pop(tableOld)
         write(dataPath, data)
+        os.rename("./Data/json/"+database+"-"+tableOld,"./Data/json/"+database+"-"+tableNew)
         return 0
     except:
         return 1   
@@ -351,13 +356,26 @@ def insert(database: str, table: str, register: list) -> int:
         return 1
 
 # READ or load a CSV file to a table
-def loadCSV(filepath: str, database: str, table: str) -> list:
+def loadCSV(filepath: str, database: str, table: str, tipado) -> list:
     try:
         res = []
         import csv
         with open(filepath, 'r') as file:
             reader = csv.reader(file, delimiter = ',')
+            j = 0
             for row in reader:
+                if tipado:
+                    i=0
+                    for x in row:
+                        if tipado[j][i] == bool:
+                            if x == 'False':
+                                row[i] = bool(1)
+                            else:
+                                row[i] = bool(0)
+                        else:
+                            row[i] = tipado[j][i](x)
+                        i=i+1
+                    j+=1
                 res.append(insert(database,table,row))
         return res
     except:

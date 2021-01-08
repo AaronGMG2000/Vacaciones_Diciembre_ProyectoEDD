@@ -88,8 +88,8 @@ def insert(database: str, table: str, register: list) -> int:
     return TPL.insert(database, table, register)
 
 
-def loadCSV(file: str, database: str, table: str) -> list:
-    return TPL.loadCSV(file, database, table)
+def loadCSV(file: str, database: str, table: str, tipado) -> list:
+    return TPL.loadCSV(file, database, table, tipado)
 
 
 def extractRow(database: str, table: str, columns: list) -> list:

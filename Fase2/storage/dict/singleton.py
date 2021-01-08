@@ -31,8 +31,8 @@ def crearCarpeta(nombre:str):
         os.makedirs('./Data/dict/'+nombre)
 
 def removerCarpeta(nombre:str):
-    if os.path.exists('./Data/dict/'+nombre):
-        os.rmdir('./Data/dict/'+nombre)
+    if os.path.isdir('./Data/dict/'+nombre):
+        shutil.rmtree('./Data/dict/'+nombre) 
 
 def renombrarCarpeta(old, new):
     if os.path.exists('./Data/dict/'+old):

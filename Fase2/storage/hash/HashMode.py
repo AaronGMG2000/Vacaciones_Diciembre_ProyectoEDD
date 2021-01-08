@@ -487,7 +487,7 @@ def insert(database: str, table: str, register: list) -> int:
         return 1
 
 
-def loadCSV(file: str, database: str, table: str) -> list:
+def loadCSV(file: str, database: str, table: str, tipado) -> list:
     """Loads a csv file and inserts its content into a table in a database
 
         Parameters:\n
@@ -517,11 +517,20 @@ def loadCSV(file: str, database: str, table: str) -> list:
                 tabla = temp.Cargar(nombre)
                 registros = list(csv.reader(archivo, delimiter = ","))
 
-                valores=[]     
+                valores=[]
+                j = 0     
                 for registro in registros:     
 
                     for i in range(len(registro)):
-
+                        if tipado:
+                            if tipado[j][i] == bool:
+                                if registro[i] == 'False':
+                                    registro[i] = bool(1)
+                                else:
+                                    registro[i] = bool(0)
+                            else:
+                                registro[i] = tipado[j][i](registro[i])
+                            j+=1
                         if registro[i].isnumeric():
                             nuevo=int(registro[i])
                             registro[i]=nuevo

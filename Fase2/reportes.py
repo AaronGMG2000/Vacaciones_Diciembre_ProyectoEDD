@@ -1,14 +1,14 @@
-from storage import storage as j
+from storage import storage2 as j
 import time
 
 j.dropAll()#limpieza de todos los datos
 inicio = time.time()
 
 #Area para crear bases de datos
-print("Estado BD:",j.createDatabase("BD1","bplus","utf8"))#Sistema de Asignaciones
-print("Estado BD:",j.createDatabase("BD2","bplus","utf8"))#Sistema de Compras de productos
-print("Estado BD:",j.createDatabase("BD3","bplus","utf8"))#Sistema de Accesos de usuario para una base de datos
-print("Estado BD:",j.createDatabase("BD4","bplus","utf8"))#Sistema de Peliculas y Series para una pagina web
+print("Estado BD:",j.createDatabase("BD1","json","utf8"))#Sistema de Asignaciones
+print("Estado BD:",j.createDatabase("BD2","json","utf8"))#Sistema de Compras de productos
+print("Estado BD:",j.createDatabase("BD3","json","utf8"))#Sistema de Accesos de usuario para una base de datos
+print("Estado BD:",j.createDatabase("BD4","json","utf8"))#Sistema de Peliculas y Series para una pagina web
 print("Estado BD:",j.showDatabases())#Nos deberia mostrar todas las bases de datos
 
 #Area para crear tablas

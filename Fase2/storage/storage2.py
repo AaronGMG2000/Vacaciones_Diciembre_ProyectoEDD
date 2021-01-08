@@ -335,25 +335,25 @@ def createTable(database: str, table: str, numberColumns: int) -> int:
             mode =db[1][0] 
             if mode == 'avl':
                 res = avl.createTable(database, table, numberColumns)
-                dataTable[database+"_"+table] = [table, 'avl', numberColumns, []]
+                dataTable[database+"_"+table] = [table, 'avl', numberColumns, [], False]
             elif mode == 'b':
                 res = b.createTable(database, table, numberColumns)
-                dataTable[database+"_"+table] = [table, 'b', numberColumns, []]
+                dataTable[database+"_"+table] = [table, 'b', numberColumns, [], False]
             elif mode == 'bplus':
                 res = bplus.createTable(database, table, numberColumns)
-                dataTable[database+"_"+table] = [table, 'bplus', numberColumns, []]
+                dataTable[database+"_"+table] = [table, 'bplus', numberColumns, [], False]
             elif mode == 'dict':
                 res = dict.createTable(database, table, numberColumns)
-                dataTable[database+"_"+table] = [table, 'dict', numberColumns, []]
+                dataTable[database+"_"+table] = [table, 'dict', numberColumns, [], False]
             elif mode == 'isam':
                 res = isam.createTable(database, table, numberColumns)
-                dataTable[database+"_"+table] = [table, 'isam', numberColumns, []]
+                dataTable[database+"_"+table] = [table, 'isam', numberColumns, [], False]
             elif mode == 'json':
                 res = json.createTable(database, table, numberColumns)
-                dataTable[database+"_"+table] = [table, 'json', numberColumns, []]
+                dataTable[database+"_"+table] = [table, 'json', numberColumns, [], False]
             elif mode == 'hash':
                 res = hash.createTable(database, table, numberColumns)
-                dataTable[database+"_"+table] = [table, 'hash', numberColumns, []]
+                dataTable[database+"_"+table] = [table, 'hash', numberColumns, [], False]
             Serializable.update('./Data', 'DataTables', dataTable)
             return res
         else:
@@ -1160,3 +1160,69 @@ def checksumTable(database: str, table:str, mode: str) -> str:
         return None
     except:
         return None
+
+def alterTableCompress(database, table, level):
+    checkData()
+    data = Serializable.Read('./Data/', "Data")
+    db = data.get(database)
+    dataTable = Serializable.Read('./Data/', "DataTables")
+    if type(level) != int:
+        return 4
+    elif (level < 0 or level > 9) and level != -1:
+        return 4
+    if db:
+        tab = dataTable.get(database + "_" + table)
+        try:
+            if not tab:
+                return 1
+            tuplas = extractTable(database, table)
+            if tuplas != None:
+                truncate(database, table)
+                import zlib
+                for y in tuplas:
+                    compressed_data = []
+                    for item in y:
+                        compressed_item = item
+                        if type(item) == bytes or type(item) == bytearray:
+                            compressed_item = zlib.compress(item, level)
+                        elif type(item) == str:
+                            compressed_item = zlib.compress(item.encode(), level)
+                        compressed_data.append(compressed_item.hex())
+                    
+                    insert(database, table, compressed_data)
+        except:
+            return 1
+        tab[4] = True
+        return 0
+    else:
+        return 2
+
+def alterTableDecompress(database, table):
+    checkData()
+    data = Serializable.Read('./Data/', "Data")
+    db = data.get(database)
+    dataTable = Serializable.Read('./Data/', "DataTables")
+    if db:
+        tab = dataTable.get(database + "_" + table)
+        try:
+            if not tab:
+                return 1
+            tuplas = extractTable(database, table)
+            if tuplas != None:
+                truncate(database, table)
+                import zlib
+                for y in tuplas:
+                    compressed_data = []
+                    for item in y:
+                        compressed_item = item
+                        if type(item) == str:
+                            compressed_item = zlib.decompress(bytes.fromhex(item))
+                            compressed_item = compressed_item.decode()
+                        compressed_data.append(compressed_item)
+                    insert(database, table, compressed_data)
+        except:
+            return 1
+        tab[4] = False
+        return 0
+    else:
+        return 2

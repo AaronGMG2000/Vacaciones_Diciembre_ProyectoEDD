@@ -135,12 +135,12 @@ def insert(database: str, table: str, register: list) -> int:
         pass
     return r
 
-def loadCSV(file: str, database: str, table: str) -> list:
+def loadCSV(file: str, database: str, table: str, tipado) -> list:
     try:
         b.dicDB[database][table][0] = serializar.rollback(database+"-"+table+"-B")
     except:
         pass
-    r = b.loadCSV(file, database, table)
+    r = b.loadCSV(file, database, table, tipado)
     try:
         serializar.commit(b.dicDB[database][table][0], database+"-"+table+"-B")
         b.dicDB[database][table][0] = bt.arbolB(b.grade)

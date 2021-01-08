@@ -313,13 +313,26 @@ class DB():
 
     # CARGA DE REGISTROS MEDIANTE UN CSV
 
-    def loadCSV(self, file, database, table):
+    def loadCSV(self, file, database, table, tipado):
         try:
             tmp = list()
             with open(file, 'r') as file:
                 reader = csv.reader(file, delimiter = ',')
-                for registros in reader:
-                    tmp.append(self.insert(database,table, registros))
+                j = 0
+                for row in reader:
+                    if tipado:
+                        i=0
+                        for x in row:
+                            if tipado[j][i] == bool:
+                                if x == 'False':
+                                    row[i] = bool(1)
+                                else:
+                                    row[i] = bool(0)
+                            else:
+                                row[i] = tipado[j][i](x)
+                            i=i+1
+                        j+=1
+                    tmp.append(self.insert(database,table, row))
                 return tmp
         except:
             return []

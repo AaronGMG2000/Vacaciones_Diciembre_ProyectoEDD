@@ -56,7 +56,7 @@ class TupleModule:
         except:
             return 1
 
-    def loadCSV(self, file: str, database: str, table: str) -> list:
+    def loadCSV(self, file: str, database: str, table: str, tipado) -> list:
         try:
             if not isinstance(database, str) or not isinstance(table, str) or not file.endswith(".csv"):
                 raise
@@ -67,8 +67,21 @@ class TupleModule:
                     if self.handler.exists(database, table):
                         result = []
                         avl = self.handler.tableinstance(database, table)
-                        for fila in reader:
-                            result.append(self.__insert(avl, fila))
+                        j = 0
+                        for row in reader:
+                            if tipado:
+                                i=0
+                                for x in row:
+                                    if tipado[j][i] == bool:
+                                        if x == 'False':
+                                            row[i] = bool(1)
+                                        else:
+                                            row[i] = bool(0)
+                                    else:
+                                        row[i] = tipado[j][i](x)
+                                    i=i+1
+                                j+=1
+                            result.append(self.__insert(avl, row))
                         self.handler.tableupdate(avl)
                         return result
                     else:

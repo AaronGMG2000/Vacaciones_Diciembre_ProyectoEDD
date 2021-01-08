@@ -410,7 +410,7 @@ def insert(database, table, register):
     else:
         return 1
 
-def loadCSV(filepath, database, table):
+def loadCSV(filepath, database, table, tipado):
     if type(database) !=str or type(table)!=str or type(filepath)!=str:
         return []
     checkData()
@@ -428,7 +428,20 @@ def loadCSV(filepath, database, table):
             PKsTree = serializable.Read(f'./Data/BPlusMode/{database}/{table}/', table)
             with open(filepath, 'r') as file:
                 reader = csv.reader(file, delimiter=',')
+                j = 0
                 for row in reader:
+                    if tipado:
+                        i=0
+                        for x in row:
+                            if tipado[j][i] == bool:
+                                if x == 'False':
+                                    row[i] = bool(1)
+                                else:
+                                    row[i] = bool(0)
+                            else:
+                                row[i] = tipado[j][i](x)
+                            i=i+1
+                        j+=1
                     res.append(PKsTree.register(row))
             serializable.update(f'./Data/BPlusMode/{database}/{table}/', table, PKsTree)
             return res
