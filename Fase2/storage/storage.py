@@ -299,7 +299,7 @@ def cambioTablas(modo, tablas, database, mode, db):
         else:
             mod.createTable(database, x, dataTableRef.get(x.upper()+"_"+database.upper()))
         file = open("./data/change.csv", "w", newline='', encoding='utf-8')
-        spamreader = csv.writer(file)
+        spamreader = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         tipado = []
         for y in modo.extractTable(database, x):
             tipado_tupla = []
@@ -357,7 +357,7 @@ def createTable(database: str, table: str, numberColumns: int) -> int:
             mode =db[1][0] 
             if mode == 'avl':
                 res = avl.createTable(database, table, numberColumns)
-                dataTable[database.upper()+"_"+table.upper()] = [table, 'avl', numberColumns, [], -2]
+                dataTable[database.upper()+"_"+table.upper()] = [table, 'avl', numberColumns, [], db[3]]
             elif mode == 'b':
                 res = b.createTable(database, table, numberColumns)
                 dataTable[database.upper()+"_"+table.upper()] = [table, 'b', numberColumns, [], db[3]]
@@ -377,12 +377,12 @@ def createTable(database: str, table: str, numberColumns: int) -> int:
                 res = hash.createTable(database, table, numberColumns)
                 dataTable[database.upper()+"_"+table.upper()] = [table, 'hash', numberColumns, [], db[3]]
             if not res:
-                createRefTAbles(database, 'Table_REF_FK_'+table, 6, mode)
-                createRefTAbles(database, 'Table_REF_IndexU_'+table, 4, mode)
-                createRefTAbles(database, 'Table_REF_Index_'+table, 4, mode)
-                dataTableRef['Table_REF_FK_'+table.upper()+"_"+database.upper()] = 6
-                dataTableRef['Table_REF_IndexU_'+table.upper()+"_"+database.upper()] = 4
-                dataTableRef['Table_REF_Index_'+table.upper()+"_"+database.upper()] = 4
+                createRefTAbles(database, 'TABLE_REF_FK_'+table, 6, mode)
+                createRefTAbles(database, 'TABLE_REF_INDEXU_'+table, 4, mode)
+                createRefTAbles(database, 'TABLE_REF_INDEX_'+table, 4, mode)
+                dataTableRef['TABLE_REF_FK_'+table.upper()+"_"+database.upper()] = 6
+                dataTableRef['TABLE_REF_INDEXU_'+table.upper()+"_"+database.upper()] = 4
+                dataTableRef['TABLE_REF_INDEX_'+table.upper()+"_"+database.upper()] = 4
             Serializable.update('./Data', 'DataTables', dataTable)
             Serializable.update('./Data', 'DataTablesRef', dataTableRef)
             return res
@@ -451,14 +451,22 @@ def extractTable(database: str, table: str) -> list:
                     res = json.extractTable(database, table)
                 elif tab[1] == 'hash':
                     res = hash.extractTable(database, table)
-                if len(res) and tab[4]!=-2:
-                    import zlib
-                    for tupla in res:
-                        for x in tupla:
-                            if type(x) == str:
-                                index = tupla.index(x)
-                                tupla[index] = zlib.decompress(bytes.fromhex(x)).decode()
-                return res
+                ret = []
+                if len(res):
+                    if tab[4]!=-2:
+                        import zlib
+                        for tupla in res:
+                            rr=[]
+                            for x in tupla:
+                                if type(x) == str:
+                                    rr.append(zlib.decompress(bytes.fromhex(x)).decode())
+                                else:
+                                    rr.append(x)
+                            ret.append(rr)
+                if len(ret):
+                    return ret
+                else:
+                    return res
         return None
     except:
         return None
@@ -593,16 +601,16 @@ def alterTableAddFK(database: str, table: str, indexName: str,
         if db:
             database = db[0]
             dataTable = Serializable.Read('./Data/',"DataTables")
-            if min(columnsRef) < 0 and min(columns) < 0 and max(columnsRef) >= tabref[2] and max(columns)>= tab[2]:
-                return 1
             tab = dataTable.get(database.upper()+"_"+table.upper())
             tabref = dataTable.get(database.upper()+"_"+tableRef.upper())
             table = tab[0]
             tableRef = tabref[0]
             if tab and tableRef:
+                if min(columnsRef) < 0 or min(columns) < 0 and max(columnsRef) >= tabref[2] and max(columns)>= tab[2]:
+                    return 1
                 mode =db[1][0]
                 register = [indexName, database, table, columns, tableRef, columnsRef]
-                res = registerRefTAbles(database, 'Table_REF_FK_'+table, register, mode)
+                res = registerRefTAbles(database, 'TABLE_REF_FK_'+table, register, mode)
                 return res  
             return 3
         else:
@@ -697,13 +705,13 @@ def alterTableDropFK(database: str, table: str, indexName: str) -> int:
             dataTable = Serializable.Read('./Data/',"DataTablesRef")
             dataTables = Serializable.Read('./Data/',"DataTables")
             tb = dataTables.get(database.upper()+"_"+table.upper())
-            tab = dataTable.get('Table_REF_FK_'+table.upper()+"_"+database.upper())
+            tab = dataTable.get('TABLE_REF_FK_'+table.upper()+"_"+database.upper())
             if tab and tb:
                 database = db[0]
                 table = tb[0]
-                if not buscarcreateRefTables(database, 'Table_REF_FK_'+table, db[1][0], indexName):
+                if not buscarcreateRefTables(database, 'TABLE_REF_FK_'+table, db[1][0], indexName):
                     return 4
-                res = dropRefTAbles(database, 'Table_REF_FK_'+table, db[1][0], indexName)
+                res = dropRefTAbles(database, 'TABLE_REF_FK_'+table, db[1][0], indexName)
                 return res
             return 3
         else:
@@ -721,14 +729,14 @@ def alterTableAddUnique(database: str, table: str, indexName: str, columns: list
         if db:
             dataTable = Serializable.Read('./Data/',"DataTables")
             tab = dataTable.get(database.upper()+"_"+table.upper())
-            if min(columns) < 0 and max(columns)>= tab[2]:
-                return 1
             if tab:
+                if min(columns) < 0 or max(columns)>= tab[2]:
+                    return 4
                 database = db[0]
                 table = tab[0]
                 mode =db[1][0]
                 register = [indexName, database, table, columns]
-                res = registerRefTAbles(database, 'Table_REF_IndexU_'+table, register, mode)
+                res = registerRefTAbles(database, 'TABLE_REF_INDEXU_'+table, register, mode)
                 return res
             return 3
         else:
@@ -743,14 +751,14 @@ def alterTableDropUnique(database: str, table: str, indexName: str) -> int:
         if db:
             dataTable = Serializable.Read('./Data/',"DataTablesRef")
             dataTables = Serializable.Read('./Data/',"DataTables")
-            tab = dataTable.get('Table_REF_FK_'+table.upper()+"_"+database.upper())
+            tab = dataTable.get('TABLE_REF_FK_'+table.upper()+"_"+database.upper())
             tb = dataTables.get(database.upper()+"_"+table.upper())
             if tab and tb:
                 database = db[0]
                 table = tb[0]
-                if not buscarcreateRefTables(database, 'Table_REF_IndexU_'+table, db[1][0], indexName):
+                if not buscarcreateRefTables(database, 'TABLE_REF_INDEXU_'+table, db[1][0], indexName):
                     return 4
-                res = dropRefTAbles(database, 'Table_REF_IndexU_'+table, db[1][0], indexName)
+                res = dropRefTAbles(database, 'TABLE_REF_INDEXU_'+table, db[1][0], indexName)
                 return res
             return 3
         else:
@@ -768,14 +776,14 @@ def alterTableAddIndex(database: str, table: str, indexName: str, columns: list)
         if db:
             dataTable = Serializable.Read('./Data/',"DataTables")
             tab = dataTable.get(database.upper()+"_"+table.upper())
-            if min(columns) < 0 and max(columns)>= tab[2]:
-                return 1
             if tab:
+                if min(columns) < 0 or max(columns)>= tab[2]:
+                    return 4
                 database = db[0]
                 table = tab[0]
                 mode =db[1][0]
                 register = [indexName, database, table, columns]
-                res = registerRefTAbles(database, 'Table_REF_Index_'+table, register, mode)
+                res = registerRefTAbles(database, 'TABLE_REF_INDEX_'+table, register, mode)
                 return res
             return 3
         else:
@@ -790,14 +798,14 @@ def alterTableDropIndex(database: str, table: str, indexName: str) -> int:
         if db:
             dataTable = Serializable.Read('./Data/',"DataTablesRef")
             dataTables = Serializable.Read('./Data/',"DataTables")
-            tab = dataTable.get('Table_REF_FK_'+table.upper()+"_"+database.upper())
+            tab = dataTable.get('TABLE_REF_FK_'+table.upper()+"_"+database.upper())
             tb = dataTables.get(database.upper()+"_"+table.upper())
             if tab and tb:
                 database = db[0]
                 table = tb[0]
-                if not buscarcreateRefTables(database, 'Table_REF_Index_'+table, db[1][0], indexName):
+                if not buscarcreateRefTables(database, 'TABLE_REF_INDEX_'+table, db[1][0], indexName):
                     return 4
-                res = dropRefTAbles(database, 'Table_REF_Index_'+table, db[1][0], indexName)
+                res = dropRefTAbles(database, 'TABLE_REF_INDEX_'+table, db[1][0], indexName)
                 return res
             return 3
         else:
@@ -857,6 +865,12 @@ def alterAddColumn(database: str, table: str, default: any) -> int:
             if tab:
                 database = db[0]
                 table = tab[0]
+                if type(default) == str:
+                    default.encode(db[2], 'strict')
+                if tab[4]!=-2:
+                    if type(default) == str:
+                        import zlib
+                        default = zlib.compress(default.encode(), tab[4]).hex()
                 if tab[1] == 'avl':
                     res = avl.alterAddColumn(database, table, default)
                 elif tab[1] == 'b':
@@ -1046,8 +1060,8 @@ def alterTableMode(database: str, table: str, mode: str) -> int:
                     mod = hash
                 import csv
                 tipado = []
-                file = open("./data/change.csv", "w", newline='')
-                spamreader = csv.writer(file)
+                file = open("./data/change.csv", "w", newline='', encoding='utf-8-sig')
+                spamreader = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 if mod.showTables(database) == None:
                     mod.createDatabase(database)
                 mod.createTable(database, table, tab[2])
@@ -1173,8 +1187,8 @@ def loadCSV(file: str, database: str, table: str) -> list:
                 tabla = []
                 import csv
                 ff = open("./data/change.csv", "w", newline='', encoding='utf-8-sig')
-                spamreader = csv.writer(ff)
-                with open(file, 'r') as fil:
+                spamreader = csv.writer(ff, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                with open(file, 'r', encoding='utf-8-sig') as fil:
                     reader = csv.reader(fil, delimiter=',')
                     for y in reader:
                         for g in y:
@@ -1248,18 +1262,21 @@ def extractRow(database: str, table: str, columns: list) -> list:
                     res = json.extractRow(database, table, columns)
                 elif tab[1] == 'hash':
                     res = hash.extractRow(database, table, columns)
+                ret = []
                 if len(res) and tab[4]!=-2:
                     import zlib
                     for x in res:
                         if type(x) == str:
-                            index = res.index(x)
-                            res[index] = zlib.decompress(bytes.fromhex(x)).decode()
-                return res
-            return 3
+                            ret.append(zlib.decompress(bytes.fromhex(x)).decode())
+                if len(ret):
+                    return ret
+                else:
+                    return res
+            return None
         else:
-            return 2
+            return None
     except:
-        return 1
+        return None
 
 def update(database: str, table: str, register: dict, columns: list) -> int:
     checkData()
@@ -1531,8 +1548,8 @@ def alterDatabaseCompress(database, level):
                         elif tab[1] == 'isam':
                             mod = isam
                         import csv
-                        file = open("./data/change.csv", "w", newline='', encoding='utf-8')
-                        spamreader = csv.writer(file)
+                        file = open("./data/change.csv", "w", newline='', encoding='utf-8-sig')
+                        spamreader = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                         tipado = []
                         compressed_lista = []
                         for y in tuplas:
@@ -1605,21 +1622,10 @@ def alterDatabaseDecompress(database):
                         elif tab[1] == 'isam':
                             mod = isam
                         import csv
-                        file = open("./data/change.csv", "w", newline='', encoding='utf-8')
-                        spamreader = csv.writer(file)
+                        file = open("./data/change.csv", "w", newline='', encoding='utf-8-sig')
+                        spamreader = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                         tipado = []
-                        compressed_lista = []
                         for y in tuplas:
-                            compressed_data = []
-                            for item in y:
-                                compressed_item = item
-                                if type(item) == str:
-                                    compressed_item     = zlib.decompress(bytes.fromhex(item))
-                                    compressed_item = compressed_item.decode()
-                                compressed_data.append(compressed_item)
-                            compressed_lista.append(compressed_data)
-
-                        for y in compressed_lista:
                             tipado_tupla = []
                             for t in y:
                                 tipado_tupla.append(type(t))
@@ -1680,8 +1686,8 @@ def alterTableCompress(database, table, level):
                     elif tab[1] == 'isam':
                         mod = isam
                     import csv
-                    file = open("./data/change.csv", "w", newline='', encoding='utf-8')
-                    spamreader = csv.writer(file)
+                    file = open("./data/change.csv", "w", newline='', encoding='utf-8-sig')
+                    spamreader = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                     compress_list = []
                     for y in tuplas:
                         compressed_data = []
@@ -1748,19 +1754,10 @@ def alterTableDecompress(database, table):
                     elif tab[1] == 'isam':
                         mod = isam
                     import csv
-                    file = open("./data/change.csv", "w", newline='', encoding='utf-8')
-                    spamreader = csv.writer(file)
-                    decompress_list = []
-                    for y in tuplas:
-                        compressed_data = []
-                        for item in y:
-                            compressed_item = item
-                            if type(item) == str:
-                                compressed_item = zlib.decompress(bytes.fromhex(item)).decode()
-                            compressed_data.append(compressed_item)
-                        decompress_list.append(compressed_data)
+                    file = open("./data/change.csv", "w", newline='', encoding='utf-8-sig')
+                    spamreader = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                     tipado = []
-                    for y in decompress_list:
+                    for y in tuplas:
                         tipado_tupla = []
                         for t in y:
                             tipado_tupla.append(type(t))
@@ -1798,7 +1795,7 @@ def graphDSD(database: str) -> str:
             mode = ExtractModeDatabase(db)
             tablas = showTables(database)
             for tab in tablas:
-                rows = mode.extractTable(database,"Table_REF_FK_"+tab)
+                rows = mode.extractTable(database,"TABLE_REF_FK_"+tab)
                 if rows:
                     for row in rows:
                         if row[2] not in nodos:
@@ -1836,7 +1833,7 @@ def graphDF(database: str, table: str) -> str:
                 f.write('rankdir=TB;\n')
                 f.write('node [shape = box];\n')
                 mode = ExtractModeDatabase(db)
-                rows = mode.extractTable(database,"Table_REF_IndexU_"+tab)
+                rows = mode.extractTable(database,"TABLE_REF_INDEXU_"+tab)
                 primarias = tab[3]
                 unicas = []
                 nodos = []

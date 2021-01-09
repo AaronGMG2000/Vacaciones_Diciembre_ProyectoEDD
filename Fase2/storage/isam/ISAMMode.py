@@ -350,7 +350,7 @@ def loadCSV(file: str, database: str, table: str, tipado) -> list:
         res = []
         import csv
         aux_table = rollback('tables/' + database.lower() + table.lower())
-        with open(file, 'r') as f:
+        with open(file, 'r', encoding='utf-8-sig') as f:
             reader = csv.reader(f, delimiter=',')
             j = 0
             for row in reader:

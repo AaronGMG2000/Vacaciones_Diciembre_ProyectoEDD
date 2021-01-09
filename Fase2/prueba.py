@@ -214,7 +214,7 @@ print(f.alterTableAddFK("prueba11","seguridad9","index7",[0],'seguridad10',[0]),
 print(f.alterTableAddFK("prueba11","seguridad7","index8",[0],'seguridad9',[0]),'esperando 0')
 print(f.alterTableAddFK("prueba11","seguridad10","index9",[0],'seguridad11',[0]),'esperando 0')
 print(f.alterTableAddFK("prueba11","seguridad11","index10",[0],'seguridad12',[0]),'esperando 0')
-print(f.alterTableAddFK("prueba11","seguridad12","index10",[0],'seguridad4',[0]),'esperando 0')
+print(f.alterTableAddFK("prueba11","seguridad12","index11",[0],'seguridad4',[0]),'esperando 0')
 
 print(f.alterTableAddUnique("prueba11","seguridad","index1",[1]),'esperando 0')
 print(f.alterTableAddUnique("prueba11","seguridad","index1",[1]),'esperando 1')

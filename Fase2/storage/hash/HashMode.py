@@ -529,9 +529,9 @@ def loadCSV(file: str, database: str, table: str, tipado) -> list:
                                 registro[i] = bool(0)
                         else:
                             registro[i] = tipado[j][i](registro[i])
-                    if registro[i].isnumeric():
-                        nuevo=int(registro[i])
-                        registro[i]=nuevo
+                    # if registro[i].isnumeric():
+                    #     nuevo=int(registro[i])
+                    #     registro[i]=nuevo
                 j+=1
 
                 valores.append(tabla.insertar(registro))
