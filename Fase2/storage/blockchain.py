@@ -134,6 +134,8 @@ class blockchain:
         file = open("./Data/security/"+database+"_"+table+".json", "r")
         lista = json.loads(file.read())
         file.close()
+        if type(lista)!=list:
+            lista = []
         if type(lista)==list:
             f= open('./Data/security/'+database+'_'+table+'.dot', 'w',encoding='utf-8')
             f.write("digraph dibujo{\n")
