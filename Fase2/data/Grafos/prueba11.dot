@@ -1,0 +1,28 @@
+digraph dibujo{
+graph [ordering="out"];rankdir=TB;
+node [shape = box];
+seguridad [label = seguridad,  fontsize="30", shape = box ];
+seguridad2 [label = seguridad2,  fontsize="30", shape = box ];
+seguridad2->seguridad;
+seguridad3 [label = seguridad3,  fontsize="30", shape = box ];
+seguridad3->seguridad;
+seguridad10 [label = seguridad10,  fontsize="30", shape = box ];
+seguridad11 [label = seguridad11,  fontsize="30", shape = box ];
+seguridad11->seguridad10;
+seguridad12 [label = seguridad12,  fontsize="30", shape = box ];
+seguridad4 [label = seguridad4,  fontsize="30", shape = box ];
+seguridad4->seguridad12;
+seguridad5 [label = seguridad5,  fontsize="30", shape = box ];
+seguridad5->seguridad3;
+seguridad6 [label = seguridad6,  fontsize="30", shape = box ];
+seguridad6->seguridad3;
+seguridad4->seguridad2;
+seguridad12->seguridad11;
+seguridad6->seguridad5;
+seguridad7 [label = seguridad7,  fontsize="30", shape = box ];
+seguridad9 [label = seguridad9,  fontsize="30", shape = box ];
+seguridad9->seguridad7;
+seguridad10->seguridad9;
+seguridad8 [label = seguridad8,  fontsize="30", shape = box ];
+seguridad7->seguridad8;
+}

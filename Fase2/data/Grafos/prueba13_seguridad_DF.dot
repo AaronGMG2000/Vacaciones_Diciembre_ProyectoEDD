@@ -1,0 +1,31 @@
+digraph dibujo{
+graph [ordering="out", ranksep = 5, nodesep = 0.5];rankdir=TB;
+node [shape = record];
+0 [label = "Primary|0",  fontsize="30", fillcolor = white, style = filled];
+2 [label = "Primary|2",  fontsize="30", fillcolor = white, style = filled];
+3 [label = "Primary|3",  fontsize="30", fillcolor = white, style = filled];
+1 [label = "Unique|1",  fontsize="30", fillcolor = white, style = filled];
+4 [label = "Unique|4",  fontsize="30", fillcolor = white, style = filled];
+5 [label = "Unique|5",  fontsize="30", fillcolor = white, style = filled];
+6 [label = 6,  fontsize="30", shape = box ];
+7 [label = 7,  fontsize="30", shape = box ];
+8 [label = 8,  fontsize="30", shape = box ];
+0->6;
+0->7;
+0->8;
+2->6;
+2->7;
+2->8;
+3->6;
+3->7;
+3->8;
+1->6;
+1->7;
+1->8;
+4->6;
+4->7;
+4->8;
+5->6;
+5->7;
+5->8;
+}
